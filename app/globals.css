@@ -1,0 +1,101 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Warm Linen/Cream Background */
+  --background: oklch(0.95 0.015 85);
+  --foreground: oklch(0.25 0.02 250);
+  
+  /* Card with glassmorphism base */
+  --card: oklch(0.98 0.005 90);
+  --card-foreground: oklch(0.25 0.02 250);
+  
+  --popover: oklch(0.98 0.005 90);
+  --popover-foreground: oklch(0.25 0.02 250);
+  
+  /* Sage Green Primary */
+  --primary: oklch(0.55 0.12 145);
+  --primary-foreground: oklch(0.98 0.005 90);
+  
+  /* Soft cream secondary */
+  --secondary: oklch(0.94 0.015 90);
+  --secondary-foreground: oklch(0.25 0.02 250);
+  
+  --muted: oklch(0.92 0.01 90);
+  --muted-foreground: oklch(0.45 0.02 250);
+  
+  /* Sage accent */
+  --accent: oklch(0.75 0.08 145);
+  --accent-foreground: oklch(0.25 0.02 250);
+  
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.577 0.245 27.325);
+  
+  --border: oklch(0.88 0.02 90);
+  --input: oklch(0.92 0.01 90);
+  --ring: oklch(0.55 0.12 145);
+  
+  --radius: 1rem;
+}
+
+.dark {
+  --background: oklch(0.18 0.02 250);
+  --foreground: oklch(0.95 0.01 90);
+  --card: oklch(0.22 0.02 250);
+  --card-foreground: oklch(0.95 0.01 90);
+  --primary: oklch(0.65 0.12 145);
+  --primary-foreground: oklch(0.18 0.02 250);
+  --border: oklch(0.32 0.02 250);
+  --ring: oklch(0.65 0.12 145);
+}
+
+@theme inline {
+  --font-sans: 'Inter', 'Inter Fallback', sans-serif;
+  --font-serif: 'Playfair Display', 'Georgia', serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-border: var(--border);
+  --color-card: var(--card);
+}
+
+@layer base {
+  * {
+   
+    @apply border-border border-solid;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+}
+
+
+.glass {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+
+.bg-grain {
+  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+  opacity: 0.06;
+  pointer-events: none;
+  filter: contrast(150%) brightness(100%);
+  background-repeat: repeat;
+}
+
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 10px;
+}
