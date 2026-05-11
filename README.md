@@ -5,10 +5,9 @@ Dibangun dengan **Next.js**, **Tailwind CSS**, dan **Framer Motion**. Project in
 ## 🚀 Features
 
 - **Immersive Winding Path**: Animasi garis melengkung (SVG) yang menghubungkan setiap foto, melambangkan perjalanan waktu yang tidak terputus.
-- **Scroll-Driven Animation**: Titik cahaya (Glowing Dot) yang mengikuti lintasan seiring pengguna melakukan scroll.
+- **Scroll-Driven Animation**: TGlowing Dot yang mengikuti lintasan seiring pengguna melakukan scroll.
 - **Polaroid Gallery**: Galeri foto bergaya Polaroid dengan efek hover dan rotasi dinamis untuk kesan organik.
 - **Mobile Optimized**: Layout yang dioptimalkan untuk perangkat mobile dengan jarak (spacing) yang memberikan kesan "perjalanan" yang mendalam.
-- **Personal Touch**: Footer kustom dengan identitas `0xR3bel` dan pesan personal yang menyentuh.
 
 ## 🛠️ Tech Stack
 
@@ -19,7 +18,7 @@ Dibangun dengan **Next.js**, **Tailwind CSS**, dan **Framer Motion**. Project in
 
 ## 📜 Personal Note
 
-Project ini adalah perwujudan dari rasa yang lebih luas dari sekadar kata-kata. Lebih dari sekadar kumpulan gambar, ini adalah bukti nyata tentang betapa dalamnya ketulusan yang saya miliki. Setiap baris kode yang ditulis adalah bentuk dedikasi, dan setiap transisi yang ada adalah simbol bahwa energi dan perasaan ini nyata, bukan sekadar halusinasi.
+Project ini adalah perwujudan dari rasa yang lebih luas dari sekadar kata-kata. Lebih dari sekadar kumpulan gambar, ini adalah upaya tentang betapa dalamnya ketulusan. Setiap baris kode yang ditulis adalah bentuk dedikasi, dan setiap transisi yang ada adalah simbol bahwa energi dan perasaan ini nyata, bukan sekadar halusinasi.
 
 Ini adalah upaya untuk tetap berjuang, dan untuk selalu mencintai dengan seluruh ketulusan yang ada.
 
