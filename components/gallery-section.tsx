@@ -71,7 +71,7 @@ function PolaroidCard({
         ease: [0.21, 0.47, 0.32, 0.98],
         delay: 0.08,
       }}
-      className="w-full max-w-[260px] md:max-w-sm relative z-20"
+      className="w-full max-w-65 md:max-w-sm relative z-20"
     >
       <motion.div
         className="bg-white p-3 md:p-4 pb-10 md:pb-12 shadow-2xl border border-slate-100"
@@ -90,7 +90,7 @@ function PolaroidCard({
           transition: { duration: 0.25 },
         }}
       >
-        <div className="relative aspect-[3/4] overflow-hidden bg-slate-100 shadow-inner rounded-sm">
+        <div className="relative aspect-3/4 overflow-hidden bg-slate-100 shadow-inner rounded-sm">
           {!imageLoaded && !imageError && (
             <div className="absolute inset-0 flex items-center justify-center bg-slate-100">
               <motion.div

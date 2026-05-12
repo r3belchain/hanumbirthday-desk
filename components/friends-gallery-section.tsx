@@ -263,7 +263,7 @@ export function FriendsGallerySection() {
           animate={{ scaleX: 1 }}
           exit={{ scaleX: 0 }}
           transition={{ duration: 0.4, ease: [0.21, 0.47, 0.32, 0.98] }}
-          className="h-[2px] w-24 mx-auto mb-8 rounded-full origin-center"
+          className="h-2px w-24 mx-auto mb-8 rounded-full origin-center"
           style={{ background: currentData.accent }}
         />
       </AnimatePresence>

@@ -69,7 +69,6 @@ Pada dasarnya, ngga ada manusia yang sempurna dan murni baik. Adanya manusia yan
 Selamat menginjak umur di mana segala hal terasa penuh dengan ketidakpastian, kekhawatiran, dan kekalutan. Kepala yang bising, sementara usia terus bertambah, waktu tak dapat dikembalikan, dan momen tak bisa diulang. Sehat dan gembira selaluu...`;
 
   return (
-    
     <section
       id="message-section"
       ref={sectionRef}
@@ -96,7 +95,7 @@ Selamat menginjak umur di mana segala hal terasa penuh dengan ketidakpastian, ke
             </h2>
           </motion.div>
 
-          <div className="font-sans text-foreground/80 text-lg leading-relaxed whitespace-pre-line min-h-[300px]">
+          <div className="font-sans text-foreground/80 text-lg leading-relaxed whitespace-pre-line min-h-75">
             <Typewriter
               text={message}
               delay={500}
