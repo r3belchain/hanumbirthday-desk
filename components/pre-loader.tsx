@@ -10,7 +10,7 @@ export function PreLoader() {
    
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 2500);
+    }, 2000);
 
     return () => clearTimeout(timer);
   }, []);
@@ -22,7 +22,7 @@ export function PreLoader() {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.8 }}
-          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#FDFBF7]"
+          className="fixed inset-0 z-9999 flex flex-col items-center justify-center bg-[#FDFBF7]"
         >
           <motion.div
             initial={{ opacity: 0, y: 10 }}
@@ -34,7 +34,7 @@ export function PreLoader() {
             <p className="font-serif text-2xl italic text-foreground/60 mb-4">
               Something special is coming...
             </p>
-            <div className="h-[1px] w-16 bg-foreground/20 mx-auto" />
+            <div className="h-px w-16 bg-foreground/20 mx-auto" />
           </motion.div>
         </motion.div>
       )}

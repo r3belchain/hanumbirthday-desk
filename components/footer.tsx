@@ -32,7 +32,7 @@ export function Footer() {
         </div>
 
         <p className="font-serif text-xl md:text-2xl text-foreground/80 mb-2">
-          This site made by <span className="text-primary">Azhar Aufa</span>
+          This site crafted by <span className="text-primary">Azhar Aufa</span>
         </p>
 
         <p className="text-muted-foreground text-[10px] md:text-xs tracking-[0.2em] uppercase">
