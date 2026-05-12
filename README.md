@@ -1,13 +1,6 @@
-# A Special Digital Gift 🌸 Ulang Tahun Hanum
+# Ulang Tahun Hanum
 
 Dibangun dengan **Next.js**, **Tailwind CSS**, dan **Framer Motion**. Project ini dirancang sebagai bukti nyata dari ketulusan dan perjalanan perasaan yang mendalam.
-
-## 🚀 Features
-
-- **Immersive Winding Path**: Animasi garis melengkung (SVG) yang menghubungkan setiap foto, melambangkan perjalanan waktu yang tidak terputus.
-- **Scroll-Driven Animation**: TGlowing Dot yang mengikuti lintasan seiring pengguna melakukan scroll.
-- **Polaroid Gallery**: Galeri foto bergaya Polaroid dengan efek hover dan rotasi dinamis untuk kesan organik.
-- **Mobile Optimized**: Layout yang dioptimalkan untuk perangkat mobile dengan jarak (spacing) yang memberikan kesan "perjalanan" yang mendalam.
 
 ## 🛠️ Tech Stack
 
@@ -24,4 +17,4 @@ Ini adalah upaya untuk tetap berjuang, dan untuk selalu mencintai dengan seluruh
 
 ---
 
-**Made with ❤️ by [Azhar Aufa](https://github.com/your-username)** *© 2026 — 0xR3bel*
+**Made with ❤️ by [Azhar Aufa](https://github.com/your-username)** _© 2026 — 0xR3bel_

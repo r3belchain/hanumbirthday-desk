@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 export function Footer() {
   return (
@@ -17,9 +18,7 @@ export function Footer() {
             <motion.span
               key={i}
               className="text-lg opacity-40"
-              animate={{
-                y: [0, -5, 0],
-              }}
+              animate={{ y: [0, -5, 0] }}
               transition={{
                 duration: 3,
                 repeat: Infinity,
@@ -39,13 +38,37 @@ export function Footer() {
           With love & sincerity
         </p>
 
-        <div className="mt-10 opacity-30 hover:opacity-100 transition-opacity duration-500">
-          <p className="text-[10px] tracking-widest text-muted-foreground">
-            &copy; 0xR3bel — 30 Mei 2026
-          </p>
-          <p className="text-[9px] mt-1 text-muted-foreground/50 italic">
-            stay in the game & never stop trying
-          </p>
+        <div className="mt-10 opacity-40 hover:opacity-100 transition-opacity duration-500">
+          <div className="flex items-center justify-center gap-2 mb-3 flex-wrap">
+            <p className="text-[10px] tracking-widest text-muted-foreground">
+              &copy; 0xR3bel — 30 Mei 2026
+            </p>
+
+            <span className="text-muted-foreground/30 text-[8px]">•</span>
+
+            <a
+              href="https://github.com/r3belchain/ulangtahun-hanum"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 hover:text-primary transition-colors group cursor-pointer"
+            >
+              <span className="text-[9px] text-muted-foreground group-hover:text-primary transition-colors">
+                Source Code on
+              </span>
+              <Image
+                src="/githublogo.svg"
+                width={20}
+                height={20}
+                alt="Github"
+              />
+            </a>
+          </div>
+
+          <div className="text-[9px] text-muted-foreground/60 leading-relaxed font-mono">
+            <p>"We Reject: kings, presidents and voting.</p>
+            <p>We Believe In: rough consensus and running code."</p>
+            <p className="mt-1 italic">— David D. Clark</p>
+          </div>
         </div>
       </motion.div>
     </footer>
