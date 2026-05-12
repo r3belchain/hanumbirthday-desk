@@ -10,36 +10,32 @@ import { MessageSection } from "@/components/message-section";
 import { MusicToggle } from "@/components/music-toggle";
 import { TimelineCards } from "@/components/timeline-cards";
 import { PreLoader } from "@/components/pre-loader"; 
+import { FriendsGallerySection } from "@/components/friends-gallery-section";
 
 export default function BirthdayPage() {
   return (
     <main className="relative min-h-screen bg-background overflow-x-hidden selection:bg-primary/20">
-     
       <PreLoader />
 
-     
       <FireworksBackground />
       <ConfettiTrigger />
 
-     
       <MusicToggle />
 
-      
       <div className="relative z-10 flex flex-col gap-0">
         <HeroSection />
 
-       
         <div className="space-y-12 md:space-y-24 pb-20">
           <MessageSection />
           <GallerySection />
+          <FriendsGallerySection />
           <TimelineCards />
           <CTASection />
-        </div>
+        </div>  
 
         <Footer />
       </div>
 
-      
       <div className="fixed inset-0 pointer-events-none bg-background/20 mix-blend-multiply z-2" />
     </main>
   );
