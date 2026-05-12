@@ -293,7 +293,7 @@ export function GallerySection() {
         </h2>
         <p className="text-muted-foreground text-base md:text-lg max-w-md mx-auto opacity-50 font-light">
           Foto kamu dulu kehapus dari Google Foto tahun lalu. Jadi aku comot
-          dari sorotanmu yaa (😁)
+          dari sorotanmu aja yaa (😁)
         </p>
       </motion.div>
 

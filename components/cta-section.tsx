@@ -38,7 +38,8 @@ export function CTASection() {
             </h2>
             <p className="text-foreground/70 mb-8 max-w-md mx-auto italic">
               "Terima kasih sudah meluangkan waktu untuk melihat ini. Semoga
-              hari ini menjadi awal dari tahun yang luar biasa untukmu."
+              hari ini menjadi titik awal dari hal-hal luar biasa dan indah yang
+              akan datang."
             </p>
           </motion.div>
 

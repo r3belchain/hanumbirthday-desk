@@ -256,7 +256,7 @@ export function FriendsGallerySection() {
         </motion.p>
       </AnimatePresence>
 
-      {/* Decorative top strip */}
+      
       <AnimatePresence mode="wait">
         <motion.div
           key={activeEra + "-strip"}
@@ -311,7 +311,7 @@ export function FriendsGallerySection() {
         </div>
       </div>
 
-      {/* Scroll hint dots */}
+      
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -336,7 +336,7 @@ export function FriendsGallerySection() {
         ))}
       </motion.div>
 
-      {/* Swipe hint on mobile */}
+      {/* Swipe on mobile */}
       <motion.div
         initial={{ opacity: 0, x: 10 }}
         whileInView={{ opacity: 1, x: 0 }}
@@ -358,7 +358,7 @@ export function FriendsGallerySection() {
           <path d="M5 12h14M13 6l6 6-6 6" />
         </motion.svg>
         <span className="text-xs text-muted-foreground/40 font-light">
-          geser untuk lihat lebih
+          slide for more
         </span>
       </motion.div>
     </section>
