@@ -12,36 +12,46 @@ import { MusicNotice } from "@/components/music-notice";
 import { MusicToggle } from "@/components/music-toggle";
 import { PreLoader } from "@/components/pre-loader";
 import { TimelineCards } from "@/components/timeline-cards";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function BirthdayPage() {
   const [isReady, setIsReady] = useState(false);
 
+  useEffect(() => {
+    // auto-restore func
+    if ("scrollRestoration" in history) {
+      history.scrollRestoration = "manual";
+    }
+
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
-    <main className="relative min-h-screen bg-background overflow-x-hidden selection:bg-primary/20">
+    <main className="relative min-h-screen bg-background overflow-x-hidden isolate">
       <PreLoader onComplete={() => setIsReady(true)} />
 
-      <FireworksBackground />
-      {isReady && <ConfettiTrigger />}
+      {isReady && (
+        <div className="relative z-10 flex flex-col">
+          <FireworksBackground />
+          <ConfettiTrigger />
+          <MusicToggle />
 
-      <MusicToggle />
-
-      <div className="relative z-10 flex flex-col gap-0">
-        <MusicNotice />
-        <HeroSection />
-
-        <div className="relative space-y-12 md:space-y-24 pb-20">
-          <MessageSection />
-          <GallerySection />
-          <FriendsGallerySection />
-          <TimelineCards />
-          <CTASection />
+          <div className="relative">
+            <MusicNotice />
+            <HeroSection />
+            <div className="relative space-y-12 md:space-y-24 pb-20">
+              <MessageSection />
+              <GallerySection />
+              <FriendsGallerySection />
+              <TimelineCards />
+              <CTASection />
+            </div>
+            <Footer />
+          </div>
         </div>
+      )}
 
-        <Footer />
-      </div>
-
-      <div className="fixed inset-0 pointer-events-none bg-background/20 mix-blend-multiply z-2" />
+      <div className="fixed inset-0 pointer-events-none bg-background/20 mix-blend-multiply z-[2]" />
     </main>
   );
 }

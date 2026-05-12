@@ -6,14 +6,14 @@ import { useEffect, useRef, useState } from "react";
 interface TypewriterProps {
   text: string;
   delay?: number;
-  speed?: number; // Kita gunakan ini sebagai nilai dasar (default 20)
+  speed?: number;
   startTrigger?: boolean;
 }
 
 export function Typewriter({
   text,
   delay = 0,
-  speed = 20,
+  speed = 10,
   startTrigger = false,
 }: TypewriterProps) {
   const [displayedText, setDisplayedText] = useState("");
@@ -33,9 +33,10 @@ export function Typewriter({
     if (!started) return;
 
     if (currentIndex < text.length) {
+      const minSpeed = Math.max(2, speed - 8);
+      const maxSpeed = speed + 5;
       const randomSpeed =
-        Math.floor(Math.random() * (speed + 20 - (speed - 10) + 1)) +
-        (speed - 10);
+        Math.floor(Math.random() * (maxSpeed - minSpeed + 1)) + minSpeed;
 
       const timer = setTimeout(() => {
         setDisplayedText((prev) => prev + text[currentIndex]);
@@ -47,13 +48,13 @@ export function Typewriter({
   }, [currentIndex, text, speed, started]);
 
   return (
-    <span>
+    <span className="inline-flex items-center">
       {displayedText}
       {currentIndex < text.length && started && (
         <motion.span
-          className="inline-block w-0.5 h-6 bg-primary ml-1"
+          className="inline-block w-0.5 h-[1.1em] bg-primary ml-1 translate-y-[0.1em]"
           animate={{ opacity: [1, 0, 1] }}
-          transition={{ duration: 0.8, repeat: Infinity }}
+          transition={{ duration: 0.4, repeat: Infinity }}
         />
       )}
     </span>

@@ -104,8 +104,6 @@ export function FriendsGallerySection() {
 
   const currentData = eraData[activeEra];
 
-  // Casting as 'any' dilakukan untuk melewati proteksi TS pada properti internal framer-motion
-  // yang seringkali dibutuhkan untuk sinkronisasi layout di Next.js App Router.
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "end start"],
