@@ -13,7 +13,7 @@ interface TypewriterProps {
 export function Typewriter({
   text,
   delay = 0,
-  speed = 30,
+  speed = 50,
   startTrigger = false,
 }: TypewriterProps) {
   const [displayedText, setDisplayedText] = useState("");
@@ -60,11 +60,13 @@ export function MessageSection() {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
 
-  const message = `Aku sengaja membuat ini sebagai bentuk apresiasi dan ucapan selamat saja. Tidak ada maksud lain. Yaa.. tapi ya sudah lah, intinya aku ingin merayakan hari kelahiranmu dengan cara yang sedikit berbeda—cara yang sekarang aku bisa. Karena barangkali bertemu belum memungkinkan, aneh nanti jadinya (😊).
+  const message = `Aku sengaja membuat ini sebagai bentuk apresiasi dan ucapan selamat saja. Yaa.. tapi ya sudah lah yaa, intinya aku ingin merayakan hari kelahiranmu dengan cara yang sedikit berbeda—cara yang sekarang aku bisa. 😊
 
-Semoga di usia ke-20 ini, langkahmu selalu dimudahkan, mimpi-mimpimu tercapai, dan kamu selalu menemukan kebahagiaan apapun pilihan kamu. Suatu saat jika memang takdir ngga berpihak pada harapanku, semoga kamu bisa dapat "teman hidup" ideal yang kamu inginkan. Yang menerimamu apa adanya. Yang tidak menyalahkanmu saat kamu tidak sempurna. Yang bisa meningkatkan value dirinya dan memaksimalkan upayanya, demi kamu.
+Semoga di usia ke-20 ini, langkahmu selalu dimudahkan, mimpi-mimpimu tercapai, dan kamu selalu menemukan kebahagiaan apapun pilihan kamu. Suatu saat jika memang takdir ngga berpihak pada harapanku, semoga kamu bisa dapat "teman hidup" ideal yang kamu inginkan. Yang menerimamu apa adanya. Yang ngga menyalahkanmu, saat kamu ngga sempurna. Yang bisa meningkatkan nilai dirinya dan memaksimalkan upayanya, demi kamu.
 
-Menginjak umur di mana segala hal terasa penuh dengan ketidakpastian, kecemasan, dan ketakutan. Sementara usia terus bertambah, waktu tak dapat dikembalikan, dan momen tak bisa diulang. Sehat dan gembira selalu.`;
+Pada dasarnya, ngga ada manusia yang sempurna dan murni baik. Adanya manusia yang mencoba "terlihat sempurna" dan berusaha untuk lebih baik.
+
+Selamat menginjak umur di mana segala hal terasa penuh dengan ketidakpastian, kekhawatiran, dan kekalutan. Kepala yang bising, sementara usia terus bertambah, waktu tak dapat dikembalikan, dan momen tak bisa diulang. Sehat dan gembira selaluu...`;
 
   return (
     
