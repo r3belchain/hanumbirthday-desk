@@ -14,8 +14,7 @@ const timeCards: TimeCard[] = [
   {
     title: "The Past",
     subtitle: "Yang telah berlalu",
-    message:
-      `Kita mungkin masih anak kecil yang belum paham banyak hal saat itu. Tapi bagiku, setiap fragmen memori yang tersisa adalah bagian dari cerita yang membentuk siapa aku hari ini. A lot. Mungkin bagi kamu aku halusinasi, tapi energi itu nyata.`,
+    message: `Aku masih anak kecil yang belum paham saat itu, aku ngga pernah membayangkan sampai segininya. Tapi bagiku, setiap fragmen memori yang tersisa adalah bagian dari cerita yang membentuk siapa aku hari ini. A lot. Mungkin bagi kamu aku halusinasi, tapi energi itu nyata. Vibrasi itu berpendar. Frekuensi itu menggema.`,
     icon: "⌛",
   },
   {

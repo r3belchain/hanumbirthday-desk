@@ -1,8 +1,8 @@
 "use client";
 
 import {
-  motion,
   AnimatePresence,
+  motion,
   useScroll,
   useTransform,
 } from "framer-motion";
@@ -256,7 +256,6 @@ export function FriendsGallerySection() {
         </motion.p>
       </AnimatePresence>
 
-      
       <AnimatePresence mode="wait">
         <motion.div
           key={activeEra + "-strip"}
@@ -311,7 +310,6 @@ export function FriendsGallerySection() {
         </div>
       </div>
 
-      
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}

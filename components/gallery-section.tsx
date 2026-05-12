@@ -199,7 +199,7 @@ export function GallerySection() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [currentProgress, setCurrentProgress] = useState(0);
 
-  // Ambil posisi Y tiap node dari DOM 
+  // Ambil posisi Y tiap node dari DOM
   const recalc = () => {
     if (!containerRef.current) return;
     const containerTop =
@@ -325,7 +325,7 @@ export function GallerySection() {
                   <feMergeNode in="SourceGraphic" />
                 </feMerge>
               </filter>
-            
+
               <clipPath id="gClip">
                 <rect
                   x="-200"
