@@ -16,6 +16,7 @@ import { useState } from "react";
 
 export default function BirthdayPage() {
   const [isReady, setIsReady] = useState(false);
+
   return (
     <main className="relative min-h-screen bg-background overflow-x-hidden selection:bg-primary/20">
       <PreLoader onComplete={() => setIsReady(true)} />
@@ -24,11 +25,12 @@ export default function BirthdayPage() {
       {isReady && <ConfettiTrigger />}
 
       <MusicToggle />
+
       <div className="relative z-10 flex flex-col gap-0">
         <MusicNotice />
         <HeroSection />
 
-        <div className="space-y-12 md:space-y-24 pb-20">
+        <div className="relative space-y-12 md:space-y-24 pb-20">
           <MessageSection />
           <GallerySection />
           <FriendsGallerySection />

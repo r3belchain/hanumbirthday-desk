@@ -1,367 +1,3 @@
-// "use client";
-
-// import {
-//   AnimatePresence,
-//   motion,
-//   useScroll,
-//   useTransform,
-// } from "framer-motion";
-// import Image from "next/image";
-// import { useRef, useState } from "react";
-
-// type Era = "SMP" | "SMA" | "Kuliah";
-
-// interface FriendPhoto {
-//   src: string;
-//   rotation: number;
-// }
-
-// const eraData: Record<
-//   Era,
-//   {
-//     label: string;
-//     subtitle: string;
-//     color: string;
-//     accent: string;
-//     photos: FriendPhoto[];
-//   }
-// > = {
-//   SMP: {
-//     label: "SMP",
-//     subtitle: "Memory Lane",
-//     color: "oklch(0.88 0.06 145)",
-//     accent: "oklch(0.55 0.12 145)",
-//     photos: [
-//       { src: "/friends/smp-1.jpg", rotation: -3 },
-//       { src: "/friends/smp-2.jpg", rotation: 2 },
-//       { src: "/friends/smp-3.jpg", rotation: -1 },
-//       { src: "/friends/smp-4.jpg", rotation: 3 },
-//       { src: "/friends/smp-5.jpg", rotation: -2 },
-//     ],
-//   },
-//   SMA: {
-//     label: "SMA",
-//     subtitle: "Chapter of Youth",
-//     color: "oklch(0.90 0.06 75)",
-//     accent: "oklch(0.60 0.12 75)",
-//     photos: [
-//       { src: "/friends/sma-1.jpg", rotation: 2 },
-//       { src: "/friends/sma-2.jpg", rotation: -3 },
-//       { src: "/friends/sma-3.jpg", rotation: 1 },
-//       { src: "/friends/sma-4.jpg", rotation: -2 },
-//       { src: "/friends/sma-5.jpg", rotation: 3 },
-//     ],
-//   },
-//   Kuliah: {
-//     label: "Kuliah",
-//     subtitle: "The Growth: Higher Ground",
-//     color: "oklch(0.88 0.06 260)",
-//     accent: "oklch(0.52 0.10 260)",
-//     photos: [
-//       { src: "/friends/kuliah-1.jpg", rotation: -2 },
-//       { src: "/friends/kuliah-2.jpg", rotation: 3 },
-//       { src: "/friends/kuliah-3.jpg", rotation: -1 },
-//       { src: "/friends/kuliah-4.jpg", rotation: 2 },
-//       { src: "/friends/kuliah-5.jpg", rotation: -3 },
-//     ],
-//   },
-// };
-
-// const ERAS: Era[] = ["SMP", "SMA", "Kuliah"];
-
-// function PhotoCard({
-//   photo,
-//   index,
-//   accent,
-// }: {
-//   photo: FriendPhoto;
-//   index: number;
-//   accent: string;
-// }) {
-//   const [loaded, setLoaded] = useState(false);
-//   const [error, setError] = useState(false);
-
-//   return (
-//     <motion.div
-//       initial={{ opacity: 0, y: 32, scale: 0.93 }}
-//       animate={{ opacity: 1, y: 0, scale: 1 }}
-//       exit={{ opacity: 0, y: -20, scale: 0.95 }}
-//       transition={{
-//         duration: 0.55,
-//         ease: [0.21, 0.47, 0.32, 0.98],
-//         delay: index * 0.07,
-//       }}
-//       className="shrink-0 snap-center"
-//       style={{ width: "clamp(155px, 42vw, 200px)" }}
-//     >
-//       <motion.div
-//         className="bg-white p-2.5 pb-8 shadow-xl border border-slate-100/80"
-//         style={{ rotate: photo.rotation }}
-//         whileHover={{
-//           rotate: 0,
-//           scale: 1.04,
-//           boxShadow: `0 20px 48px -12px ${accent}55`,
-//           transition: { duration: 0.2 },
-//         }}
-//         whileTap={{ scale: 0.98 }}
-//       >
-//         <div className="relative aspect-9/16 overflow-hidden bg-slate-100 rounded-sm">
-//           {!loaded && !error && (
-//             <div className="absolute inset-0 flex items-center justify-center bg-slate-100">
-//               <motion.div
-//                 className="w-6 h-6 rounded-full border-2 border-t-transparent"
-//                 style={{ borderColor: `${accent}60`, borderTopColor: accent }}
-//                 animate={{ rotate: 360 }}
-//                 transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-//               />
-//             </div>
-//           )}
-//           {error ? (
-//             <div className="absolute inset-0 flex items-center justify-center bg-slate-50">
-//               <div className="flex flex-col items-center gap-2 opacity-40">
-//                 <svg
-//                   width="32"
-//                   height="32"
-//                   viewBox="0 0 24 24"
-//                   fill="none"
-//                   stroke="currentColor"
-//                   strokeWidth="1.5"
-//                 >
-//                   <rect x="3" y="3" width="18" height="18" rx="2" />
-//                   <circle cx="8.5" cy="8.5" r="1.5" />
-//                   <path d="m21 15-5-5L5 21" />
-//                 </svg>
-//                 <span className="text-xs text-slate-400">foto</span>
-//               </div>
-//             </div>
-//           ) : (
-//             <Image
-//               src={photo.src}
-//               alt="Foto bersama teman"
-//               fill
-//               className={`object-cover transition-opacity duration-300 ${loaded ? "opacity-100" : "opacity-0"}`}
-//               sizes="240px"
-//               onLoad={() => setLoaded(true)}
-//               onError={() => setError(true)}
-//             />
-//           )}
-//         </div>
-//       </motion.div>
-//     </motion.div>
-//   );
-// }
-
-// function EraTab({
-//   era,
-//   isActive,
-//   onClick,
-//   accent,
-// }: {
-//   era: Era;
-//   isActive: boolean;
-//   onClick: () => void;
-//   accent: string;
-// }) {
-//   return (
-//     <button
-//       onClick={onClick}
-//       className="relative px-5 py-2 text-sm font-medium transition-colors duration-200 rounded-full"
-//       style={{
-//         color: isActive ? "#fff" : "oklch(0.45 0.02 250)",
-//         background: isActive ? accent : "transparent",
-//       }}
-//     >
-//       {eraData[era].label}
-//     </button>
-//   );
-// }
-
-// export function FriendsGallerySection() {
-//   const [activeEra, setActiveEra] = useState<Era>("SMP");
-//   const [direction, setDirection] = useState(1);
-//   const scrollRef = useRef<HTMLDivElement>(null);
-//   const sectionRef = useRef<HTMLElement>(null);
-
-//   const { scrollYProgress } = useScroll({
-//     target: sectionRef,
-//     offset: ["start end", "end start"],
-//   });
-
-//   const y = useTransform(scrollYProgress, [0, 1], [30, -30]);
-
-//   const currentData = eraData[activeEra];
-
-//   const handleEraChange = (era: Era) => {
-//     const currentIndex = ERAS.indexOf(activeEra);
-//     const nextIndex = ERAS.indexOf(era);
-//     setDirection(nextIndex > currentIndex ? 1 : -1);
-//     setActiveEra(era);
-//     if (scrollRef.current) {
-//       scrollRef.current.scrollLeft = 0;
-//     }
-//   };
-
-//   return (
-//     <section ref={sectionRef} className="py-16 md:py-24 overflow-hidden">
-//       {/* Header */}
-//       <motion.div
-//         initial={{ opacity: 0, y: 20 }}
-//         whileInView={{ opacity: 1, y: 0 }}
-//         viewport={{ once: true }}
-//         className="text-center mb-10 md:mb-14 px-4"
-//         style={{ y }}
-//       >
-//         <h2 className="font-serif text-3xl md:text-5xl font-bold text-foreground mb-3">
-//           Friendship Gallery
-//         </h2>
-//         <p className="text-muted-foreground text-base md:text-lg max-w-md mx-auto opacity-50 font-light">
-//           Menghormati lingkaran pertemanan yang tumbuh bersamamu di setiap babak
-//           kehidupan
-//         </p>
-//       </motion.div>
-
-//       {/* Tab Era */}
-//       <motion.div
-//         initial={{ opacity: 0, y: 16 }}
-//         whileInView={{ opacity: 1, y: 0 }}
-//         viewport={{ once: true }}
-//         transition={{ delay: 0.1 }}
-//         className="flex justify-center mb-10 px-4"
-//       >
-//         <div className="inline-flex items-center gap-1 p-1 rounded-full bg-white/60 backdrop-blur-sm border border-white/40 shadow-sm">
-//           {ERAS.map((era) => (
-//             <EraTab
-//               key={era}
-//               era={era}
-//               isActive={activeEra === era}
-//               onClick={() => handleEraChange(era)}
-//               accent={eraData[era].accent}
-//             />
-//           ))}
-//         </div>
-//       </motion.div>
-
-//       {/* Era subtitle */}
-//       <AnimatePresence mode="wait">
-//         <motion.p
-//           key={activeEra + "-subtitle"}
-//           initial={{ opacity: 0, y: 8 }}
-//           animate={{ opacity: 1, y: 0 }}
-//           exit={{ opacity: 0, y: -8 }}
-//           transition={{ duration: 0.25 }}
-//           className="text-center text-sm font-medium mb-8 px-4"
-//           style={{ color: currentData.accent, opacity: 0.8 }}
-//         >
-//           {currentData.subtitle}
-//         </motion.p>
-//       </AnimatePresence>
-
-//       <AnimatePresence mode="wait">
-//         <motion.div
-//           key={activeEra + "-strip"}
-//           initial={{ scaleX: 0 }}
-//           animate={{ scaleX: 1 }}
-//           exit={{ scaleX: 0 }}
-//           transition={{ duration: 0.4, ease: [0.21, 0.47, 0.32, 0.98] }}
-//           className="h-2px w-24 mx-auto mb-8 rounded-full origin-center"
-//           style={{ background: currentData.accent }}
-//         />
-//       </AnimatePresence>
-
-//       {/* Horizontal scroll container */}
-//       <div className="relative">
-//         {/* Left fade */}
-//         <div
-//           className="absolute left-0 top-0 h-full w-8 md:w-16 z-10 pointer-events-none"
-//           style={{
-//             background:
-//               "linear-gradient(to right, var(--background) 0%, transparent 100%)",
-//           }}
-//         />
-//         {/* Right fade */}
-//         <div
-//           className="absolute right-0 top-0 h-full w-8 md:w-16 z-10 pointer-events-none"
-//           style={{
-//             background:
-//               "linear-gradient(to left, var(--background) 0%, transparent 100%)",
-//           }}
-//         />
-
-//         <div
-//           ref={scrollRef}
-//           className="flex gap-5 md:gap-7 overflow-x-auto pb-8 pt-4 px-[10vw] md:px-[15vw]"
-//           style={{
-//             scrollSnapType: "x mandatory",
-//             scrollbarWidth: "none",
-//             msOverflowStyle: "none",
-//             WebkitOverflowScrolling: "touch",
-//           }}
-//         >
-//           <AnimatePresence mode="popLayout" initial={false}>
-//             {currentData.photos.map((photo, index) => (
-//               <PhotoCard
-//                 key={activeEra + "-" + index}
-//                 photo={photo}
-//                 index={index}
-//                 accent={currentData.accent}
-//               />
-//             ))}
-//           </AnimatePresence>
-//         </div>
-//       </div>
-
-//       <motion.div
-//         initial={{ opacity: 0 }}
-//         whileInView={{ opacity: 1 }}
-//         viewport={{ once: true }}
-//         transition={{ delay: 0.5 }}
-//         className="flex justify-center gap-1.5 mt-4"
-//       >
-//         {currentData.photos.map((_, i) => (
-//           <motion.div
-//             key={activeEra + "-dot-" + i}
-//             className="rounded-full"
-//             initial={{ scale: 0 }}
-//             animate={{ scale: 1 }}
-//             transition={{ delay: i * 0.05 }}
-//             style={{
-//               width: i === 0 ? 16 : 6,
-//               height: 6,
-//               background:
-//                 i === 0 ? currentData.accent : `${currentData.accent}40`,
-//             }}
-//           />
-//         ))}
-//       </motion.div>
-
-//       {/* Swipe on mobile */}
-//       <motion.div
-//         initial={{ opacity: 0, x: 10 }}
-//         whileInView={{ opacity: 1, x: 0 }}
-//         viewport={{ once: true }}
-//         transition={{ delay: 0.7 }}
-//         className="flex items-center justify-center gap-2 mt-5 md:hidden"
-//       >
-//         <motion.svg
-//           width="16"
-//           height="16"
-//           viewBox="0 0 24 24"
-//           fill="none"
-//           stroke="currentColor"
-//           strokeWidth="1.5"
-//           className="text-muted-foreground/40"
-//           animate={{ x: [0, 5, 0] }}
-//           transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-//         >
-//           <path d="M5 12h14M13 6l6 6-6 6" />
-//         </motion.svg>
-//         <span className="text-xs text-muted-foreground/40 font-light">
-//           slide for more
-//         </span>
-//       </motion.div>
-//     </section>
-//   );
-// }
 "use client";
 
 import {
@@ -392,7 +28,7 @@ const eraData: Record<
   SMP: {
     label: "SMP",
     subtitle: "Memory Lane",
-    accent: "oklch(0.55 0.12 145)", // Hijau
+    accent: "#4a9072",
     photos: [
       { src: "/friends/smp-1.jpg", rotation: -3 },
       { src: "/friends/smp-2.jpg", rotation: 2 },
@@ -404,7 +40,7 @@ const eraData: Record<
   SMA: {
     label: "SMA",
     subtitle: "Chapter of Youth",
-    accent: "oklch(0.60 0.12 75)", // Cokelat
+    accent: "#9c7126",
     photos: [
       { src: "/friends/sma-1.jpg", rotation: 2 },
       { src: "/friends/sma-2.jpg", rotation: -3 },
@@ -416,7 +52,7 @@ const eraData: Record<
   Kuliah: {
     label: "Kuliah",
     subtitle: "The Growth: Higher Ground",
-    accent: "oklch(0.52 0.10 260)", // Biru
+    accent: "#3b7eb3",
     photos: [
       { src: "/friends/kuliah-1.jpg", rotation: -2 },
       { src: "/friends/kuliah-2.jpg", rotation: 3 },
@@ -438,11 +74,11 @@ function PhotoCard({ photo, index }: { photo: FriendPhoto; index: number }) {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.9 }}
       transition={{ duration: 0.4, delay: index * 0.05 }}
-      className="shrink-0 snap-center py-6"
+      className="shrink-0 py-6 relative"
       style={{ width: "clamp(180px, 50vw, 240px)" }}
     >
       <div
-        className="bg-white p-2 pb-10 shadow-2xl border border-slate-100 transition-all duration-500 hover:z-20 hover:scale-105"
+        className="bg-white p-2 pb-10 shadow-2xl border border-slate-100 relative"
         style={{ transform: `rotate(${photo.rotation}deg)` }}
       >
         <div className="relative aspect-[3/4] overflow-hidden bg-slate-50">
@@ -468,10 +104,12 @@ export function FriendsGallerySection() {
 
   const currentData = eraData[activeEra];
 
+  // Casting as 'any' dilakukan untuk melewati proteksi TS pada properti internal framer-motion
+  // yang seringkali dibutuhkan untuk sinkronisasi layout di Next.js App Router.
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "end start"],
-  });
+  } as any);
 
   const y = useTransform(scrollYProgress, [0, 1], [50, -50]);
 
@@ -496,31 +134,40 @@ export function FriendsGallerySection() {
   };
 
   return (
-    <section ref={sectionRef} className="py-24 overflow-hidden bg-transparent">
-      {/* Header */}
-      <motion.div style={{ y }} className="text-center mb-16 px-4">
+    <section
+      ref={sectionRef}
+      style={{ position: "relative" }}
+      className="relative block py-24 overflow-hidden bg-transparent w-full"
+    >
+      <motion.div
+        style={{ y }}
+        className="relative z-10 text-center mb-16 px-4"
+      >
         <h2
           className="font-serif text-5xl md:text-7xl font-bold mb-4 transition-colors duration-700"
           style={{ color: currentData.accent }}
         >
           Friendship Gallery
         </h2>
+        <p className="text-slate-700/60 max-w-2xl italic mx-auto mb-4 text-sm md:text-base leading-relaxed">
+          Menghormati lingkaran pertemanan yang tumbuh bersamamu di setiap babak
+          kehidupan
+        </p>
         <p
           className="text-lg md:text-xl font-light italic transition-colors duration-700"
-          style={{ color: `${currentData.accent}cc` }}
+          style={{ color: currentData.accent, opacity: 0.8 }}
         >
           {currentData.subtitle}
         </p>
       </motion.div>
 
-      {/* Navigasi Era */}
-      <div className="flex justify-center mb-16 px-4">
-        <div className="flex p-1 rounded-full bg-white/50 backdrop-blur-md border border-slate-200 shadow-lg">
+      <div className="relative z-20 flex justify-center mb-16 px-4">
+        <div className="flex p-1 rounded-full bg-white/50 backdrop-blur-md border border-slate-200 shadow-lg relative">
           {ERAS.map((era) => (
             <button
               key={era}
               onClick={() => handleEraChange(era)}
-              className="px-6 md:px-10 py-2.5 rounded-full text-xs md:text-sm font-bold transition-all duration-500"
+              className="px-6 md:px-10 py-2.5 rounded-full text-xs md:text-sm font-bold transition-all duration-500 relative"
               style={{
                 backgroundColor:
                   activeEra === era ? eraData[era].accent : "transparent",
@@ -533,25 +180,20 @@ export function FriendsGallerySection() {
         </div>
       </div>
 
-      {/* Gallery Container dengan Scrollbar Berwarna Dinamis */}
-      <div className="relative">
+      <div className="relative w-full">
         <div
           ref={scrollRef}
           onScroll={handleScroll}
-          className="flex gap-8 overflow-x-auto pb-8 px-[10vw] snap-x snap-mandatory 
-             cursor-grab active:cursor-grabbing
-             /* Kontrol Scrollbar Putih - Tanpa Style JSX */
-             [&::-webkit-scrollbar]:h-2
-             [&::-webkit-scrollbar-track]:bg-transparent
-             [&::-webkit-scrollbar-thumb]:!bg-white 
-             [&::-webkit-scrollbar-thumb]:rounded-full
-             [&::-webkit-scrollbar-thumb]:border-[1px]
-             [&::-webkit-scrollbar-thumb]:border-black/5
-             hover:[&::-webkit-scrollbar-thumb]:!bg-slate-100"
+          className="flex gap-8 overflow-x-auto pb-10 px-[10vw] 
+                     cursor-grab active:cursor-grabbing
+                     touch-pan-x antialiased relative
+                     [&::-webkit-scrollbar]:h-2
+                     [&::-webkit-scrollbar-track]:bg-transparent
+                     [&::-webkit-scrollbar-thumb]:rounded-full"
           style={{
-            scrollBehavior: "smooth",
-            scrollbarWidth: "thin", // Untuk Firefox
-            scrollbarColor: "white transparent", // Untuk Firefox
+            // @ts-ignore
+            scrollbarColor: `${currentData.accent} transparent`,
+            WebkitOverflowScrolling: "touch",
           }}
         >
           <AnimatePresence mode="wait">
@@ -560,7 +202,7 @@ export function FriendsGallerySection() {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
-              className="flex gap-8"
+              className="flex gap-8 relative"
             >
               {currentData.photos.map((photo, i) => (
                 <PhotoCard key={`${activeEra}-${i}`} photo={photo} index={i} />
@@ -570,8 +212,7 @@ export function FriendsGallerySection() {
         </div>
       </div>
 
-      {/* Indikator Dot */}
-      <div className="flex justify-center gap-3 mt-10">
+      <div className="flex justify-center gap-3 mt-10 relative z-10">
         {currentData.photos.map((_, i) => (
           <motion.div
             key={`dot-${activeEra}-${i}`}
@@ -580,10 +221,10 @@ export function FriendsGallerySection() {
               backgroundColor:
                 currentIdx === i
                   ? currentData.accent
-                  : `${currentData.accent}20`,
+                  : currentData.accent.replace(")", " / 0.2)"),
             }}
             transition={{ type: "spring", stiffness: 200, damping: 25 }}
-            className="h-2 rounded-full"
+            className="h-2 rounded-full relative"
           />
         ))}
       </div>
