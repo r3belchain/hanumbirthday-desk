@@ -52,20 +52,20 @@ export function Footer() {
               rel="noopener noreferrer"
               className="flex items-center gap-1.5 hover:text-primary transition-colors group cursor-pointer"
             >
-              <span className="text-[9px] text-muted-foreground group-hover:text-primary transition-colors">
+              <span className="text-[10px] text-muted-foreground group-hover:text-primary transition-colors">
                 Source Code on
               </span>
               <Image
                 src="/githublogo.svg"
-                width={20}
-                height={20}
+                width={15}
+                height={15}
                 alt="Github"
               />
             </a>
           </div>
 
           <div className="text-[9px] text-muted-foreground/60 leading-relaxed font-mono">
-            <p>"We Reject: kings, presidents and voting.</p>
+            <p>"..............,</p>
             <p>We Believe In: rough consensus and running code."</p>
             <p className="mt-1 italic">— David D. Clark</p>
           </div>
