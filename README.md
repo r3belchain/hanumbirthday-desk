@@ -1,7 +1,6 @@
 # Ulang Tahun Hanum
 
-Dibangun dengan **Next.js**, **Tailwind CSS**, dan **Framer Motion**. Project ini dirancang sebagai bukti nyata dari ketulusan dan perjalanan perasaan yang mendalam.
-
+Dibangun dengan teknologi **Next.js**, **Tailwind CSS**, dan **Framer Motion**.
 ## 🛠️ Tech Stack
 
 - **Framework**: [Next.js 14](https://nextjs.org/)
