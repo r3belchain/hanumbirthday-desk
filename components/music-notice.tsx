@@ -8,7 +8,7 @@ export function MusicNotice() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(false);
-    }, 5000);
+    }, 3000);
     return () => clearTimeout(timer);
   }, []);
 
