@@ -28,7 +28,7 @@ const eraData: Record<
 > = {
   SMP: {
     label: "SMP",
-    subtitle: "Masa-masa polos",
+    subtitle: "Memory Lane",
     color: "oklch(0.88 0.06 145)",
     accent: "oklch(0.55 0.12 145)",
     photos: [
@@ -41,7 +41,7 @@ const eraData: Record<
   },
   SMA: {
     label: "SMA",
-    subtitle: "Masa paling seru",
+    subtitle: "Chapter of Youth",
     color: "oklch(0.90 0.06 75)",
     accent: "oklch(0.60 0.12 75)",
     photos: [
@@ -54,7 +54,7 @@ const eraData: Record<
   },
   Kuliah: {
     label: "Kuliah",
-    subtitle: "Geng sekarang",
+    subtitle: "The Growth: Higher Ground",
     color: "oklch(0.88 0.06 260)",
     accent: "oklch(0.52 0.10 260)",
     photos: [
@@ -91,7 +91,7 @@ function PhotoCard({
         ease: [0.21, 0.47, 0.32, 0.98],
         delay: index * 0.07,
       }}
-      className="flex-shrink-0 snap-center"
+      className="shrink-0 snap-center"
       style={{ width: "clamp(155px, 42vw, 200px)" }}
     >
       <motion.div
@@ -105,7 +105,7 @@ function PhotoCard({
         }}
         whileTap={{ scale: 0.98 }}
       >
-        <div className="relative aspect-[9/16] overflow-hidden bg-slate-100 rounded-sm">
+        <div className="relative aspect-9/16 overflow-hidden bg-slate-100 rounded-sm">
           {!loaded && !error && (
             <div className="absolute inset-0 flex items-center justify-center bg-slate-100">
               <motion.div
@@ -212,10 +212,11 @@ export function FriendsGallerySection() {
         style={{ y }}
       >
         <h2 className="font-serif text-3xl md:text-5xl font-bold text-foreground mb-3">
-          Teman-Temanmu
+          Friendship Gallery
         </h2>
         <p className="text-muted-foreground text-base md:text-lg max-w-md mx-auto opacity-50 font-light">
-          Dari yang polos sampai yang sekarang — mereka selalu ada.
+          Menghormati lingkaran pertemanan yang tumbuh bersamamu di setiap babak
+          kehidupan
         </p>
       </motion.div>
 
