@@ -81,7 +81,7 @@ function PhotoCard({ photo, index }: { photo: FriendPhoto; index: number }) {
         className="bg-white p-2 pb-10 shadow-2xl border border-slate-100 relative"
         style={{ transform: `rotate(${photo.rotation}deg)` }}
       >
-        <div className="relative aspect-[3/4] overflow-hidden bg-slate-50">
+        <div className="relative aspect-3/4 overflow-hidden bg-slate-50">
           <Image
             src={photo.src}
             alt="Friendship"

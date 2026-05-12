@@ -43,7 +43,7 @@ export default function RootLayout({
     >
       <body className="font-sans antialiased relative min-h-screen">
         {/* Grain effect tetap di paling atas */}
-        <div className="bg-grain fixed inset-0 z-[9999] pointer-events-none" />
+        <div className="bg-grain fixed inset-0 z-9999 pointer-events-none" />
 
         {/* 
            WRAPPER UTAMA: 

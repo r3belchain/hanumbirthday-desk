@@ -6,14 +6,14 @@ import { useEffect, useRef, useState } from "react";
 interface TypewriterProps {
   text: string;
   delay?: number;
-  speed?: number;
+  speed?: number; // Kita gunakan ini sebagai nilai dasar (default 20)
   startTrigger?: boolean;
 }
 
 export function Typewriter({
   text,
   delay = 0,
-  speed = 60,
+  speed = 20,
   startTrigger = false,
 }: TypewriterProps) {
   const [displayedText, setDisplayedText] = useState("");
@@ -33,10 +33,14 @@ export function Typewriter({
     if (!started) return;
 
     if (currentIndex < text.length) {
+      const randomSpeed =
+        Math.floor(Math.random() * (speed + 20 - (speed - 10) + 1)) +
+        (speed - 10);
+
       const timer = setTimeout(() => {
         setDisplayedText((prev) => prev + text[currentIndex]);
         setCurrentIndex((prev) => prev + 1);
-      }, speed);
+      }, randomSpeed);
 
       return () => clearTimeout(timer);
     }
