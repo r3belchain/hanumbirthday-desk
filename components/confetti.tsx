@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useCallback } from "react";
 import confetti from "canvas-confetti";
+import { useCallback, useEffect } from "react";
 
 export function useConfetti() {
   const fireConfetti = useCallback(() => {
@@ -77,7 +77,7 @@ export function ConfettiTrigger() {
   useEffect(() => {
     const timer = setTimeout(() => {
       fireConfetti();
-    }, 500);
+    }, 50);
 
     return () => clearTimeout(timer);
   }, [fireConfetti]);

@@ -13,7 +13,7 @@ interface TypewriterProps {
 export function Typewriter({
   text,
   delay = 0,
-  speed = 50,
+  speed = 60,
   startTrigger = false,
 }: TypewriterProps) {
   const [displayedText, setDisplayedText] = useState("");
@@ -62,7 +62,7 @@ export function MessageSection() {
 
   const message = `Aku sengaja membuat ini sebagai bentuk apresiasi dan ucapan selamat saja. Yaa.. tapi ya sudah lah yaa, intinya aku ingin merayakan hari kelahiranmu dengan cara yang sedikit berbeda—cara yang sekarang aku bisa. 😊
 
-Semoga di usia ke-20 ini, langkahmu selalu dimudahkan, mimpi-mimpimu tercapai, dan kamu selalu menemukan kebahagiaan apapun pilihan kamu. Suatu saat jika memang takdir ngga berpihak pada harapanku, semoga kamu bisa dapat "teman hidup" ideal yang kamu inginkan. Yang menerimamu apa adanya. Yang ngga menyalahkanmu, saat kamu ngga sempurna. Yang bisa meningkatkan nilai dirinya dan memaksimalkan upayanya, demi kamu.
+Semoga di usia ke-20 ini, langkahmu selalu dimudahkan, mimpi-mimpimu tercapai, dan kamu selalu menemukan kebahagiaan apapun pilihan kamu. Suatu saat jika memang ketetapan ngga berpihak pada harapanku, semoga kamu bisa dapat "teman hidup" ideal yang kamu inginkan. Yang menerimamu apa adanya. Yang ngga menyalahkanmu, saat kamu ngga sempurna. Yang bisa meningkatkan nilai dirinya dan memaksimalkan upayanya, demi kamu.
 
 Pada dasarnya, ngga ada manusia yang sempurna dan murni baik. Adanya manusia yang mencoba "terlihat sempurna" dan berusaha untuk lebih baik.
 

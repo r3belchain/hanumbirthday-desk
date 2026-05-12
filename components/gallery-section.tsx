@@ -199,7 +199,7 @@ export function GallerySection() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [currentProgress, setCurrentProgress] = useState(0);
 
-  // Ambil posisi Y tiap node dari DOM
+  //  posisi Y tiap node dari DOM
   const recalc = () => {
     if (!containerRef.current) return;
     const containerTop =
@@ -257,7 +257,7 @@ export function GallerySection() {
     });
   }, [smoothProgress]);
 
-  // Hitung posisi dot berdasarkan nodeYs nyata
+  // kalkulasi posisi dot berdasarkan nodeYs nyata
   const getDotPos = () => {
     if (nodeYs.length < 2) return { y: 0, x: 0 };
     const totalSeg = nodeYs.length - 1;
@@ -347,7 +347,7 @@ export function GallerySection() {
               clipPath="url(#gClip)"
             />
 
-            {/* Garis glow yang mengisi seiring scroll */}
+            {/* Garis glow */}
             <motion.path
               d={pathD}
               fill="none"
@@ -360,7 +360,7 @@ export function GallerySection() {
               clipPath="url(#gClip)"
             />
 
-            {/* Garis solid tipis di atas */}
+            {/* Garis solid tipis */}
             <motion.path
               d={pathD}
               fill="none"

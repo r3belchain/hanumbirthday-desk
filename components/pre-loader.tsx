@@ -3,17 +3,26 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 
-export function PreLoader() {
+
+interface PreLoaderProps {
+  onComplete?: () => void;
+}
+
+export function PreLoader({ onComplete }: PreLoaderProps) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-   
+  
     const timer = setTimeout(() => {
+     
+      if (onComplete) onComplete();
+
+      
       setLoading(false);
-    }, 2000);
+    }, 3000);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [onComplete]);
 
   return (
     <AnimatePresence>
@@ -30,9 +39,8 @@ export function PreLoader() {
             transition={{ duration: 1 }}
             className="text-center"
           >
-          
             <p className="font-serif text-2xl italic text-foreground/60 mb-4">
-              Something special is coming...
+              Wait a second... code, do your magic....
             </p>
             <div className="h-px w-16 bg-foreground/20 mx-auto" />
           </motion.div>

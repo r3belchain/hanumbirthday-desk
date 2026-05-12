@@ -90,13 +90,12 @@ export function HeroSection() {
           Senang bisa kembali menyapa di hari spesialmu ini
         </motion.p>
 
-      
         <motion.div
           className="mt-12 cursor-pointer relative z-20 group"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 2, duration: 1 }}
-          onClick={scrollToMessage} 
+          onClick={scrollToMessage}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
         >

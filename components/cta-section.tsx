@@ -11,7 +11,6 @@ export function CTASection() {
   const handleClick = () => {
     setIsClicked(true);
     fireHearts();
-    // Tidak perlu window.open WhatsApp agar tidak agresif
   };
 
   return (
@@ -38,7 +37,7 @@ export function CTASection() {
             </h2>
             <p className="text-foreground/70 mb-8 max-w-md mx-auto italic">
               "Terima kasih sudah meluangkan waktu untuk melihat ini. Semoga
-              hari ini menjadi titik awal dari hal-hal luar biasa dan indah yang
+              hari ini menjadi titik awal dari hal-hal luar biasa dan ajaib yang
               akan datang."
             </p>
           </motion.div>
@@ -53,7 +52,7 @@ export function CTASection() {
                 whileTap={{ scale: 0.95 }}
                 exit={{ scale: 0, opacity: 0 }}
               >
-                <span className="relative z-10 flex items-center gap-2">
+                <span className="relative z-10 flex items-center text-black/60 gap-2">
                   Kirim Doa Baik
                   <motion.span
                     animate={{ scale: [1, 1.2, 1] }}
