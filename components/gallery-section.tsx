@@ -13,22 +13,34 @@ interface GalleryImage {
 const galleryImages: GalleryImage[] = [
   {
     src: "/gallery/gambar2.jpg",
-    caption: "Senyumnya ngga berubah",
+    caption: "The prologue of a masterpiece",
     rotation: -2,
   },
   {
     src: "/gallery/gambar6.jpg",
-    caption: "Mata Panda itu masih ada",
+    caption: "A universe in a single gaze",
     rotation: 2,
   },
   {
     src: "/gallery/gambar3.jpg",
-    caption: "Dewasa vibes, i think",
+    caption: "Becoming, in every breath",
     rotation: -1,
   },
-  { src: "/gallery/gambar1.jpg", caption: "Nah ini", rotation: 1 },
-  { src: "/gallery/gambar4.jpg", caption: "....", rotation: -2 },
-  { src: "/gallery/gambar5.jpg", caption: "(:", rotation: 2 },
+  {
+    src: "/gallery/gambar1.jpg",
+    caption: "Captured light, held forever",
+    rotation: 1,
+  },
+  {
+    src: "/gallery/gambar4.jpg",
+    caption: "Unscripted and infinite",
+    rotation: -2,
+  },
+  {
+    src: "/gallery/gambar5.jpg",
+    caption: "Beyond the frame, into the light",
+    rotation: 2,
+  },
 ];
 
 // SVG path dari posisi Y node, dari DOM

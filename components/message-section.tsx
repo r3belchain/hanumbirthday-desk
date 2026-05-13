@@ -65,13 +65,13 @@ export function MessageSection() {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
 
-  const message = `Aku sengaja membuat ini sebagai bentuk apresiasi dan ucapan selamat saja. Yaa.. tapi ya sudah lah yaa, intinya aku ingin merayakan hari kelahiranmu dengan cara yang sedikit berbeda—cara yang sekarang aku bisa. 😊
+  const message = `Aku sengaja membuat ini sebagai bentuk apresiasi dan ucapan selamat. Yaa.. tapi ya sudah lah yaa, intinya aku ingin merayakan hari spesial ini dengan cara yang sedikit berbeda—cara yang sekarang aku bisa. 😊
 
-Semoga di usia ke-20 ini, langkahmu selalu dimudahkan, mimpi-mimpimu tercapai, dan kamu selalu menemukan kebahagiaan apapun pilihan kamu. Suatu saat jika memang ketetapan ngga berpihak pada harapanku, semoga kamu bisa dapat "teman hidup" ideal yang kamu inginkan. Yang menerimamu apa adanya. Yang ngga menyalahkanmu, saat kamu ngga sempurna. Yang bisa meningkatkan nilai dirinya dan memaksimalkan upayanya, demi kamu.
+Semoga di usia ke-20 ini, langkahmu selalu dimudahkan, mimpi-mimpimu menemukan jalannya, dan kamu tetap memegang kendali atas kebahagiaanmu sendiri, apapun pilihannya.
 
-Pada dasarnya, ngga ada manusia yang sempurna dan murni baik. Adanya manusia yang mencoba "terlihat sempurna" dan berusaha untuk lebih baik.
+Pada dasarnya, ngga ada manusia yang sempurna dan murni baik. Adanya manusia yang mencoba "terlihat sempurna" dan berusaha untuk lebih baik. Semoga kamu selalu dikelilingi oleh manusia-manusia yang tidak hanya menerima kekuranganmu, tapi juga bisa buat diri kamu improve.
 
-Selamat menginjak umur di mana segala hal terasa penuh dengan ketidakpastian, kekhawatiran, dan kekalutan. Kepala yang bising, sementara usia terus bertambah, waktu tak dapat dikembalikan, dan momen tak bisa diulang. Sehat dan gembira selaluu...`;
+Selamat menginjak fase di mana segala hal terasa penuh dengan ketidakpastian, kekhawatiran, dan kekalutan. Kepala yang bising, keputusan-keputusan yang seringkali kita sesali, sementara usia terus bertambah, waktu tak dapat dikembalikan, dan momen tak bisa diulang. Sehat dan gembira selaluu...`;
 
   return (
     <section
