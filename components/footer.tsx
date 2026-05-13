@@ -65,7 +65,7 @@ export function Footer() {
           </div>
 
           <div className="text-[9px] text-muted-foreground/60 leading-relaxed font-mono">
-            <p>"..............,</p>
+            <p>".................,</p>
             <p>We Believe In: rough consensus and running code."</p>
             <p className="mt-1 italic">— David D. Clark</p>
           </div>

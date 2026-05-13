@@ -8,7 +8,7 @@ export function MusicNotice() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(false);
-    }, 3000);
+    }, 4500);
     return () => clearTimeout(timer);
   }, []);
 
@@ -23,7 +23,7 @@ export function MusicNotice() {
           className="fixed top-24 left-0 right-0 mx-auto w-fit flex justify-center z-100 pointer-events-none"
         >
           <p className="text-[10px] md:text-[11px] text-zinc-800 uppercase tracking-[0.3em] font-medium italic bg-white/30 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/20 shadow-sm">
-            Tap 1x di manapun agar musiknya jalan
+            Tap 1x di manapun biar musiknya jalan
           </p>
         </motion.div>
       )}
