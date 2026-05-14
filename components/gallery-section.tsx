@@ -141,7 +141,7 @@ function PolaroidCard({
             />
           )}
         </div>
-        <p className="font-serif text-center text-slate-500 mt-4 md:mt-6 text-sm md:text-lg italic font-medium tracking-wide">
+        <p className="font-serif text-center text-slate-500 mt-4 md:mt-6 text-sm md:text-lg italic font-medium tracking-wide !text-slate-600 dark:!text-slate-600">
           {image.caption}
         </p>
       </motion.div>
