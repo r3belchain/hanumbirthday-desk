@@ -219,7 +219,6 @@ export function GallerySection() {
     const ys = nodeRefs.current.map((el) => {
       if (!el) return 0;
       const r = el.getBoundingClientRect();
-      // Tengah node marker relatif terhadap container
       return r.top + window.scrollY - containerTop + r.height / 2;
     });
     setNodeYs(ys);
@@ -288,7 +287,7 @@ export function GallerySection() {
   const amplitude = 55;
   const pathD = buildWindingPath(nodeYs, svgCenterX, amplitude);
 
-  //  render garis di antara node pertama dan terakhir
+ 
   const clipY1 = nodeYs[0] ?? 0;
   const clipY2 = nodeYs[nodeYs.length - 1] ?? containerHeight;
 
