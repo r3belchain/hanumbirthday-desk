@@ -6,45 +6,92 @@ import { FireworksBackground } from "@/components/fireworksbg";
 import { Footer } from "@/components/footer";
 import { FriendsGallerySection } from "@/components/friends-gallery-section";
 import { GallerySection } from "@/components/gallery-section";
+import GiftIntro from "@/components/giftIntro";
 import { HeroSection } from "@/components/hero-section";
+import { LoveBackground } from "@/components/love-bg";
 import { MessageSection } from "@/components/message-section";
-import { MusicNotice } from "@/components/music-notice";
 import { MusicToggle } from "@/components/music-toggle";
 import { PreLoader } from "@/components/pre-loader";
 import { TimelineCards } from "@/components/timeline-cards";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function BirthdayPage() {
   const [isReady, setIsReady] = useState(false);
+  const [giftOpened, setGiftOpened] = useState(false);
+  const [showLoveBg, setShowLoveBg] = useState(false);
+
+  const musicRef = useRef<{ playMusic: () => void } | null>(null);
+  const popSoundRef = useRef<HTMLAudioElement | null>(null);
+  const hasPopped = useRef(false);
 
   useEffect(() => {
-    // auto-restore func
     if ("scrollRestoration" in history) {
       history.scrollRestoration = "manual";
     }
-
     window.scrollTo(0, 0);
   }, []);
 
+  const handleOpenGift = () => {
+    setGiftOpened(true);
+    if (musicRef.current) {
+      musicRef.current.playMusic();
+    }
+  };
+
+  const handlePreloaderComplete = () => {
+    setIsReady(true);
+
+    if (!hasPopped.current) {
+      setTimeout(() => {
+        if (popSoundRef.current) {
+          popSoundRef.current.currentTime = 0;
+          popSoundRef.current.volume = 0.7;
+          popSoundRef.current
+            .play()
+            .then(() => {
+              hasPopped.current = true;
+            })
+            .catch((err) => console.log("Gagal putar mercon:", err));
+        }
+      }, 450);
+    }
+  };
+
+  const handleCtaClick = () => {
+    setShowLoveBg(true);
+  };
+
   return (
     <main className="relative min-h-screen bg-background overflow-x-hidden isolate">
-      <PreLoader onComplete={() => setIsReady(true)} />
+      <audio ref={popSoundRef} src="/mercon.mp3" preload="auto" />
+
+      <GiftIntro onOpen={handleOpenGift} />
+
+      <div className={giftOpened ? "contents" : "hidden"}>
+        <MusicToggle ref={musicRef} />
+      </div>
+
+      {giftOpened && <PreLoader onComplete={handlePreloaderComplete} />}
+
+      {/* RENDER LAYER BACKGROUND */}
+      {showLoveBg && <LoveBackground />}
+      {isReady && <FireworksBackground />}
 
       {isReady && (
-        <div className="relative z-10 flex flex-col">
-          <FireworksBackground />
+        /* Wrapper dinamis untuk mengontrol warna teks secara global melalui CSS Variables */
+        <div
+          className={`relative z-10 flex flex-col transition-colors duration-1000 ${showLoveBg ? "theme-dark" : "theme-light"}`}
+        >
           <ConfettiTrigger />
-          <MusicToggle />
 
           <div className="relative">
-            <MusicNotice />
             <HeroSection />
             <div className="relative space-y-12 md:space-y-24 pb-20">
               <MessageSection />
               <GallerySection />
               <FriendsGallerySection />
               <TimelineCards />
-              <CTASection />
+              <CTASection onClick={handleCtaClick} />
             </div>
             <Footer />
           </div>
