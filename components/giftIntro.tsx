@@ -12,7 +12,6 @@ export default function GiftIntro({ onOpen }: GiftIntroProps) {
 
   const handleOpen = () => {
     setIsOpened(true);
-    // Memberi sedikit jeda agar animasi kado terlihat dulu sebelum hilang
     setTimeout(() => {
       onOpen();
     }, 500);
@@ -27,7 +26,7 @@ export default function GiftIntro({ onOpen }: GiftIntroProps) {
           transition={{ duration: 0.8, ease: "easeInOut" }}
           className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-black"
         >
-          {/* Efek Cahaya Belakang */}
+         
           <div className="absolute inset-0 bg-[radial-gradient(circle,_var(--tw-gradient-stops))] from-blue-900/20 via-black to-black opacity-60" />
 
           <motion.div
