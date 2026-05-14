@@ -73,12 +73,12 @@ export default function BirthdayPage() {
 
       {giftOpened && <PreLoader onComplete={handlePreloaderComplete} />}
 
-      {/* RENDER LAYER BACKGROUND */}
+      
       {showLoveBg && <LoveBackground />}
       {isReady && <FireworksBackground />}
 
       {isReady && (
-        /* Wrapper dinamis untuk mengontrol warna teks secara global melalui CSS Variables */
+    
         <div
           className={`relative z-10 flex flex-col transition-colors duration-1000 ${showLoveBg ? "theme-dark" : "theme-light"}`}
         >
