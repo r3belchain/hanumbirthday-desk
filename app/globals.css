@@ -111,43 +111,43 @@ body {
   position: relative;
 }
 
-/* Warna default (Light Mode) */
+
 .theme-light {
   --text-main: #000000;
-  --text-muted: #4b5563; /* abu-abu */
+  --text-muted: #4b5563; 
 }
 
-/* Warna saat tombol diklik (Dark Mode) */
+
 .theme-dark {
   --text-main: #ffffff;
-  --text-muted: #d1d5db; /* abu-abu terang */
+  --text-muted: #d1d5db; 
 }
 
-/* Terapkan variabel ke elemen-elemen global */
+
 .theme-light,
 .theme-dark {
   color: var(--text-main);
   transition: color 1s ease;
 }
 
-/* Jika ada teks spesifik yang pakai class muted dari Tailwind, paksa ganti warnanya */
+
 .theme-dark .text-muted-foreground,
 .theme-dark .text-foreground\/70 {
   color: var(--text-muted) !important;
 }
 
-/* Maksimalkan kontras untuk semua teks saat mode Love Background aktif */
+
 .theme-dark h1,
 .theme-dark h2,
 .theme-dark h3,
 .theme-dark p,
 .theme-dark span,
 .theme-dark div {
-  color: #ffffff !important; /* Paksa jadi putih */
+  color: #ffffff !important; 
   transition: color 0.8s ease-in-out;
 }
 
-/* Khusus untuk kartu di "Refleksi Perjalanan" agar teks di dalamnya tetap terbaca */
+
 .theme-dark .bg-card,
 .theme-dark .bg-white\/80 {
   background-color: rgba(255, 255, 255, 0.1) !important;
@@ -155,32 +155,32 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* Agar nama "Hanum" atau aksen hijau tetap menyala, beri pengecualian */
+
 .theme-dark .text-primary,
 .theme-dark .text-green-400 {
-  color: #4ade80 !important; /* Hijau terang agar tetap kontras */
+  color: #4ade80 !important; 
 }
 
-/* Khusus untuk Tabs di Friends Gallery Section */
+
 .theme-dark [role="tablist"] {
-  background-color: rgba(255, 255, 255, 0.1) !important; /* Background kapsul tab jadi lebih terang */
+  background-color: rgba(255, 255, 255, 0.1) !important; 
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .theme-dark [role="tab"] {
-  color: rgba(255, 255, 255, 0.5) !important; /* Teks yang tidak terpilih jadi abu-abu terang */
+  color: rgba(255, 255, 255, 0.5) !important; 
 }
 
 .theme-dark [role="tab"][data-state="active"] {
-  background-color: #3b82f6 !important; /* Warna biru tombol yang aktif (sesuai gambar) */
-  color: #ffffff !important; /* Teks tombol aktif tetap putih */
+  background-color: #3b82f6 !important; 
+  color: #ffffff !important; 
 }
 
 .theme-dark [role="tab"]:hover {
-  color: #ffffff !important; /* Saat di-hover jadi putih terang */
+  color: #ffffff !important; 
 }
 
-/* Memaksa ikon Github jadi putih saat mode gelap aktif */
+
 .theme-dark .footer-github-icon,
 .theme-dark img[alt="Github"],
 .theme-dark img[src*="githublogo"] {
