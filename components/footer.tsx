@@ -60,6 +60,7 @@ export function Footer() {
                 width={15}
                 height={15}
                 alt="Github"
+                className="footer-github-icon transition-all"
               />
             </a>
           </div>
