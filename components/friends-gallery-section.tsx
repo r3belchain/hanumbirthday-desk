@@ -30,11 +30,11 @@ const eraData: Record<
     subtitle: "Memory Lane",
     accent: "#4a9072", 
     photos: [
-      { src: "/friends/smp-1.jpg", rotation: -3 },
-      { src: "/friends/smp-2.jpg", rotation: 2 },
-      { src: "/friends/smp-3.jpg", rotation: -1 },
-      { src: "/friends/smp-4.jpg", rotation: 3 },
-      { src: "/friends/smp-5.jpg", rotation: -2 },
+      // { src: "/friends/smp-1.jpg", rotation: -3 },
+      // { src: "/friends/smp-2.jpg", rotation: 2 },
+      // { src: "/friends/smp-3.jpg", rotation: -1 },
+      // { src: "/friends/smp-4.jpg", rotation: 3 },
+      // { src: "/friends/smp-5.jpg", rotation: -2 },
     ],
   },
   SMA: {
@@ -54,7 +54,7 @@ const eraData: Record<
     subtitle: "The Growth: Higher Ground",
     accent: "#3b7eb3", 
     photos: [
-      { src: "/friends/kuliah-11.png", rotation: -2 },
+      { src: "/friends/kuliah-1.jpg", rotation: -2 },
       { src: "/friends/kuliah-2.jpg", rotation: 3 },
       { src: "/friends/kuliah-3.jpg", rotation: -1 },
       { src: "/friends/kuliah-4.jpg", rotation: 2 },
@@ -190,10 +190,9 @@ export function FriendsGallerySection() {
               onClick={() => handleEraChange(era)}
               className="px-6 md:px-10 py-2.5 rounded-full text-xs md:text-sm font-bold transition-all duration-500 relative"
               style={{
-                
                 backgroundColor:
                   activeEra === era ? eraData[era].accent : "transparent",
-              
+
                 color:
                   activeEra === era
                     ? "#fff"
@@ -212,7 +211,7 @@ export function FriendsGallerySection() {
         <div
           ref={scrollRef}
           onScroll={handleScroll}
-          className="flex gap-8 overflow-x-auto pb-10 px-[10vw] cursor-grab active:cursor-grabbing touch-pan-x antialiased relative [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full"
+          className={`flex gap-8 overflow-x-auto pb-10 px-[10vw] cursor-grab active:cursor-grabbing touch-pan-x antialiased relative [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full ${currentData.photos.length === 0 ? "overflow-hidden" : ""}`}
           style={{
             scrollbarColor: `${currentData.accent} transparent`,
             WebkitOverflowScrolling: "touch",
@@ -224,11 +223,32 @@ export function FriendsGallerySection() {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
-              className="flex gap-8 relative"
+              
+              className={`flex relative min-h-[350px] ${currentData.photos.length === 0 ? "w-[80vw] items-center justify-center" : "gap-8"}`}
             >
-              {currentData.photos.map((photo, i) => (
-                <PhotoCard key={`${activeEra}-${i}`} photo={photo} index={i} />
-              ))}
+              {currentData.photos.length > 0 ? (
+                currentData.photos.map((photo, i) => (
+                  <PhotoCard
+                    key={`${activeEra}-${i}`}
+                    photo={photo}
+                    index={i}
+                  />
+                ))
+              ) : (
+                
+                <div className="text-center w-full flex flex-col items-center justify-center">
+                  <p
+                    className={`font-serif italic text-lg sm:text-2xl md:text-3xl tracking-widest whitespace-nowrap transition-colors duration-700 ${isDarkTheme ? "text-white/40" : "text-slate-400"}`}
+                  >
+                    — No Information Available —
+                  </p>
+                  <p
+                    className={`text-[10px] sm:text-xs mt-3 uppercase tracking-[0.2em] sm:tracking-[0.3em] opacity-60 whitespace-nowrap ${isDarkTheme ? "text-white/30" : "text-slate-400"}`}
+                  >
+                    This chapter is a mystery
+                  </p>
+                </div>
+              )}
             </motion.div>
           </AnimatePresence>
         </div>
@@ -245,7 +265,7 @@ export function FriendsGallerySection() {
                   ? currentData.accent
                   : isDarkTheme
                     ? "rgba(255,255,255,0.2)"
-                    : currentData.accent + "33", 
+                    : currentData.accent + "33",
             }}
             transition={{ type: "spring", stiffness: 200, damping: 25 }}
             className="h-2 rounded-full relative"
