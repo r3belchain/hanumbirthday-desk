@@ -28,7 +28,7 @@ const eraData: Record<
   SMP: {
     label: "SMP",
     subtitle: "Memory Lane",
-    accent: "#4a9072", 
+    accent: "#4a9072",
     photos: [
       // { src: "/friends/smp-1.jpg", rotation: -3 },
       // { src: "/friends/smp-2.jpg", rotation: 2 },
@@ -40,7 +40,7 @@ const eraData: Record<
   SMA: {
     label: "SMA",
     subtitle: "Chapter of Youth",
-    accent: "#9c7126", 
+    accent: "#9c7126",
     photos: [
       { src: "/friends/sma-1.jpg", rotation: 2 },
       { src: "/friends/sma-2.jpg", rotation: -3 },
@@ -52,7 +52,7 @@ const eraData: Record<
   Kuliah: {
     label: "Kuliah",
     subtitle: "The Growth: Higher Ground",
-    accent: "#3b7eb3", 
+    accent: "#3b7eb3",
     photos: [
       { src: "/friends/kuliah-1.jpg", rotation: -2 },
       { src: "/friends/kuliah-2.jpg", rotation: 3 },
@@ -223,7 +223,6 @@ export function FriendsGallerySection() {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
-              
               className={`flex relative min-h-[350px] ${currentData.photos.length === 0 ? "w-[80vw] items-center justify-center" : "gap-8"}`}
             >
               {currentData.photos.length > 0 ? (
@@ -235,7 +234,6 @@ export function FriendsGallerySection() {
                   />
                 ))
               ) : (
-                
                 <div className="text-center w-full flex flex-col items-center justify-center">
                   <p
                     className={`font-serif italic text-lg sm:text-2xl md:text-3xl tracking-widest whitespace-nowrap transition-colors duration-700 ${isDarkTheme ? "text-white/40" : "text-slate-400"}`}
