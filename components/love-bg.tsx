@@ -30,6 +30,8 @@ export const LoveBackground = () => {
           animate={{
             y: "-10vh",
             opacity: [0, 0.4, 0.4, 0], 
+
+            
             x: [`${heart.x}vw`, `${heart.x + (Math.random() * 4 - 2)}vw`],
           }}
           transition={{
