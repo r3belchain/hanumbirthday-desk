@@ -65,12 +65,10 @@ export function Footer() {
             </a>
           </div>
 
-          <div className="text-[9px] text-muted-foreground/60 leading-relaxed font-mono">
+          <div className="text-[9px] text-muted-foreground/60 italic leading-relaxed font-mono">
             <p>
-              "Unexpressed emotions will never die. They are buried alive and
-              will come forth later.....,”
+              running code...
             </p>
-            <p className="mt-1 italic">— Sigmund Freud</p>
           </div>
         </div>
       </motion.div>
