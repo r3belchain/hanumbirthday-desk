@@ -53,7 +53,7 @@ export default function BirthdayPage() {
             })
             .catch((err) => console.log("Gagal putar mercon:", err));
         }
-      }, 450);
+      }, 350);
     }
   };
 
@@ -73,12 +73,10 @@ export default function BirthdayPage() {
 
       {giftOpened && <PreLoader onComplete={handlePreloaderComplete} />}
 
-      
       {showLoveBg && <LoveBackground />}
       {isReady && <FireworksBackground />}
 
       {isReady && (
-    
         <div
           className={`relative z-10 flex flex-col transition-colors duration-1000 ${showLoveBg ? "theme-dark" : "theme-light"}`}
         >
