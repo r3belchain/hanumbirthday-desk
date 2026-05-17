@@ -69,7 +69,7 @@ export default function BirthdayPage() {
       <GiftIntro onOpen={handleOpenGift} />
 
       <div className={giftOpened ? "contents" : "hidden"}>
-        <MusicToggle ref={musicRef} />
+        <MusicToggle ref={musicRef} isDarkTheme={showLoveBg} />
       </div>
 
       {giftOpened && <PreLoader onComplete={handlePreloaderComplete} />}
@@ -84,15 +84,15 @@ export default function BirthdayPage() {
           <ConfettiTrigger />
 
           <div className="relative">
-            <HeroSection />
+            <HeroSection isDarkTheme={showLoveBg} />
             <div className="relative space-y-12 md:space-y-24 pb-20">
               <MessageSection />
-              <GallerySection />
+              <GallerySection isDarkTheme={showLoveBg} />
               <FriendsGallerySection />
-              <TimelineCards />
+              <TimelineCards isDarkTheme={showLoveBg} />
               <CTASection onClick={handleCtaClick} />
             </div>
-            <Footer />
+            <Footer isDarkTheme={showLoveBg} />
           </div>
           <HanumAiChat isDarkTheme={showLoveBg} />
         </div>
