@@ -33,7 +33,7 @@ const timeCards: TimeCard[] = [
   },
 ];
 
-// ─── Menerima Props isDarkTheme di Sini ───
+
 function TimeCardItem({
   card,
   index,
@@ -45,7 +45,7 @@ function TimeCardItem({
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  // Logika penentu warna teks "Tap to open" sesuai tema
+
   const tapTextColorClass = isDarkTheme ? "!text-purple-400" : "text-primary";
 
   return (
@@ -91,7 +91,6 @@ function TimeCardItem({
             )}
           </AnimatePresence>
 
-          {/* FIX: Kelas warna dinamis & transisi halus disuntikkan ke sini */}
           <motion.p
             className={`text-xs tracking-widest ${tapTextColorClass} transition-colors duration-500 mt-4 text-center uppercase`}
             animate={{ opacity: isExpanded ? 0 : 1 }}
@@ -104,7 +103,7 @@ function TimeCardItem({
   );
 }
 
-// ─── Menerima Interface Props untuk Main Component ───
+
 interface TimelineCardsProps {
   isDarkTheme?: boolean;
 }

@@ -8,10 +8,10 @@ interface FooterProps {
 }
 
 export function Footer({ isDarkTheme = false }: FooterProps) {
-  // Transisi pergantian mode tetap smooth (duration-500)
+
   const highlightColor = isDarkTheme ? "!text-purple-400" : "text-primary";
 
-  // Efek hover dibuat instan (tanpa duration panjang) dengan mencabut atau mengecilkan duration pas di-hover
+
   const hoverHighlightColor = isDarkTheme
     ? "hover:!text-purple-400"
     : "hover:text-primary";
@@ -21,7 +21,7 @@ export function Footer({ isDarkTheme = false }: FooterProps) {
     : "group-hover:text-primary";
 
   return (
-    // FIX UTAMA: border-t border-white/10 dihapus dari className bawah ini
+   
     <footer className="py-16 px-4">
       <motion.div
         initial={{ opacity: 0 }}
@@ -39,7 +39,6 @@ export function Footer({ isDarkTheme = false }: FooterProps) {
               transition={{
                 duration: 3,
                 repeat: Infinity,
-                daya: 0,
                 delay: i * 0.5,
               }}
             >

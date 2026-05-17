@@ -1,4 +1,4 @@
-// "use client";
+"use client";
 
 import { motion } from "framer-motion";
 
@@ -14,11 +14,10 @@ export function HeroSection({ isDarkTheme = false }: HeroSectionProps) {
     }
   };
 
-  // ─── Sinkronisasi Warna Teks "Hanum" ───
+ 
   const nameColorClass = isDarkTheme ? "!text-purple-400" : "text-primary";
 
-  // ─── Sinkronisasi Warna Icon "Klik Ini" (Mouse & Scroll Dot) ───
-  // Menggunakan ! (important) agar meng-override border default dan menyala lebih terang saat di-hover
+
   const mouseBorderClass = isDarkTheme
     ? "border-purple-500/50 group-hover:!border-purple-400 shadow-[0_0_10px_rgba(168,85,247,0.2)] group-hover:shadow-[0_0_20px_rgba(168,85,247,0.6)]"
     : "border-primary/50 group-hover:border-primary";
@@ -115,13 +114,13 @@ export function HeroSection({ isDarkTheme = false }: HeroSectionProps) {
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
         >
-          {/* Bingkai Luar Mouse Icon */}
+          {/* Bingkai Luar */}
           <motion.div
             className={`w-6 h-10 border-2 rounded-full mx-auto flex justify-center transition-all duration-500 ${mouseBorderClass}`}
             animate={{ opacity: [1, 0.5, 1] }}
             transition={{ duration: 2, repeat: Infinity }}
           >
-            {/* Titik/Roda Scroll Tengah Mouse */}
+            {/* Roda Scroll */}
             <motion.div
               className={`w-1.5 h-3 rounded-full mt-2 transition-all duration-500 ${mouseDotClass}`}
               animate={{ y: [0, 12, 0] }}

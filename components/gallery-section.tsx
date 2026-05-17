@@ -247,13 +247,13 @@ export function GallerySection({ isDarkTheme = false }: GallerySectionProps) {
   const [nodeYs, setNodeYs] = useState<number[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  // 1. Ambil scrollYProgress dengan detektor presisi di tengah viewport (0.5)
+ 
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start 0.5", "end 0.5"],
   });
 
-  // 2. Haluskan progress global dengan useSpring (Bikin aspal & dot super lembut jalannya)
+ 
   const smoothProgress = useSpring(scrollYProgress, {
     stiffness: 45,
     damping: 18,
@@ -289,7 +289,7 @@ export function GallerySection({ isDarkTheme = false }: GallerySectionProps) {
     };
   }, []);
 
-  // Update index active node secara berkala mengikuti smoothProgress
+
   useEffect(() => {
     return smoothProgress.on("change", (v) => {
       const idx = Math.min(
@@ -300,7 +300,7 @@ export function GallerySection({ isDarkTheme = false }: GallerySectionProps) {
     });
   }, [smoothProgress]);
 
-  // 3. AMANKAN LOGIKA TRANSFORMASI: Dot Y & X sekarang mengekor 100% pada smoothProgress
+ 
   const dotY = useTransform(smoothProgress, (v) => {
     if (nodeYs.length < 2) return 0;
     const totalSeg = nodeYs.length - 1;
@@ -350,7 +350,7 @@ export function GallerySection({ isDarkTheme = false }: GallerySectionProps) {
       </motion.div>
 
       <div ref={containerRef} className="relative max-w-4xl mx-auto">
-        {/* SVG Winding Path bertema Ungu Claude */}
+        {/* SVG Winding Path  */}
         {pathD && containerHeight > 0 && (
           <svg
             className="absolute left-1/2 top-0 -translate-x-1/2 pointer-events-none z-0"
@@ -392,7 +392,7 @@ export function GallerySection({ isDarkTheme = false }: GallerySectionProps) {
               </clipPath>
             </defs>
 
-            {/* Track asli putus-putus */}
+            {/* Track putus-putus */}
             <path
               d={pathD}
               fill="none"
@@ -403,7 +403,7 @@ export function GallerySection({ isDarkTheme = false }: GallerySectionProps) {
               clipPath="url(#gClip)"
             />
 
-            {/* Garis utuh (solid) yang menutup jalan, ditenagai oleh smoothProgress */}
+            {/* Garis utuh */}
             <motion.path
               d={pathD}
               fill="none"
@@ -416,7 +416,7 @@ export function GallerySection({ isDarkTheme = false }: GallerySectionProps) {
               clipPath="url(#gClip)"
             />
 
-            {/* Garis solid tipis pemanis */}
+            {/* Garis solid tipis */}
             <motion.path
               d={pathD}
               fill="none"
@@ -430,7 +430,6 @@ export function GallerySection({ isDarkTheme = false }: GallerySectionProps) {
           </svg>
         )}
 
-        {/* FIX TOTAL: Dot Connector digerakkan langsung via Framer Motion transform (Super Smooth) */}
         {nodeYs.length > 1 && (
           <motion.div
             className="absolute pointer-events-none z-10"
@@ -495,7 +494,6 @@ export function GallerySection({ isDarkTheme = false }: GallerySectionProps) {
             const isFirst = index === 0;
             const isLast = index === galleryImages.length - 1;
 
-            // Penentuan node aktif/berlalu yang aman saat di-scroll
             const passedProgress = index / (galleryImages.length - 1 || 1);
             const isPassed = activeIndex > index;
             const isActive = activeIndex === index;
