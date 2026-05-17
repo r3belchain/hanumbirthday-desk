@@ -4,7 +4,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { useConfetti } from "./confetti";
 
-
 interface CTASectionProps {
   onClick?: () => void;
 }
@@ -15,11 +14,8 @@ export function CTASection({ onClick }: CTASectionProps) {
 
   const handleClick = () => {
     setIsClicked(true);
-
-    
     fireHearts();
 
-    
     if (onClick) {
       onClick();
     }
@@ -81,12 +77,12 @@ export function CTASection({ onClick }: CTASectionProps) {
                 animate={{ opacity: 1, scale: 1 }}
                 className="flex flex-col items-center gap-4"
               >
-                <div className="text-6xl">🤍</div>
+                <div className="text-6xl animate-bounce">🤍</div>
                 <motion.p
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5 }}
-                  className="text-sm text-primary tracking-widest uppercase font-medium"
+                  transition={{ delay: 0.3 }}
+                  className="text-base md:text-lg tracking-wide font-bold !text-white drop-shadow-[0_0_12px_rgba(168,85,247,0.95)] drop-shadow-[0_0_25px_rgba(147,51,234,0.8)]"
                 >
                   Hap!🙆‍♂️ Aku terima doa baiknya. Makasii.
                 </motion.p>
