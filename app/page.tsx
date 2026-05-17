@@ -7,6 +7,7 @@ import { Footer } from "@/components/footer";
 import { FriendsGallerySection } from "@/components/friends-gallery-section";
 import { GallerySection } from "@/components/gallery-section";
 import GiftIntro from "@/components/giftIntro";
+import { HanumAiChat } from "@/components/hanumAiChat";
 import { HeroSection } from "@/components/hero-section";
 import { LoveBackground } from "@/components/love-bg";
 import { MessageSection } from "@/components/message-section";
@@ -93,6 +94,7 @@ export default function BirthdayPage() {
             </div>
             <Footer />
           </div>
+          <HanumAiChat isDarkTheme={showLoveBg} />
         </div>
       )}
 
