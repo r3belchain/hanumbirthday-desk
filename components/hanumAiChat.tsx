@@ -510,7 +510,7 @@ export function HanumAiChat({ isDarkTheme }: HanumAiChatProps) {
                   className="text-sm font-semibold truncate transition-colors duration-500"
                   style={{ color: t.headerTitle }}
                 >
-                  Hanum AI ✨
+                  Hanum AI 👩‍🦰
                 </p>
                 <p
                   className="text-[11px] transition-colors duration-500"
