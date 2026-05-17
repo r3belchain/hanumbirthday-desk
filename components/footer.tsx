@@ -3,9 +3,26 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 
-export function Footer() {
+interface FooterProps {
+  isDarkTheme?: boolean;
+}
+
+export function Footer({ isDarkTheme = false }: FooterProps) {
+  // Transisi pergantian mode tetap smooth (duration-500)
+  const highlightColor = isDarkTheme ? "!text-purple-400" : "text-primary";
+
+  // Efek hover dibuat instan (tanpa duration panjang) dengan mencabut atau mengecilkan duration pas di-hover
+  const hoverHighlightColor = isDarkTheme
+    ? "hover:!text-purple-400"
+    : "hover:text-primary";
+
+  const groupHoverHighlightColor = isDarkTheme
+    ? "group-hover:!text-purple-400"
+    : "group-hover:text-primary";
+
   return (
-    <footer className="py-16 px-4 border-t border-white/10">
+    // FIX UTAMA: border-t border-white/10 dihapus dari className bawah ini
+    <footer className="py-16 px-4">
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -22,6 +39,7 @@ export function Footer() {
               transition={{
                 duration: 3,
                 repeat: Infinity,
+                daya: 0,
                 delay: i * 0.5,
               }}
             >
@@ -31,7 +49,10 @@ export function Footer() {
         </div>
 
         <p className="font-serif text-xl md:text-2xl text-foreground/80 mb-2">
-          This site crafted by <span className="text-primary">Azhar Aufa</span>
+          This site crafted by{" "}
+          <span className={`${highlightColor} transition-colors duration-500`}>
+            Azhar Aufa
+          </span>
         </p>
 
         <p className="text-muted-foreground text-[10px] md:text-xs tracking-[0.2em] uppercase">
@@ -50,9 +71,11 @@ export function Footer() {
               href="https://github.com/r3belchain/ulangtahun-hanum"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 hover:text-primary transition-colors group cursor-pointer"
+              className={`flex items-center gap-1.5 ${hoverHighlightColor} transition-colors duration-100 group cursor-pointer`}
             >
-              <span className="text-[10px] text-muted-foreground group-hover:text-primary transition-colors">
+              <span
+                className={`text-[10px] text-muted-foreground ${groupHoverHighlightColor} transition-colors duration-100`}
+              >
                 Source Code on
               </span>
               <Image
@@ -60,15 +83,13 @@ export function Footer() {
                 width={15}
                 height={15}
                 alt="Github"
-                className="footer-github-icon transition-all"
+                className={`footer-github-icon transition-all duration-100 ${isDarkTheme ? "invert opacity-80" : ""}`}
               />
             </a>
           </div>
 
           <div className="text-[9px] text-muted-foreground/60 italic leading-relaxed font-mono">
-            <p>
-              running code...
-            </p>
+            <p>"never stop trying & keep running code..."</p>
           </div>
         </div>
       </motion.div>
