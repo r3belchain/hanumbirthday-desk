@@ -1,6 +1,12 @@
 "use client";
 
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useSpring,
+  useTransform,
+  MotionValue,
+} from "framer-motion";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
@@ -43,7 +49,6 @@ const galleryImages: GalleryImage[] = [
   },
 ];
 
-// SVG path dari posisi Y node, dari DOM
 function buildWindingPath(
   nodeYs: number[],
   centerX: number,
@@ -65,13 +70,27 @@ function PolaroidCard({
   image,
   index,
   isActive,
+  isDarkTheme,
 }: {
   image: GalleryImage;
   index: number;
   isActive: boolean;
+  isDarkTheme: boolean;
 }) {
   const [imageError, setImageError] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
+
+  const activeShadow = isDarkTheme
+    ? "0 25px 60px -12px rgba(168, 85, 247, 0.45)"
+    : "0 25px 60px -12px rgba(138, 154, 138, 0.45)";
+
+  const hoverShadow = isDarkTheme
+    ? "0 28px 64px -12px rgba(168, 85, 247, 0.55)"
+    : "0 28px 64px -12px rgba(138, 154, 138, 0.5)";
+
+  const spinnerClass = isDarkTheme
+    ? "w-7 h-7 rounded-full border-2 border-purple-500/20 border-t-purple-500"
+    : "w-7 h-7 rounded-full border-2 border-primary/20 border-t-primary";
 
   return (
     <motion.div
@@ -90,7 +109,7 @@ function PolaroidCard({
         style={{ rotate: image.rotation }}
         animate={{
           boxShadow: isActive
-            ? "0 25px 60px -12px rgba(138, 154, 138, 0.45)"
+            ? activeShadow
             : "0 10px 30px -8px rgba(0, 0, 0, 0.12)",
           scale: isActive ? 1.03 : 1,
         }}
@@ -98,7 +117,7 @@ function PolaroidCard({
         whileHover={{
           rotate: 0,
           scale: 1.05,
-          boxShadow: "0 28px 64px -12px rgba(138, 154, 138, 0.5)",
+          boxShadow: hoverShadow,
           transition: { duration: 0.25 },
         }}
       >
@@ -106,7 +125,7 @@ function PolaroidCard({
           {!imageLoaded && !imageError && (
             <div className="absolute inset-0 flex items-center justify-center bg-slate-100">
               <motion.div
-                className="w-7 h-7 rounded-full border-2 border-primary/20 border-t-primary"
+                className={spinnerClass}
                 animate={{ rotate: 360 }}
                 transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
               />
@@ -152,10 +171,36 @@ function PolaroidCard({
 function NodeMarker({
   isActive,
   isPassed,
+  isDarkTheme,
 }: {
   isActive: boolean;
   isPassed: boolean;
+  isDarkTheme: boolean;
 }) {
+  const animationProps = isActive
+    ? {
+        boxShadow: isDarkTheme
+          ? [
+              "0 0 0 0px rgba(168,85,247,0.5)",
+              "0 0 18px 7px rgba(168,85,247,0.35)",
+              "0 0 0 14px rgba(168,85,247,0)",
+            ]
+          : [
+              "0 0 0 0px rgba(138,154,138,0.5)",
+              "0 0 18px 7px rgba(138,154,138,0.25)",
+              "0 0 0 14px rgba(138,154,138,0)",
+            ],
+        scale: [1, 1.12, 1],
+      }
+    : {
+        boxShadow: isPassed
+          ? isDarkTheme
+            ? "0 0 8px 2px rgba(168,85,247,0.25)"
+            : "0 0 8px 2px rgba(138,154,138,0.18)"
+          : "none",
+        scale: 1,
+      };
+
   return (
     <motion.div
       className="absolute left-1/2 -translate-x-1/2 z-10"
@@ -166,25 +211,13 @@ function NodeMarker({
     >
       <motion.div
         className={`w-3.5 h-3.5 md:w-4 md:h-4 rounded-full transition-colors duration-500 ${
-          isPassed || isActive ? "bg-primary" : "bg-slate-200"
+          isPassed || isActive
+            ? isDarkTheme
+              ? "bg-purple-500"
+              : "bg-primary"
+            : "bg-slate-200"
         }`}
-        animate={
-          isActive
-            ? {
-                boxShadow: [
-                  "0 0 0 0px rgba(138,154,138,0.5)",
-                  "0 0 18px 7px rgba(138,154,138,0.25)",
-                  "0 0 0 14px rgba(138,154,138,0)",
-                ],
-                scale: [1, 1.12, 1],
-              }
-            : {
-                boxShadow: isPassed
-                  ? "0 0 8px 2px rgba(138,154,138,0.18)"
-                  : "none",
-                scale: 1,
-              }
-        }
+        animate={animationProps}
         transition={
           isActive
             ? { duration: 2, repeat: Infinity, ease: "easeInOut" }
@@ -201,7 +234,11 @@ function NodeMarker({
   );
 }
 
-export function GallerySection() {
+interface GallerySectionProps {
+  isDarkTheme?: boolean;
+}
+
+export function GallerySection({ isDarkTheme = false }: GallerySectionProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const nodeRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -209,9 +246,20 @@ export function GallerySection() {
   const [containerHeight, setContainerHeight] = useState(0);
   const [nodeYs, setNodeYs] = useState<number[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [currentProgress, setCurrentProgress] = useState(0);
 
-  //  posisi Y tiap node dari DOM
+  // 1. Ambil scrollYProgress dengan detektor presisi di tengah viewport (0.5)
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start 0.5", "end 0.5"],
+  });
+
+  // 2. Haluskan progress global dengan useSpring (Bikin aspal & dot super lembut jalannya)
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 45,
+    damping: 18,
+    restDelta: 0.0001,
+  });
+
   const recalc = () => {
     if (!containerRef.current) return;
     const containerTop =
@@ -232,6 +280,7 @@ export function GallerySection() {
     window.addEventListener("resize", recalc);
     const ro = new ResizeObserver(recalc);
     if (containerRef.current) ro.observe(containerRef.current);
+
     return () => {
       clearTimeout(t1);
       clearTimeout(t2);
@@ -240,56 +289,48 @@ export function GallerySection() {
     };
   }, []);
 
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start 0.9", "end 0.1"],
-  });
-
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 55,
-    damping: 20,
-    restDelta: 0.001,
-  });
-
-  const pathLengthSpring = useSpring(
-    useTransform(scrollYProgress, [0, 1], [0, 1]),
-    { stiffness: 55, damping: 20, restDelta: 0.001 },
-  );
-
+  // Update index active node secara berkala mengikuti smoothProgress
   useEffect(() => {
     return smoothProgress.on("change", (v) => {
-      const clamped = Math.min(Math.max(v, 0), 1);
-      setCurrentProgress(clamped);
       const idx = Math.min(
-        Math.floor(clamped * galleryImages.length),
+        Math.floor(v * galleryImages.length),
         galleryImages.length - 1,
       );
       setActiveIndex(Math.max(0, idx));
     });
   }, [smoothProgress]);
 
-  // kalkulasi posisi dot berdasarkan nodeYs nyata
-  const getDotPos = () => {
-    if (nodeYs.length < 2) return { y: 0, x: 0 };
+  // 3. AMANKAN LOGIKA TRANSFORMASI: Dot Y & X sekarang mengekor 100% pada smoothProgress
+  const dotY = useTransform(smoothProgress, (v) => {
+    if (nodeYs.length < 2) return 0;
     const totalSeg = nodeYs.length - 1;
-    const segFloat = currentProgress * totalSeg;
+    const segFloat = v * totalSeg;
     const seg = Math.min(Math.floor(segFloat), totalSeg - 1);
     const t = segFloat - seg;
-    const y = nodeYs[seg] + (nodeYs[seg + 1] - nodeYs[seg]) * t;
-    const dir = seg % 2 === 0 ? 1 : -1;
-    const x = 55 * dir * 4 * t * (1 - t); //  kurva bezier
-    return { y, x };
-  };
+    return nodeYs[seg] + (nodeYs[seg + 1] - nodeYs[seg]) * t;
+  });
 
-  const dotPos = getDotPos();
+  const dotX = useTransform(smoothProgress, (v) => {
+    if (nodeYs.length < 2) return 0;
+    const totalSeg = nodeYs.length - 1;
+    const segFloat = v * totalSeg;
+    const seg = Math.min(Math.floor(segFloat), totalSeg - 1);
+    const t = segFloat - seg;
+    const dir = seg % 2 === 0 ? 1 : -1;
+    const amplitude = 55;
+    return amplitude * dir * 4 * t * (1 - t);
+  });
 
   const svgCenterX = 150;
   const amplitude = 55;
   const pathD = buildWindingPath(nodeYs, svgCenterX, amplitude);
 
- 
   const clipY1 = nodeYs[0] ?? 0;
   const clipY2 = nodeYs[nodeYs.length - 1] ?? containerHeight;
+
+  const trackColor = isDarkTheme ? "#a855f7" : "#8a9a8a";
+  const fillMiddleColor = isDarkTheme ? "#c084fc" : "#a8b5a8";
+  const thinLineColor = isDarkTheme ? "#e9d5ff" : "#c8d4c8";
 
   return (
     <section ref={sectionRef} className="py-16 md:py-24 px-4 overflow-hidden">
@@ -309,7 +350,7 @@ export function GallerySection() {
       </motion.div>
 
       <div ref={containerRef} className="relative max-w-4xl mx-auto">
-        {/* SVG Winding Path */}
+        {/* SVG Winding Path bertema Ungu Claude */}
         {pathD && containerHeight > 0 && (
           <svg
             className="absolute left-1/2 top-0 -translate-x-1/2 pointer-events-none z-0"
@@ -320,14 +361,18 @@ export function GallerySection() {
           >
             <defs>
               <linearGradient id="gTrack" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="#8a9a8a" stopOpacity="0.1" />
-                <stop offset="50%" stopColor="#8a9a8a" stopOpacity="0.28" />
-                <stop offset="100%" stopColor="#8a9a8a" stopOpacity="0.1" />
+                <stop offset="0%" stopColor={trackColor} stopOpacity="0.1" />
+                <stop offset="50%" stopColor={trackColor} stopOpacity="0.28" />
+                <stop offset="100%" stopColor={trackColor} stopOpacity="0.1" />
               </linearGradient>
               <linearGradient id="gFill" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="#8a9a8a" stopOpacity="0.35" />
-                <stop offset="50%" stopColor="#a8b5a8" stopOpacity="0.85" />
-                <stop offset="100%" stopColor="#8a9a8a" stopOpacity="0.35" />
+                <stop offset="0%" stopColor={trackColor} stopOpacity="0.35" />
+                <stop
+                  offset="50%"
+                  stopColor={fillMiddleColor}
+                  stopOpacity="0.85"
+                />
+                <stop offset="100%" stopColor={trackColor} stopOpacity="0.35" />
               </linearGradient>
               <filter id="gGlow" x="-80%" y="-5%" width="260%" height="110%">
                 <feGaussianBlur stdDeviation="5" result="blur" />
@@ -347,7 +392,7 @@ export function GallerySection() {
               </clipPath>
             </defs>
 
-            {/* Track putus-putus  */}
+            {/* Track asli putus-putus */}
             <path
               d={pathD}
               fill="none"
@@ -358,7 +403,7 @@ export function GallerySection() {
               clipPath="url(#gClip)"
             />
 
-            {/* Garis glow */}
+            {/* Garis utuh (solid) yang menutup jalan, ditenagai oleh smoothProgress */}
             <motion.path
               d={pathD}
               fill="none"
@@ -366,37 +411,39 @@ export function GallerySection() {
               strokeWidth="4"
               strokeLinecap="round"
               filter="url(#gGlow)"
-              style={{ pathLength: pathLengthSpring }}
+              style={{ pathLength: smoothProgress }}
               initial={{ pathLength: 0 }}
               clipPath="url(#gClip)"
             />
 
-            {/* Garis solid tipis */}
+            {/* Garis solid tipis pemanis */}
             <motion.path
               d={pathD}
               fill="none"
-              stroke="#c8d4c8"
+              stroke={thinLineColor}
               strokeWidth="1.5"
               strokeLinecap="round"
-              style={{ pathLength: pathLengthSpring }}
+              style={{ pathLength: smoothProgress }}
               initial={{ pathLength: 0 }}
               clipPath="url(#gClip)"
             />
           </svg>
         )}
 
-        {/* Glowing dot  */}
+        {/* FIX TOTAL: Dot Connector digerakkan langsung via Framer Motion transform (Super Smooth) */}
         {nodeYs.length > 1 && (
-          <div
+          <motion.div
             className="absolute pointer-events-none z-10"
             style={{
               left: "50%",
-              top: dotPos.y,
-              transform: `translateX(calc(-50% + ${dotPos.x}px)) translateY(-50%)`,
+              top: dotY,
+              x: dotX,
+              y: "-50%",
+              translateX: "-50%",
             }}
           >
             <motion.div
-              className="absolute rounded-full bg-primary/15"
+              className={`absolute rounded-full ${isDarkTheme ? "bg-purple-500/20" : "bg-primary/15"}`}
               style={{ width: 44, height: 44, marginLeft: -22, marginTop: -22 }}
               animate={{ scale: [1, 1.6, 1], opacity: [0.4, 0, 0.4] }}
               transition={{
@@ -412,8 +459,9 @@ export function GallerySection() {
                 height: 28,
                 marginLeft: -14,
                 marginTop: -14,
-                background:
-                  "radial-gradient(circle, rgba(138,154,138,0.55) 0%, transparent 70%)",
+                background: isDarkTheme
+                  ? "radial-gradient(circle, rgba(168,85,247,0.55) 0%, transparent 70%)"
+                  : "radial-gradient(circle, rgba(138,154,138,0.55) 0%, transparent 70%)",
               }}
               animate={{ scale: [1, 1.25, 1] }}
               transition={{
@@ -423,29 +471,34 @@ export function GallerySection() {
               }}
             />
             <div
-              className="absolute rounded-full bg-primary"
+              className={`absolute rounded-full ${isDarkTheme ? "bg-purple-400" : "bg-primary"}`}
               style={{
                 width: 14,
                 height: 14,
                 marginLeft: -7,
                 marginTop: -7,
-                boxShadow:
-                  "0 0 18px 5px rgba(138,154,138,0.45), 0 0 36px 10px rgba(138,154,138,0.25)",
+                boxShadow: isDarkTheme
+                  ? "0 0 18px 5px rgba(168,85,247,0.5), 0 0 36px 10px rgba(168,85,247,0.25)"
+                  : "0 0 18px 5px rgba(138,154,138,0.45), 0 0 36px 10px rgba(138,154,138,0.25)",
               }}
             />
             <div
               className="absolute rounded-full bg-white"
               style={{ width: 5, height: 5, marginLeft: -2.5, marginTop: -2.5 }}
             />
-          </div>
+          </motion.div>
         )}
 
         {/* Foto-foto */}
         <div className="relative z-20 flex flex-col items-center">
           {galleryImages.map((image, index) => {
-            const passedProgress = (index + 1) / galleryImages.length;
             const isFirst = index === 0;
             const isLast = index === galleryImages.length - 1;
+
+            // Penentuan node aktif/berlalu yang aman saat di-scroll
+            const passedProgress = index / (galleryImages.length - 1 || 1);
+            const isPassed = activeIndex > index;
+            const isActive = activeIndex === index;
 
             return (
               <div
@@ -464,15 +517,17 @@ export function GallerySection() {
                   className="relative w-full flex justify-center mb-7"
                 >
                   <NodeMarker
-                    isActive={activeIndex === index}
-                    isPassed={currentProgress >= passedProgress}
+                    isActive={isActive}
+                    isPassed={isPassed}
+                    isDarkTheme={isDarkTheme}
                   />
                 </div>
 
                 <PolaroidCard
                   image={image}
                   index={index}
-                  isActive={activeIndex === index}
+                  isActive={isActive}
+                  isDarkTheme={isDarkTheme}
                 />
               </div>
             );
