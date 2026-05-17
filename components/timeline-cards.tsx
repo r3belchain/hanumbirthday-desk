@@ -12,24 +12,24 @@ interface TimeCard {
 
 const timeCards: TimeCard[] = [
   {
-    title: "The Past",
+    title: "Past Memory",
     subtitle: "Yang telah berlalu",
     message: `Aku masih anak kecil yang belum paham saat itu, aku ngga pernah membayangkan sampai segininya. Tapi bagiku, setiap fragmen memori yang tersisa adalah bagian dari cerita yang membentuk siapa aku hari ini. A lot. Mungkin bagi kamu aku halusinasi, tapi "kedalaman" itu nyata.`,
-    icon: "⌛",
+    icon: "📽️",
   },
   {
-    title: "The Present",
+    title: "Nowadays",
     subtitle: "Titik hari ini",
     message:
-      "Melihatmu mencapai usia 20 tahun adalah hal yang luar biasa. Kamu tumbuh. Hari ini bukan lagi soal masa lalu, tapi tentang mengapresiasi sosok kamu yang sekarang.",
-    icon: "🌱",
+      "Melihatmu mencapai usia 20 tahun adalah hal yang luar biasa. Kamu tumbuh. Hari ini bukan lagi soal masa lalu, tapi tentang mengapresiasi dan menghargai masa sekarang.",
+    icon: "📷",
   },
   {
     title: "The Future",
     subtitle: "Langkah ke depan",
     message:
-      "Dunia di depan mungkin terasa penuh ketidakpastian, tapi aku yakin kamu punya kekuatan untuk menggenggamnya. Apa pun jalannya, dan siapa pun yang menemanimu nanti, aku selalu mendoakan yang terbaik untuk setiap harapan kamu.",
-    icon: "🚀",
+      "Menghadapi dunia di depan yang penuh dengan variabel kemungkinan dan tanda tanya, seperti katamu, yang bisa dilakukan hanyalah mengupayakan semaksimal mungkin hal yang bisa dilakukan sekarang. Penyesalan karena tidak mencoba itu lebih sakit dan mahal daripada penyesalan atas 'percobaan yang belum berhasil'. Apa pun jalannya, dan siapa pun yang menemanimu nanti, semoga kamu diberikan kemudahan.",
+    icon: "📺",
   },
 ];
 
