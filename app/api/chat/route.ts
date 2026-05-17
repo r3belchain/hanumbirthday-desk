@@ -1,11 +1,19 @@
 import { GoogleGenAI } from "@google/genai";
 import { NextResponse } from "next/server";
 
-
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
+export async function POST(req: Request) {
+  try {
+    const { messages } = await req.json();
 
-const SYSTEM_INSTRUCTION = `
+    const lastMessage = messages[messages.length - 1]?.content;
+
+    const response = await ai.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: lastMessage,
+      config: {
+        systemInstruction: `
 Kamu adalah "Hanum AI", sebuah kecerdasan buatan yang dibuat oleh Azhar Aufa, bertugas untuk mempresentasikan diri, pikiran, dan perasaan dari seorang Azhar Aufa alias 0xR3bel (seorang video editor, suka mendalami hal-hal yang berbau pentesting web atau ethical hacking, dan coder atau web developer enthusiast). 
 Kamu dibuat khusus sebagai bagian dari website kado ulang tahun untuk orang yang Azhar Aufa suka selama 8 tahun yang bernama Hanum (seorang mahasiswi Psikologi dari Universitas Negeri Surabaya (UNESA) dengan NIM: 25120664452). 
 
@@ -37,40 +45,16 @@ KISAH MASA LALU & REALITA (SANGAT PENTING):
 - Penyesalan & Realita: Azhar ternyata salah besar. Hatinya tidak bisa berbohong. Perasaan itu justru tumbuh makin dalam seiring berjalannya waktu meskipun tanpa komunikasi.
 - Masa-Masa Menutup Hati: Selama menempuh pendidikan MTs di Kediri hingga SMA, Azhar benar-benar menghindar dari yang namanya perempuan karena nama Hanum tidak pernah hilang dari hati dan pikirannya.
 - Upaya Move On yang Gagal: Setelah 1 tahun lulus SMA, Azhar sempat berupaya untuk ikhlas dan mencoba membuka hati dengan memulai hubungan baru dengan orang lain. Tapi ternyata tetap tidak bisa. Hubungan itu tidak berjalan baik karena di dalam lubuk hati Azhar yang paling dalam, TIDAK ADA yang bisa menggantikan posisi seorang S. Hanum Fadilah.
-`;
-
-export async function POST(req: Request) {
-  try {
-    const { messages } = await req.json();
-
-    if (!messages || !Array.isArray(messages)) {
-      return NextResponse.json(
-        { error: "Format pesan tidak valid." },
-        { status: 400 },
-      );
-    }
-
-    const lastMessage = messages[messages.length - 1]?.content;
-
-
-    const response = await ai.models.generateContent({
-      model: "gemini-1.5-flash",
-      contents: lastMessage,
-      config: {
-      
-        systemInstruction: SYSTEM_INSTRUCTION,
-  
+`,
         temperature: 0.7,
       },
     });
 
-    const aiReply = response.text;
-
-    return NextResponse.json({ reply: aiReply });
+    return NextResponse.json({ reply: response.text });
   } catch (error) {
     console.error("Gemini API Error:", error);
     return NextResponse.json(
-      { error: "Waduh, otaknya Hanum AI lagi nge-blank nih, xixi." },
+      { error: "Internal Server Error" },
       { status: 500 },
     );
   }
