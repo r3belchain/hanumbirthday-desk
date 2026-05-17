@@ -33,8 +33,20 @@ const timeCards: TimeCard[] = [
   },
 ];
 
-function TimeCardItem({ card, index }: { card: TimeCard; index: number }) {
+// ─── Menerima Props isDarkTheme di Sini ───
+function TimeCardItem({
+  card,
+  index,
+  isDarkTheme,
+}: {
+  card: TimeCard;
+  index: number;
+  isDarkTheme: boolean;
+}) {
   const [isExpanded, setIsExpanded] = useState(false);
+
+  // Logika penentu warna teks "Tap to open" sesuai tema
+  const tapTextColorClass = isDarkTheme ? "!text-purple-400" : "text-primary";
 
   return (
     <motion.div
@@ -79,8 +91,9 @@ function TimeCardItem({ card, index }: { card: TimeCard; index: number }) {
             )}
           </AnimatePresence>
 
+          {/* FIX: Kelas warna dinamis & transisi halus disuntikkan ke sini */}
           <motion.p
-            className="text-xs tracking-widest text-primary mt-4 text-center uppercase"
+            className={`text-xs tracking-widest ${tapTextColorClass} transition-colors duration-500 mt-4 text-center uppercase`}
             animate={{ opacity: isExpanded ? 0 : 1 }}
           >
             {isExpanded ? "" : "Tap to open"}
@@ -91,7 +104,12 @@ function TimeCardItem({ card, index }: { card: TimeCard; index: number }) {
   );
 }
 
-export function TimelineCards() {
+// ─── Menerima Interface Props untuk Main Component ───
+interface TimelineCardsProps {
+  isDarkTheme?: boolean;
+}
+
+export function TimelineCards({ isDarkTheme = false }: TimelineCardsProps) {
   return (
     <section className="py-24 px-4 bg-transparent">
       <motion.div
@@ -111,7 +129,12 @@ export function TimelineCards() {
 
       <div className="max-w-5xl mx-auto grid md:grid-cols-3 gap-8">
         {timeCards.map((card, index) => (
-          <TimeCardItem key={card.title} card={card} index={index} />
+          <TimeCardItem
+            key={card.title}
+            card={card}
+            index={index}
+            isDarkTheme={isDarkTheme}
+          />
         ))}
       </div>
     </section>
