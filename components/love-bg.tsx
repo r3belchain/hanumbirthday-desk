@@ -18,9 +18,7 @@ export const LoveBackground = () => {
   }, []);
 
   return (
-    
     <div className="fixed inset-0 z-[-1] overflow-hidden bg-[#0a020f]">
-     
       <div className="absolute inset-0 bg-gradient-to-b from-purple-950/30 via-black to-black" />
 
       {hearts.map((heart) => (
@@ -29,9 +27,8 @@ export const LoveBackground = () => {
           initial={{ y: "110vh", opacity: 0, x: `${heart.x}vw` }}
           animate={{
             y: "-10vh",
-            opacity: [0, 0.4, 0.4, 0], 
+            opacity: [0, 0.4, 0.4, 0],
 
-            
             x: [`${heart.x}vw`, `${heart.x + (Math.random() * 4 - 2)}vw`],
           }}
           transition={{
