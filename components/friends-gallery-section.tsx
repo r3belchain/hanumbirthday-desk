@@ -1,13 +1,9 @@
 "use client";
 
-import {
-  AnimatePresence,
-  motion,
-  useScroll,
-  useTransform,
-} from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+
 
 type Era = "SMP" | "SMA" | "Kuliah";
 
@@ -16,14 +12,10 @@ interface FriendPhoto {
   rotation: number;
 }
 
+
 const eraData: Record<
   Era,
-  {
-    label: string;
-    subtitle: string;
-    accent: string;
-    photos: FriendPhoto[];
-  }
+  { label: string; subtitle: string; accent: string; photos: FriendPhoto[] }
 > = {
   SMP: {
     label: "SMP",
@@ -65,6 +57,8 @@ const eraData: Record<
 
 const ERAS: Era[] = ["SMP", "SMA", "Kuliah"];
 
+
+
 function PhotoCard({ photo, index }: { photo: FriendPhoto; index: number }) {
   const [loaded, setLoaded] = useState(false);
 
@@ -74,7 +68,7 @@ function PhotoCard({ photo, index }: { photo: FriendPhoto; index: number }) {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.9 }}
       transition={{ duration: 0.4, delay: index * 0.05 }}
-      className="shrink-0 py-6 relative"
+      className="shrink-0 py-6 relative will-change-transform"
       style={{ width: "clamp(180px, 50vw, 240px)" }}
     >
       <div
@@ -86,7 +80,9 @@ function PhotoCard({ photo, index }: { photo: FriendPhoto; index: number }) {
             src={photo.src}
             alt="Friendship"
             fill
-            className={`object-cover transition-opacity duration-700 ${loaded ? "opacity-100" : "opacity-0"}`}
+            className={`object-cover transition-opacity duration-700 ${
+              loaded ? "opacity-100" : "opacity-0"
+            }`}
             onLoad={() => setLoaded(true)}
             sizes="300px"
           />
@@ -96,14 +92,18 @@ function PhotoCard({ photo, index }: { photo: FriendPhoto; index: number }) {
   );
 }
 
+
+
 export function FriendsGallerySection() {
   const [activeEra, setActiveEra] = useState<Era>("SMP");
   const [currentIdx, setCurrentIdx] = useState(0);
   const [isDarkTheme, setIsDarkTheme] = useState(false);
+
   const scrollRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
 
   const currentData = eraData[activeEra];
+
 
   useEffect(() => {
     const checkTheme = () => {
@@ -121,24 +121,18 @@ export function FriendsGallerySection() {
     return () => observer.disconnect();
   }, []);
 
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  } as any);
-
-  const y = useTransform(scrollYProgress, [0, 1], [50, -50]);
-
+ 
   const handleScroll = () => {
-    if (scrollRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
-      const maxScroll = scrollWidth - clientWidth;
-      if (maxScroll <= 0) return;
-      const progress = scrollLeft / maxScroll;
-      const index = Math.round(progress * (currentData.photos.length - 1));
-      if (!isNaN(index)) setCurrentIdx(index);
-    }
+    if (!scrollRef.current) return;
+    const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+    const maxScroll = scrollWidth - clientWidth;
+    if (maxScroll <= 0) return;
+    const progress = scrollLeft / maxScroll;
+    const index = Math.round(progress * (currentData.photos.length - 1));
+    if (!isNaN(index)) setCurrentIdx(index);
   };
 
+ 
   const handleEraChange = (era: Era) => {
     if (era === activeEra) return;
     setActiveEra(era);
@@ -154,8 +148,11 @@ export function FriendsGallerySection() {
       className="relative block py-24 overflow-hidden bg-transparent w-full"
     >
       <motion.div
-        style={{ y }}
-        className="relative z-10 text-center mb-16 px-4"
+        initial={{ opacity: 0, y: 32 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        className="relative z-10 text-center mb-16 px-4 will-change-transform"
       >
         <h2
           className="font-serif text-5xl md:text-7xl font-bold mb-4 transition-colors duration-700"
@@ -164,7 +161,9 @@ export function FriendsGallerySection() {
           Friendship Gallery
         </h2>
         <p
-          className={`max-w-2xl italic mx-auto mb-4 text-sm md:text-base transition-colors duration-700 ${isDarkTheme ? "text-white/70" : "text-slate-700/60"}`}
+          className={`max-w-2xl italic mx-auto mb-4 text-sm md:text-base transition-colors duration-700 ${
+            isDarkTheme ? "text-white/70" : "text-slate-700/60"
+          }`}
         >
           Menghormati lingkaran pertemanan yang tumbuh bersamamu di setiap babak
           kehidupan
@@ -180,9 +179,14 @@ export function FriendsGallerySection() {
         </p>
       </motion.div>
 
+      {/* Era Tab Switcher */}
       <div className="relative z-20 flex justify-center mb-16 px-4">
         <div
-          className={`flex p-1 rounded-full transition-all duration-700 border shadow-lg ${isDarkTheme ? "bg-white/10 backdrop-blur-xl border-white/20" : "bg-white/50 backdrop-blur-md border-slate-200"}`}
+          className={`flex p-1 rounded-full transition-all duration-700 border shadow-lg ${
+            isDarkTheme
+              ? "bg-white/10 backdrop-blur-xl border-white/20"
+              : "bg-white/50 backdrop-blur-md border-slate-200"
+          }`}
         >
           {ERAS.map((era) => (
             <button
@@ -192,7 +196,6 @@ export function FriendsGallerySection() {
               style={{
                 backgroundColor:
                   activeEra === era ? eraData[era].accent : "transparent",
-
                 color:
                   activeEra === era
                     ? "#fff"
@@ -208,22 +211,45 @@ export function FriendsGallerySection() {
       </div>
 
       <div className="relative w-full">
+
         <div
           ref={scrollRef}
           onScroll={handleScroll}
-          className={`flex gap-8 overflow-x-auto pb-10 px-[10vw] cursor-grab active:cursor-grabbing touch-pan-x antialiased relative [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full ${currentData.photos.length === 0 ? "overflow-hidden" : ""}`}
+          className={[
+            "flex gap-8 overflow-x-auto pb-10 px-[10vw]",
+            "cursor-grab active:cursor-grabbing",
+            
+            "touch-pan-x",
+           
+            "overscroll-x-contain",
+            
+            "antialiased",
+           
+            "[&::-webkit-scrollbar]:h-1.5",
+            "[&::-webkit-scrollbar-track]:bg-transparent",
+            "[&::-webkit-scrollbar-thumb]:rounded-full",
+            
+            "min-h-[380px]",
+          ].join(" ")}
           style={{
             scrollbarColor: `${currentData.accent} transparent`,
-            WebkitOverflowScrolling: "touch",
+         
+            scrollSnapType: "x mandatory",
           }}
         >
           <AnimatePresence mode="wait">
             <motion.div
               key={activeEra}
-              initial={{ opacity: 0, x: 20 }}
+              initial={{ opacity: 0, x: 24 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              className={`flex relative min-h-[350px] ${currentData.photos.length === 0 ? "w-[80vw] items-center justify-center" : "gap-8"}`}
+              exit={{ opacity: 0, x: -24 }}
+             
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className={`flex w-full ${
+                currentData.photos.length === 0
+                  ? "items-center justify-center"
+                  : "gap-8 items-start"
+              }`}
             >
               {currentData.photos.length > 0 ? (
                 currentData.photos.map((photo, i) => (
@@ -234,14 +260,18 @@ export function FriendsGallerySection() {
                   />
                 ))
               ) : (
-                <div className="text-center w-full flex flex-col items-center justify-center">
+                <div className="text-center flex flex-col items-center justify-center py-16">
                   <p
-                    className={`font-serif italic text-lg sm:text-2xl md:text-3xl tracking-widest whitespace-nowrap transition-colors duration-700 ${isDarkTheme ? "text-white/40" : "text-slate-400"}`}
+                    className={`font-serif italic text-lg sm:text-2xl md:text-3xl tracking-widest whitespace-nowrap transition-colors duration-700 ${
+                      isDarkTheme ? "text-white/40" : "text-slate-400"
+                    }`}
                   >
                     — No Information Available —
                   </p>
                   <p
-                    className={`text-[10px] sm:text-xs mt-3 uppercase tracking-[0.2em] sm:tracking-[0.3em] opacity-60 whitespace-nowrap ${isDarkTheme ? "text-white/30" : "text-slate-400"}`}
+                    className={`text-[10px] sm:text-xs mt-3 uppercase tracking-[0.2em] sm:tracking-[0.3em] opacity-60 whitespace-nowrap ${
+                      isDarkTheme ? "text-white/30" : "text-slate-400"
+                    }`}
                   >
                     This chapter is a mystery
                   </p>
@@ -252,6 +282,7 @@ export function FriendsGallerySection() {
         </div>
       </div>
 
+      {/* Progress dots */}
       <div className="flex justify-center gap-3 mt-10 relative z-10">
         {currentData.photos.map((_, i) => (
           <motion.div
@@ -266,7 +297,7 @@ export function FriendsGallerySection() {
                     : currentData.accent + "33",
             }}
             transition={{ type: "spring", stiffness: 200, damping: 25 }}
-            className="h-2 rounded-full relative"
+            className="h-2 rounded-full"
           />
         ))}
       </div>
