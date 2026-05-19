@@ -111,11 +111,9 @@
 }
 
 html {
-  scroll-behavior: smooth;
-
+  scroll-behavior: auto !important;
   scroll-padding-top: 2rem;
 }
-
 body {
   position: relative;
 }
@@ -192,4 +190,25 @@ body {
   100% {
     transform: translateX(100%);
   }
+}
+
+html.lenis, 
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  scroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
 }

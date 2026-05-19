@@ -335,7 +335,6 @@ export function GallerySection({ isDarkTheme = false }: GallerySectionProps) {
   return (
     <section ref={sectionRef} className="py-16 md:py-24 px-4 overflow-hidden">
       <div className="text-center mb-16 md:mb-24 overflow-hidden">
-        {/* 2. Judul Utama: Meluncur halus dari kanan ke kiri, warna dinamis, once: false */}
         <motion.h2
           initial={{ opacity: 0, x: 120 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -346,7 +345,6 @@ export function GallerySection({ isDarkTheme = false }: GallerySectionProps) {
           Foto Kamu
         </motion.h2>
 
-        {/* 3. Deskripsi: Fade in + naik sedikit, muncul tipis setelah judul */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -402,7 +400,7 @@ export function GallerySection({ isDarkTheme = false }: GallerySectionProps) {
               </clipPath>
             </defs>
 
-            {/* Track putus-putus */}
+            {/* Track putus */}
             <path
               d={pathD}
               fill="none"
@@ -426,7 +424,7 @@ export function GallerySection({ isDarkTheme = false }: GallerySectionProps) {
               clipPath="url(#gClip)"
             />
 
-            {/* Garis solid tipis */}
+            {/* Garis solid */}
             <motion.path
               d={pathD}
               fill="none"
@@ -498,7 +496,6 @@ export function GallerySection({ isDarkTheme = false }: GallerySectionProps) {
           </motion.div>
         )}
 
-        {/* Foto-foto */}
         <div className="relative z-20 flex flex-col items-center">
           {galleryImages.map((image, index) => {
             const isFirst = index === 0;

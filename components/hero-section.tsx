@@ -1,13 +1,12 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion} from "framer-motion";
 import { useEffect, useState } from "react";
 
 interface HeroSectionProps {
   isDarkTheme?: boolean;
 }
 
-// Hook Custom untuk efek Scramble Text Decoder
 function useScrambleText(targetText: string, triggerDelay: number = 1.5) {
   const [displayText, setDisplayText] = useState("");
   const chars =
@@ -64,7 +63,7 @@ export function HeroSection({ isDarkTheme = false }: HeroSectionProps) {
 
   const nameColorClass = isDarkTheme ? "!text-purple-400" : "text-primary";
 
-  // Kembalikan class asli milikmu untuk Mouse Border & Dot
+ 
   const mouseBorderClass = isDarkTheme
     ? "border-purple-500/50 group-hover:!border-purple-400 shadow-[0_0_10px_rgba(168,85,247,0.2)] group-hover:shadow-[0_0_20px_rgba(168,85,247,0.6)]"
     : "border-primary/50 group-hover:border-primary";
@@ -73,7 +72,7 @@ export function HeroSection({ isDarkTheme = false }: HeroSectionProps) {
     ? "bg-purple-500/60 group-hover:!bg-purple-300"
     : "bg-primary/50 group-hover:bg-primary";
 
-  // RAKITAN MULTI-COLOR GRADASI ULTRA-SMOOTH (400% CANVAS)
+ 
   const textMaskStyle = isDarkTheme
     ? {
         backgroundImage:
@@ -83,12 +82,27 @@ export function HeroSection({ isDarkTheme = false }: HeroSectionProps) {
         WebkitTextFillColor: "transparent",
       }
     : {
-        // Racikan 5 Warna harmonis berbasis Hijau Website Kamu (Teal, Green OKLCH, Emerald, Mint, Forest)
+       
         backgroundImage:
           "linear-gradient(270deg, #0f172a, #115e59, #15803d, #22c55e, #1e3a1e)",
         backgroundSize: "400% 100%",
         WebkitBackgroundClip: "text",
         WebkitTextFillColor: "transparent",
+      };
+
+      const letterVariants = {
+        hidden: { opacity: 0, y: 30, rotateX: 60 },
+        visible: (i: number) => ({
+          opacity: 1,
+          y: 0,
+          rotateX: 0,
+          transition: {
+            type: "spring" as const, 
+            stiffness: 90,
+            damping: 14,
+            delay: 1.1 + i * 0.08,
+          },
+        }),
       };
 
   return (
@@ -136,13 +150,13 @@ export function HeroSection({ isDarkTheme = false }: HeroSectionProps) {
           Buat kamu
         </motion.p>
 
-        {/* Text Masking dengan Multi-Color Fluid Gradient Shift (60% Lebih Halus) */}
+      
         <motion.h1
           style={textMaskStyle}
           className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl mb-6 font-bold tracking-tight select-none"
           animate={{
             y: [0, -8, 0],
-            backgroundPosition: ["0% center", "400% center"], // Diperluas ke 400% agar transisi antar warna tidak patah
+            backgroundPosition: ["0% center", "400% center"], 
           }}
           transition={{
             y: {
@@ -151,7 +165,7 @@ export function HeroSection({ isDarkTheme = false }: HeroSectionProps) {
               ease: "easeInOut",
             },
             backgroundPosition: {
-              duration: 12, // Dibuat menjadi 12 detik agar pergerakan warna mengalir sangat tenang, mistis, dan halus
+              duration: 12, 
               repeat: Infinity,
               ease: "linear",
             },
@@ -161,17 +175,25 @@ export function HeroSection({ isDarkTheme = false }: HeroSectionProps) {
             Selamat bertambah <br />
             usia yang ke-20,
           </span>
-          <motion.span
-            className={`block ${nameColorClass} italic mt-2 transition-colors duration-500`}
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 1.2, duration: 0.8 }}
+          <span
+            className={`block ${nameColorClass} italic mt-2 overflow-hidden py-1`}
           >
-            Hanum
-          </motion.span>
+            {"Hanum".split("").map((char, index) => (
+              <motion.span
+                key={index}
+                custom={index}
+                variants={letterVariants}
+                initial="hidden"
+                animate="visible"
+                className="inline-block origin-bottom perspective-3d"
+              >
+                {char}
+              </motion.span>
+            ))}
+          </span>
         </motion.h1>
 
-        {/* UKURANNYA SANGAT ELEGAN & DIKECILKAN (text-xs md:text-sm) - 1 baris di Laptop */}
+    
         <motion.p
           className="text-xs md:text-sm text-muted-foreground mt-8 font-mono tracking-wide min-h-[2rem] max-w-[240px] sm:max-w-xs md:max-w-none md:whitespace-nowrap text-center opacity-80"
           initial={{ opacity: 0 }}
@@ -181,7 +203,7 @@ export function HeroSection({ isDarkTheme = false }: HeroSectionProps) {
           {scrambledText}
         </motion.p>
 
-        {/* Interactive Original Mouse Scroll Button */}
+      
         <motion.div
           className="mt-12 cursor-pointer relative z-20 group"
           initial={{ opacity: 0 }}

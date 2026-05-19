@@ -60,42 +60,37 @@ const buttonExitVariants: Variants = {
   },
 };
 
-// ─── NeonBorderCard ───────────────────────────────────────────────────────────
+
 function NeonBorderCard({ children }: { children: React.ReactNode }) {
   return (
     <div
       className="
-        relative rounded-3xl overflow-hidden
+        relative rounded-3xl overflow-hidden isolation-isolate
         border-none p-0 dark:border dark:border-transparent dark:p-[1.5px]
-        transition-all duration-300
+        transition-all duration-300 w-full
       "
     >
-      {/* The rotating square: MATI TOTAL di mode siang (hidden), 
-        hanya akan hidup dan muncul saat masuk mode malam (dark:block).
-      */}
       <div
         aria-hidden
-        className="pointer-events-none absolute top-1/2 left-1/2 w-[300%] aspect-square -translate-x-1/2 -translate-y-1/2 z-0 hidden dark:block"
+        className="pointer-events-none absolute inset-0 z-0 hidden dark:block overflow-hidden rounded-3xl"
       >
-        <motion.div
-          className="relative w-full h-full"
-          animate={{ rotate: 360 }}
-          transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-        >
-          {/* Dark mode beam bawaan asli kamu */}
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "conic-gradient(from 0deg, transparent 50%, #7c3aed 68%, #db2777 78%, #7c3aed 84%, transparent 95%)",
-            }}
-          />
-        </motion.div>
+        <div className="absolute top-1/2 left-1/2 w-[300%] aspect-square -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
+          <motion.div
+            className="w-full h-full original-center"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+          >
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "conic-gradient(from 0deg at center, transparent 40%, #7c3aed 65%, #db2777 75%, #7c3aed 85%, transparent 100%)",
+              }}
+            />
+          </motion.div>
+        </div>
       </div>
 
-      {/* Inner card — Di mode siang berupa kartu putih bersih dengan shadow lembut, 
-        tanpa ada border luar atau sisa padding hijau yang mengganggu.
-      */}
       <div
         className="
           relative z-10 rounded-3xl dark:rounded-[22px]
@@ -226,75 +221,73 @@ export function CTASection({ onClick }: CTASectionProps) {
 
   return (
     <section className="py-24 px-4">
-      <motion.div
-        initial={{ opacity: 0, y: 36 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.72, ease: [0.22, 1, 0.36, 1] }}
-        className="max-w-md mx-auto"
+      <div
+        style={{ perspective: "1200px" }}
+        className="w-full overflow-visible"
       >
-        <NeonBorderCard>
-          <div className="relative px-8 py-10 text-center overflow-hidden">
-            {/* Background radial gradient atas: 
-              Di mode siang diubah tipis ke arah warna cream/neutral bawaan tombol agar serasi.
-            */}
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-0 rounded-[22px] bg-[radial-gradient(ellipse_at_top,rgba(201,184,168,0.15)_0%,transparent_60%)] dark:bg-[radial-gradient(ellipse_at_top,rgba(124,58,237,0.10)_0%,transparent_60%)]"
-            />
-
-            {(["tl", "tr", "bl", "br"] as const).map((pos) => (
+        <motion.div
+          initial={{ opacity: 0, y: 60, rotateX: 25, scale: 0.95 }}
+          whileInView={{ opacity: 1, y: 0, rotateX: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 60, rotateX: 25, scale: 0.95 }}
+          viewport={{ once: false, amount: 0.2 }} 
+          transition={{
+            type: "spring",
+            stiffness: 50, 
+            damping: 15, 
+            mass: 0.8,
+          }}
+          className="max-w-md mx-auto origin-bottom"
+        >
+          <NeonBorderCard>
+            <div className="relative px-8 py-10 text-center overflow-hidden">
               <div
-                key={pos}
                 aria-hidden
-                className={`absolute w-6 h-6 opacity-25 border-neutral-400 dark:border-white/15
-                  ${pos === "tl" ? "top-3 left-3 border-l border-t rounded-tl-md" : ""}
-                  ${pos === "tr" ? "top-3 right-3 border-r border-t rounded-tr-md" : ""}
-                  ${pos === "bl" ? "bottom-3 left-3 border-l border-b rounded-bl-md" : ""}
-                  ${pos === "br" ? "bottom-3 right-3 border-r border-b rounded-br-md" : ""}
-                `}
+                className="pointer-events-none absolute inset-0 rounded-[22px] bg-[radial-gradient(ellipse_at_top,rgba(201,184,168,0.15)_0%,transparent_60%)] dark:bg-[radial-gradient(ellipse_at_top,rgba(124,58,237,0.10)_0%,transparent_60%)]"
               />
-            ))}
 
-            <motion.div
-              initial={{ opacity: 0, y: 14 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{
-                delay: 0.22,
-                duration: 0.6,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className="relative z-10"
-            >
-              <span className="text-[10px] tracking-[0.3em] uppercase text-neutral-400 dark:text-zinc-500">
-                Satu Hal Terakhir...
-              </span>
-              <h2
-                className="font-serif text-2xl md:text-3xl mt-3 mb-4 text-zinc-800 dark:text-zinc-100"
-                style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
-              >
-                Terima Kasih.
-              </h2>
-              <p className="text-sm leading-relaxed italic mb-7 text-zinc-500 dark:text-zinc-400">
-                &ldquo;Terima kasih sudah meluangkan waktu untuk melihat ini.
-                Semoga hari ini menjadi titik awal dari hal-hal luar biasa dan
-                ajaib yang akan datang.&rdquo;
-              </p>
-            </motion.div>
+              {(["tl", "tr", "bl", "br"] as const).map((pos) => (
+                <div
+                  key={pos}
+                  aria-hidden
+                  className={`absolute w-6 h-6 opacity-25 border-neutral-400 dark:border-white/15
+                    ${pos === "tl" ? "top-3 left-3 border-l border-t rounded-tl-md" : ""}
+                    ${pos === "tr" ? "top-3 right-3 border-r border-t rounded-tr-md" : ""}
+                    ${pos === "bl" ? "bottom-3 left-3 border-l border-b rounded-bl-md" : ""}
+                    ${pos === "br" ? "bottom-3 right-3 border-r border-b rounded-br-md" : ""}
+                  `}
+                />
+              ))}
 
-            <div className="relative z-10">
-              <AnimatePresence mode="wait">
-                {!isClicked ? (
-                  <MagneticButton key="btn" onClick={handleClick} />
-                ) : (
-                  <SuccessState key="success" />
-                )}
-              </AnimatePresence>
+              <div className="relative z-10">
+                <span className="text-[10px] tracking-[0.3em] uppercase text-neutral-400 dark:text-zinc-500">
+                  Satu Hal Terakhir...
+                </span>
+                <h2
+                  className="font-serif text-2xl md:text-3xl mt-3 mb-4 text-zinc-800 dark:text-zinc-100"
+                  style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+                >
+                  Terima Kasih.
+                </h2>
+                <p className="text-sm leading-relaxed italic mb-7 text-zinc-500 dark:text-zinc-400">
+                  &ldquo;Terima kasih sudah meluangkan waktu untuk melihat ini.
+                  Semoga hari ini menjadi titik awal dari hal-hal luar biasa dan
+                  ajaib yang akan datang.&rdquo;
+                </p>
+              </div>
+
+              <div className="relative z-10">
+                <AnimatePresence mode="wait">
+                  {!isClicked ? (
+                    <MagneticButton key="btn" onClick={handleClick} />
+                  ) : (
+                    <SuccessState key="success" />
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
-          </div>
-        </NeonBorderCard>
-      </motion.div>
+          </NeonBorderCard>
+        </motion.div>
+      </div>
     </section>
   );
 }

@@ -2,7 +2,7 @@ import { Analytics } from "@vercel/analytics/next";
 import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
-// Impor komponen SmoothScroll yang baru dibuat (sesuaikan jalurnya dengan folder proyekmu)
+
 import SmoothScroll from "@/components/smoothScroll";
 
 const inter = Inter({

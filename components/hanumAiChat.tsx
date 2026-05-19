@@ -155,7 +155,6 @@ const INITIAL_MESSAGE: Message = {
 
 const SPRING = { type: "spring", stiffness: 320, damping: 28 } as const;
 
-// Avatar 
 
 function Avatar({ isDarkTheme }: { isDarkTheme: boolean }) {
   const t = getTheme(isDarkTheme);
@@ -226,7 +225,7 @@ function TypingIndicator({
   );
 }
 
-//Chat Bubble
+
 
 function ChatBubble({
   message,
@@ -280,7 +279,7 @@ function ChatBubble({
   );
 }
 
-// Send Icon
+
 
 function SendIcon({ color }: { color: string }) {
   return (
@@ -362,7 +361,7 @@ function TriggerButton({
   );
 }
 
-// Komponen Utama
+
 
 export function HanumAiChat({ isDarkTheme }: HanumAiChatProps) {
   const t = getTheme(isDarkTheme);
@@ -431,7 +430,6 @@ export function HanumAiChat({ isDarkTheme }: HanumAiChatProps) {
     const { scrollTop, scrollHeight, clientHeight } = el;
     const atTop = scrollTop <= 0;
     const atBottom = scrollTop + clientHeight >= scrollHeight;
-    // Cek arah geser jari
     const touch = e.touches[0];
     if (!touch) return;
    
@@ -439,8 +437,7 @@ export function HanumAiChat({ isDarkTheme }: HanumAiChatProps) {
       e.stopPropagation();
     }
   };
-
-  // Kirim pesan 
+ 
   const sendMessage = async () => {
     const trimmed = input.trim();
     if (!trimmed || isLoading) return;
@@ -534,7 +531,6 @@ export function HanumAiChat({ isDarkTheme }: HanumAiChatProps) {
                 "background 0.5s ease, border 0.5s ease, box-shadow 0.5s ease",
             }}
           >
-            {/*  Header */}
             <div
               className="flex items-center gap-3 px-4 py-3.5 flex-shrink-0"
               style={{
@@ -569,7 +565,6 @@ export function HanumAiChat({ isDarkTheme }: HanumAiChatProps) {
                 </p>
               </div>
 
-              {/* Close button  */}
               <button
                 onClick={() => setIsOpen(false)}
                 aria-label="Tutup chat"
@@ -598,14 +593,14 @@ export function HanumAiChat({ isDarkTheme }: HanumAiChatProps) {
               </button>
             </div>
 
-            {/*  Messages  */}
+        
             <div
               ref={scrollRef}
               className="flex-1 overflow-y-auto px-4 py-4 flex flex-col gap-3"
               style={{
                 scrollbarWidth: "thin",
                 scrollbarColor: t.scrollbarColor,
-                // Mencegah overscroll mengaktifkan pull-to-refresh atau rubber-band iOS
+                // mengaktifkan pull-to-refresh 
                 overscrollBehavior: "contain",
               }}
               onTouchMove={handleScrollAreaTouchMove}
@@ -625,7 +620,7 @@ export function HanumAiChat({ isDarkTheme }: HanumAiChatProps) {
               </AnimatePresence>
             </div>
 
-            {/* Input */}
+        
             <div
               className="px-3 py-3 flex-shrink-0 flex items-end gap-2"
               style={{
@@ -651,7 +646,7 @@ export function HanumAiChat({ isDarkTheme }: HanumAiChatProps) {
                 }}
               />
 
-              {/* Send button */}
+           
               <motion.button
                 onClick={() => void sendMessage()}
                 disabled={!canSend}

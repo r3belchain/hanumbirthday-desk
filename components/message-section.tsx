@@ -61,7 +61,7 @@ export function Typewriter({
   );
 }
 
-// Komponen Pembungkus Paragraf Mandiri (Mengisolasi Animasi Tiap Paragraf)
+
 function MessageCard({
   text,
   index,
@@ -72,7 +72,7 @@ function MessageCard({
   title?: string;
 }) {
   const cardRef = useRef(null);
-  // once: false agar ketika di-scroll naik-turun, transisinya hidup kembali
+
   const isCardInView = useInView(cardRef, { once: false, margin: "-120px" });
 
   return (
@@ -83,8 +83,7 @@ function MessageCard({
       viewport={{ once: false, margin: "-120px" }}
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       className="w-full max-w-2xl mx-auto mb-16 last:mb-0 relative group"
-    >
-      {/* Efek Border Glow Tipis Berubah Warna Saat Hover */}
+    > 
       <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-accent/10 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
       <div className="relative glass border border-white/10 dark:border-white/5 rounded-3xl p-6 md:p-10 shadow-xl backdrop-blur-xl transition-all duration-500 group-hover:translate-y-[-4px]">
@@ -102,11 +101,11 @@ function MessageCard({
         )}
 
         <div className="font-sans text-foreground/90 text-base md:text-lg leading-relaxed whitespace-pre-line min-h-[4rem]">
-          {/* Efek Typewriter dipicu secara independen saat card ini masuk viewport */}
+     
           <Typewriter
             text={text}
             delay={300}
-            speed={15} // Dipercepat sedikit biar kenyamanan membaca terjaga
+            speed={15} 
             startTrigger={isCardInView}
           />
         </div>
@@ -119,7 +118,7 @@ export function MessageSection() {
   const titleRef = useRef(null);
   const isTitleInView = useInView(titleRef, { once: false });
 
-  // Kita pecah array string-nya berdasarkan paragraf asli teks kamu
+ 
   const paragraphs = [
     `Aku sengaja membuat ini sebagai bentuk apresiasi dan ucapan selamat. Yaa.. tapi ya sudah lah yaa, intinya aku ingin merayakan hari spesial ini dengan cara yang sedikit berbeda—cara yang sekarang aku bisa. 😊`,
 
@@ -142,7 +141,7 @@ export function MessageSection() {
       id="message-section"
       className="py-32 px-4 scroll-mt-20 relative bg-transparent w-full min-h-screen flex flex-col items-center justify-center"
     >
-      {/* Judul Section Utama */}
+     
       <motion.div
         ref={titleRef}
         initial={{ opacity: 0, filter: "blur(10px)" }}
@@ -158,7 +157,7 @@ export function MessageSection() {
         </h2>
       </motion.div>
 
-      {/* Kontainer Utama Penguras Scroll Paragraf */}
+    
       <div className="w-full max-w-4xl flex flex-col items-center">
         {paragraphs.map((para, index) => (
           <MessageCard
