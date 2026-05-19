@@ -33,8 +33,8 @@ export function Typewriter({
     if (!started) return;
 
     if (currentIndex < text.length) {
-      const minSpeed = Math.max(2, speed - 8);
-      const maxSpeed = speed + 5;
+      const minSpeed = Math.max(1, speed - 5);
+      const maxSpeed = speed + 2;
       const randomSpeed =
         Math.floor(Math.random() * (maxSpeed - minSpeed + 1)) + minSpeed;
 
@@ -48,11 +48,11 @@ export function Typewriter({
   }, [currentIndex, text, speed, started]);
 
   return (
-    <span className="inline-flex items-center">
+    <span className="inline">
       {displayedText}
       {currentIndex < text.length && started && (
         <motion.span
-          className="inline-block w-0.5 h-[1.1em] bg-primary ml-1 translate-y-[0.1em]"
+          className="inline-block w-1.5 h-[1.1em] bg-primary ml-1 translate-y-[0.1em]"
           animate={{ opacity: [1, 0, 1] }}
           transition={{ duration: 0.4, repeat: Infinity }}
         />
@@ -61,55 +61,114 @@ export function Typewriter({
   );
 }
 
+// Komponen Pembungkus Paragraf Mandiri (Mengisolasi Animasi Tiap Paragraf)
+function MessageCard({
+  text,
+  index,
+  title,
+}: {
+  text: string;
+  index: number;
+  title?: string;
+}) {
+  const cardRef = useRef(null);
+  // once: false agar ketika di-scroll naik-turun, transisinya hidup kembali
+  const isCardInView = useInView(cardRef, { once: false, margin: "-120px" });
+
+  return (
+    <motion.div
+      ref={cardRef}
+      initial={{ opacity: 0, y: 50, scale: 0.95 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: false, margin: "-120px" }}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      className="w-full max-w-2xl mx-auto mb-16 last:mb-0 relative group"
+    >
+      {/* Efek Border Glow Tipis Berubah Warna Saat Hover */}
+      <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-accent/10 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+
+      <div className="relative glass border border-white/10 dark:border-white/5 rounded-3xl p-6 md:p-10 shadow-xl backdrop-blur-xl transition-all duration-500 group-hover:translate-y-[-4px]">
+        {title && (
+          <div className="mb-4 flex items-center justify-between">
+            <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-primary/70">
+              {title}
+            </span>
+            <div className="flex gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-red-500/40" />
+              <span className="w-2 h-2 rounded-full bg-yellow-500/40" />
+              <span className="w-2 h-2 rounded-full bg-green-500/40" />
+            </div>
+          </div>
+        )}
+
+        <div className="font-sans text-foreground/90 text-base md:text-lg leading-relaxed whitespace-pre-line min-h-[4rem]">
+          {/* Efek Typewriter dipicu secara independen saat card ini masuk viewport */}
+          <Typewriter
+            text={text}
+            delay={300}
+            speed={15} // Dipercepat sedikit biar kenyamanan membaca terjaga
+            startTrigger={isCardInView}
+          />
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 export function MessageSection() {
-  const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
+  const titleRef = useRef(null);
+  const isTitleInView = useInView(titleRef, { once: false });
 
-  const message = `Aku sengaja membuat ini sebagai bentuk apresiasi dan ucapan selamat. Yaa.. tapi ya sudah lah yaa, intinya aku ingin merayakan hari spesial ini dengan cara yang sedikit berbeda—cara yang sekarang aku bisa. 😊
+  // Kita pecah array string-nya berdasarkan paragraf asli teks kamu
+  const paragraphs = [
+    `Aku sengaja membuat ini sebagai bentuk apresiasi dan ucapan selamat. Yaa.. tapi ya sudah lah yaa, intinya aku ingin merayakan hari spesial ini dengan cara yang sedikit berbeda—cara yang sekarang aku bisa. 😊`,
 
-Semoga di usia ke-20 ini, langkahmu selalu dimudahkan, mimpi-mimpimu menemukan jalannya, dan kamu tetap memegang kendali atas kebahagiaanmu sendiri, apapun pilihannya.
+    `Semoga di usia ke-20 ini, langkahmu selalu dimudahkan, mimpi-mimpimu menemukan jalannya, dan kamu tetap memegang kendali atas kebahagiaanmu sendiri, apapun pilihannya.`,
 
-Pada dasarnya, ngga ada manusia yang sempurna dan murni baik. Adanya manusia yang mencoba "terlihat sempurna" dan berusaha untuk lebih baik. Semoga kamu selalu dikelilingi oleh manusia-manusia yang tidak hanya menerima kekuranganmu, tapi juga bisa buat diri kamu improve.
+    `Pada dasarnya, ngga ada manusia yang sempurna dan murni baik. Adanya manusia yang mencoba "terlihat sempurna" dan berusaha untuk lebih baik. Semoga kamu selalu dikelilingi oleh manusia-manusia yang tidak hanya menerima kekuranganmu, tapi juga bisa buat diri kamu improve.`,
 
-Selamat menginjak fase di mana segala hal terasa penuh dengan ketidakpastian, kekhawatiran, dan kekalutan. Kepala yang bising, keputusan-keputusan yang seringkali kita sesali, sementara usia terus bertambah, waktu tak dapat dikembalikan, dan momen tak bisa diulang. Sehat dan gembira selaluu...`;
+    `Selamat menginjak fase di mana segala hal terasa penuh dengan ketidakpastian, kekhawatiran, dan kekalutan. Kepala yang bising, keputusan-keputusan yang seringkali kita sesali, sementara usia terus bertambah, waktu tak dapat dikembalikan, dan momen tak bisa diulang. Sehat dan gembira selaluu...`,
+  ];
+
+  const subTitles = [
+    "LOG // 01. APRESIASI",
+    "LOG // 02. HARAPAN",
+    "LOG // 03. REFLEKSI diri",
+    "LOG // 04. SEBUAH REALITA",
+  ];
 
   return (
     <section
       id="message-section"
-      ref={sectionRef}
-      className="py-24 px-4 scroll-mt-20"
+      className="py-32 px-4 scroll-mt-20 relative bg-transparent w-full min-h-screen flex flex-col items-center justify-center"
     >
+      {/* Judul Section Utama */}
       <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.8 }}
-        className="max-w-3xl mx-auto"
+        ref={titleRef}
+        initial={{ opacity: 0, filter: "blur(10px)" }}
+        animate={isTitleInView ? { opacity: 1, filter: "blur(0px)" } : {}}
+        transition={{ duration: 1 }}
+        className="text-center mb-20 select-none"
       >
-        <div className="glass rounded-3xl p-8 md:p-12 shadow-xl">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            transition={{ delay: 0.3 }}
-            className="text-center mb-8"
-          >
-            <span className="text-sm tracking-[0.3em] uppercase text-muted-foreground">
-              Catatan Kecil
-            </span>
-            <h2 className="font-serif text-3xl md:text-4xl text-foreground mt-4">
-              Bingung Kasih Judul
-            </h2>
-          </motion.div>
-
-          <div className="font-sans text-foreground/80 text-lg leading-relaxed whitespace-pre-line min-h-75">
-            <Typewriter
-              text={message}
-              delay={500}
-              speed={30}
-              startTrigger={isInView}
-            />
-          </div>
-        </div>
+        <span className="text-xs tracking-[0.4em] uppercase text-muted-foreground/60 block mb-3">
+          catatan kecil
+        </span>
+        <h2 className="font-serif text-3xl md:text-5xl font-bold tracking-tight text-foreground">
+          Judulnya apa
+        </h2>
       </motion.div>
+
+      {/* Kontainer Utama Penguras Scroll Paragraf */}
+      <div className="w-full max-w-4xl flex flex-col items-center">
+        {paragraphs.map((para, index) => (
+          <MessageCard
+            key={index}
+            text={para}
+            index={index}
+            title={subTitles[index]}
+          />
+        ))}
+      </div>
     </section>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { ConfettiTrigger } from "@/components/confetti";
+import { ConstellationTimeline } from "@/components/constellation-timeline"; 
 import { CTASection } from "@/components/cta-section";
 import { FireworksBackground } from "@/components/fireworksbg";
 import { Footer } from "@/components/footer";
@@ -13,7 +14,6 @@ import { LoveBackground } from "@/components/love-bg";
 import { MessageSection } from "@/components/message-section";
 import { MusicToggle } from "@/components/music-toggle";
 import { PreLoader } from "@/components/pre-loader";
-import { TimelineCards } from "@/components/timeline-cards";
 import { useEffect, useRef, useState } from "react";
 
 export default function BirthdayPage() {
@@ -79,7 +79,7 @@ export default function BirthdayPage() {
 
       {isReady && (
         <div
-          className={`relative z-10 flex flex-col transition-colors duration-1000 ${showLoveBg ? "theme-dark" : "theme-light"}`}
+          className={`relative z-10 flex flex-col transition-colors duration-1000 ${showLoveBg ? "dark theme-dark" : "theme-light"}`}
         >
           <ConfettiTrigger />
 
@@ -89,7 +89,9 @@ export default function BirthdayPage() {
               <MessageSection />
               <GallerySection isDarkTheme={showLoveBg} />
               <FriendsGallerySection />
-              <TimelineCards isDarkTheme={showLoveBg} />
+
+              <ConstellationTimeline isDarkTheme={showLoveBg} />
+
               <CTASection onClick={handleCtaClick} />
             </div>
             <Footer isDarkTheme={showLoveBg} />

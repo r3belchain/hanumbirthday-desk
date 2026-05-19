@@ -60,6 +60,15 @@
   --color-primary: var(--primary);
   --color-border: var(--border);
   --color-card: var(--card);
+  --animate-background-position-spin: background-position-spin 3000ms infinite alternate;
+  @keyframes background-position-spin {
+  0% {
+    background-position: top center;
+    }
+  100% {
+    background-position: bottom center;
+    }
+  }
 }
 
 @layer base {
@@ -111,18 +120,15 @@ body {
   position: relative;
 }
 
-
 .theme-light {
   --text-main: #000000;
   --text-muted: #4b5563; 
 }
 
-
 .theme-dark {
   --text-main: #ffffff;
   --text-muted: #d1d5db; 
 }
-
 
 .theme-light,
 .theme-dark {
@@ -130,12 +136,10 @@ body {
   transition: color 1s ease;
 }
 
-
 .theme-dark .text-muted-foreground,
 .theme-dark .text-foreground\/70 {
   color: var(--text-muted) !important;
 }
-
 
 .theme-dark h1,
 .theme-dark h2,
@@ -147,7 +151,6 @@ body {
   transition: color 0.8s ease-in-out;
 }
 
-
 .theme-dark .bg-card,
 .theme-dark .bg-white\/80 {
   background-color: rgba(255, 255, 255, 0.1) !important;
@@ -155,12 +158,10 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-
 .theme-dark .text-primary,
 .theme-dark .text-green-400 {
   color: #4ade80 !important; 
 }
-
 
 .theme-dark [role="tablist"] {
   background-color: rgba(255, 255, 255, 0.1) !important; 
@@ -180,10 +181,15 @@ body {
   color: #ffffff !important; 
 }
 
-
 .theme-dark .footer-github-icon,
 .theme-dark img[alt="Github"],
 .theme-dark img[src*="githublogo"] {
   filter: invert(1) brightness(10) !important;
   transition: filter 0.8s ease-in-out;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
 }

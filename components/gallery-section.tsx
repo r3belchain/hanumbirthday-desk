@@ -334,20 +334,30 @@ export function GallerySection({ isDarkTheme = false }: GallerySectionProps) {
 
   return (
     <section ref={sectionRef} className="py-16 md:py-24 px-4 overflow-hidden">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="text-center mb-16 md:mb-24"
-      >
-        <h2 className="font-serif text-3xl md:text-5xl font-bold text-foreground mb-4">
+      <div className="text-center mb-16 md:mb-24 overflow-hidden">
+        {/* 2. Judul Utama: Meluncur halus dari kanan ke kiri, warna dinamis, once: false */}
+        <motion.h2
+          initial={{ opacity: 0, x: 120 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: false, margin: "-100px" }}
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          className="font-serif text-3xl md:text-5xl font-bold text-foreground mb-4"
+        >
           Foto Kamu
-        </h2>
-        <p className="text-muted-foreground text-base md:text-lg max-w-md mx-auto opacity-50 font-light">
+        </motion.h2>
+
+        {/* 3. Deskripsi: Fade in + naik sedikit, muncul tipis setelah judul */}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, margin: "-100px" }}
+          transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          className="text-muted-foreground text-base md:text-lg max-w-md mx-auto opacity-50 font-light"
+        >
           Foto kamu dulu kehapus dari Google Foto tahun lalu. Jadi aku comot
           dari sorotanmu aja yaa (😁)
-        </p>
-      </motion.div>
+        </motion.p>
+      </div>
 
       <div ref={containerRef} className="relative max-w-4xl mx-auto">
         {/* SVG Winding Path  */}

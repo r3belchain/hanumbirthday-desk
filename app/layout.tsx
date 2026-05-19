@@ -2,18 +2,19 @@ import { Analytics } from "@vercel/analytics/next";
 import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
-
+// Impor komponen SmoothScroll yang baru dibuat (sesuaikan jalurnya dengan folder proyekmu)
+import SmoothScroll from "@/components/smoothScroll";
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
-  preload: true, 
+  preload: true,
 });
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-playfair",
-  preload: false, 
+  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -39,12 +40,14 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${playfair.variable} bg-background scroll-smooth`}
+      className={`${inter.variable} ${playfair.variable} bg-background`} 
     >
       <body className="font-sans antialiased relative min-h-screen overflow-x-hidden">
         <div className="bg-grain fixed inset-0 z-[9999] pointer-events-none" />
 
-        <div className="relative w-full flex flex-col">{children}</div>
+        <SmoothScroll>
+          <div className="relative w-full flex flex-col">{children}</div>
+        </SmoothScroll>
 
         {process.env.NODE_ENV === "production" && <Analytics />}
       </body>
