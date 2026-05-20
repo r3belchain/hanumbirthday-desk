@@ -555,8 +555,8 @@ function ConstellationCanvas({
           className={`pointer-events-none absolute top-5 left-0 right-0 mx-auto w-max text-[9px] font-mono tracking-[0.3em] uppercase px-4 py-1.5 rounded-full border transition-all duration-700 ${isDarkTheme ? "bg-white/5 backdrop-blur-md text-purple-400 border-purple-500/20 shadow-[0_0_15px_rgba(168,85,247,0.1)]" : "bg-white/70 backdrop-blur-md text-emerald-700 border-emerald-600/20 shadow-sm"}`}
         >
           {isDarkTheme
-            ? "Klik dan scroll untuk menyusuri setiap jejak waktu"
-            : "Klik dan scroll untuk menyusuri setiap jejak waktu"}
+            ? "Klik dan scroll untuk membuka pesan dari setiap waktu"
+            : "Klik dan scroll untuk membuka pesan dari setiap waktu"}
         </p>
 
         <AnimatePresence>
@@ -631,7 +631,7 @@ function ConstellationCanvas({
       <div
         ref={scrollRef}
         data-lenis-prevent="true"
-        className={`fixed inset-0 z-[100] overflow-y-auto overflow-x-hidden outline-none transition-colors duration-1000 ${isDarkTheme ? "bg-[#030305]" : "bg-gradient-to-b from-[#FAF8F5] via-[#F3EDE2] to-[#E2EAD0]"}`}
+        className={`fixed inset-0 z-[100] overflow-y-auto overflow-x-hidden outline-none transition-colors duration-1000 ${isDarkTheme ? "bg-[#030305] dark-scroll" : "bg-gradient-to-b from-[#FAF8F5] via-[#F3EDE2] to-[#E2EAD0] light-scroll"}`}
         style={{ touchAction: "pan-y", WebkitOverflowScrolling: "touch" }}
       >
         {isDarkTheme ? <NightAtmosphere /> : <DayAtmosphere />}
@@ -752,8 +752,7 @@ export function ConstellationTimeline({
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <section className="py-12 px-4 text-center overflow-hidden w-full">
-    
+    <section className="py-12 px-4 text-center overflow-hidden w-full relative z-10">
       <motion.div
         initial={{ opacity: 0, x: 120 }}
         whileInView={{ opacity: 1, x: 0 }}
@@ -761,7 +760,6 @@ export function ConstellationTimeline({
         transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
         className="max-w-md mx-auto relative group"
       >
-        
         <motion.div
           animate={{
             opacity: [0.3, 0.6, 0.3],
@@ -786,7 +784,6 @@ export function ConstellationTimeline({
               : "bg-gradient-to-r from-emerald-50/60 to-amber-50/60 border-emerald-100 backdrop-blur-md hover:border-emerald-300 hover:shadow-[0_0_25px_rgba(16,185,129,0.12)]"
           }`}
         >
-      
           <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
             <motion.div
               animate={{ opacity: [0.2, 1, 0.2] }}
@@ -823,7 +820,7 @@ export function ConstellationTimeline({
                 }`}
                 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
               >
-                Buka Pesan dari Waktu
+                Susuri Pesan dari Waktu
                 <motion.span
                   className="inline-block"
                   animate={{ scale: [1, 1.2, 1], rotate: [0, 10, -10, 0] }}
@@ -838,7 +835,6 @@ export function ConstellationTimeline({
               </h3>
             </div>
 
-           
             <motion.span
               className={`text-xl ${isDarkTheme ? "text-purple-400" : "text-emerald-600"}`}
               whileHover={{ x: 6, scale: 1.1 }}
@@ -850,7 +846,6 @@ export function ConstellationTimeline({
         </button>
       </motion.div>
 
-  
       <AnimatePresence mode="wait" initial={false}>
         {isOpen && (
           <ConstellationCanvas

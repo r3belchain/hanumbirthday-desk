@@ -106,6 +106,18 @@
   border-radius: 10px;
 }
 
+
+.light-scroll::-webkit-scrollbar-thumb {
+  background: oklch(var(--primary-raw) / 0.3);
+  border-radius: 10px;
+}
+
+
+.dark-scroll::-webkit-scrollbar-thumb {
+  background: #a855f7;
+  border-radius: 10px;
+}
+
 * {
   scrollbar-gutter: stable;
 }

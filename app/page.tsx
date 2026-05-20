@@ -1,9 +1,10 @@
 "use client";
 
 import { ConfettiTrigger } from "@/components/confetti";
-import { ConstellationTimeline } from "@/components/constellation-timeline"; 
+import { ConstellationTimeline } from "@/components/constellation-timeline";
 import { CTASection } from "@/components/cta-section";
 import { FireworksBackground } from "@/components/fireworksbg";
+import { FireworksBackgroundNew } from "@/components/fireworksbg-dark";
 import { Footer } from "@/components/footer";
 import { FriendsGallerySection } from "@/components/friends-gallery-section";
 import { GallerySection } from "@/components/gallery-section";
@@ -20,6 +21,7 @@ export default function BirthdayPage() {
   const [isReady, setIsReady] = useState(false);
   const [giftOpened, setGiftOpened] = useState(false);
   const [showLoveBg, setShowLoveBg] = useState(false);
+  const [showNewFireworks, setShowNewFireworks] = useState(false);
 
   const musicRef = useRef<{ playMusic: () => void } | null>(null);
   const popSoundRef = useRef<HTMLAudioElement | null>(null);
@@ -60,6 +62,7 @@ export default function BirthdayPage() {
 
   const handleCtaClick = () => {
     setShowLoveBg(true);
+    setShowNewFireworks(true);
   };
 
   return (
@@ -74,8 +77,10 @@ export default function BirthdayPage() {
 
       {giftOpened && <PreLoader onComplete={handlePreloaderComplete} />}
 
+      {!showLoveBg && isReady && <FireworksBackground />}
+
       {showLoveBg && <LoveBackground />}
-      {isReady && <FireworksBackground />}
+      {showLoveBg && isReady && <FireworksBackgroundNew />}
 
       {isReady && (
         <div
