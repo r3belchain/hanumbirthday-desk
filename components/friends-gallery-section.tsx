@@ -138,13 +138,13 @@ export function FriendsGallerySection() {
       ref={sectionRef}
       className="relative block py-24 overflow-hidden bg-transparent w-full"
     >
-      {/* Kontainer teks */}
+
       <div className="relative z-10 text-center mb-16 px-4 will-change-transform">
-        {/* Judul Utama: Meluncur dari kanan ke kiri (Bisa berjalan bolak-balik karena once: false) */}
+
         <motion.h2
           initial={{ opacity: 0, x: 120 }}
           whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: false, margin: "-100px" }} // DIPERBAIKI: once jadi false
+          viewport={{ once: false, margin: "-100px" }} 
           transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
           className="font-serif text-5xl md:text-7xl font-bold mb-4 transition-colors duration-700"
           style={{ color: isDarkTheme ? "#fff" : currentData.accent }}

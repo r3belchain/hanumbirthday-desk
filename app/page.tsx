@@ -16,6 +16,7 @@ import { MessageSection } from "@/components/message-section";
 import { MusicToggle } from "@/components/music-toggle";
 import { PreLoader } from "@/components/pre-loader";
 import { useEffect, useRef, useState } from "react";
+import { LightModeBackground } from "@/components/light-background"; 
 
 export default function BirthdayPage() {
   const [isReady, setIsReady] = useState(false);
@@ -77,6 +78,7 @@ export default function BirthdayPage() {
 
       {giftOpened && <PreLoader onComplete={handlePreloaderComplete} />}
 
+      {!showLoveBg && isReady && <LightModeBackground />}
       {!showLoveBg && isReady && <FireworksBackground />}
 
       {showLoveBg && <LoveBackground />}
@@ -86,7 +88,6 @@ export default function BirthdayPage() {
         <div
           className={`relative z-10 flex flex-col transition-colors duration-1000 ${showLoveBg ? "dark theme-dark" : "theme-light"}`}
         >
-          {/* Confetti diletakkan di sini, otomatis menyembur saat preloader selesai */}
           <ConfettiTrigger />
 
           <div className="relative">
