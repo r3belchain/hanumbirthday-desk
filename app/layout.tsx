@@ -2,7 +2,7 @@ import { Analytics } from "@vercel/analytics/next";
 import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
-
+import { SmoothCursor } from "@/components/ui/smooth-cursor";
 import SmoothScroll from "@/components/smoothScroll";
 
 const inter = Inter({
@@ -40,10 +40,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${playfair.variable} bg-background`} 
+      className={`${inter.variable} ${playfair.variable} bg-background`}
     >
-      <body className="font-sans antialiased relative min-h-screen overflow-x-hidden">
+      <body className="font-sans antialiased relative min-h-screen overflow-x-hidden cursor-none">
         <div className="bg-grain fixed inset-0 z-[9999] pointer-events-none" />
+
+        <SmoothCursor />
 
         <SmoothScroll>
           <div className="relative w-full flex flex-col">{children}</div>

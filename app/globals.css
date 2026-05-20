@@ -95,8 +95,7 @@
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  display: none; 
 }
 ::-webkit-scrollbar-track {
   background: transparent;
@@ -104,6 +103,10 @@
 ::-webkit-scrollbar-thumb {
   background: oklch(var(--primary-raw) / 0.3);
   border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: oklch(0.6 0.2 300 / 0.4); 
 }
 
 
@@ -120,10 +123,19 @@
 
 * {
   scrollbar-gutter: stable;
+  cursor: none !important;
+}
+
+input,
+textarea,
+select,
+[contenteditable] {
+  cursor: text !important;
 }
 
 html {
   scroll-behavior: auto !important;
+  scrollbar-width: none; /* Untuk Firefox */
   scroll-padding-top: 2rem;
 }
 body {

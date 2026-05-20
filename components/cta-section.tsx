@@ -60,7 +60,6 @@ const buttonExitVariants: Variants = {
   },
 };
 
-
 function NeonBorderCard({ children }: { children: React.ReactNode }) {
   return (
     <div
@@ -216,6 +215,10 @@ export function CTASection({ onClick }: CTASectionProps) {
   const handleClick = () => {
     setIsClicked(true);
     fireHearts();
+
+
+    document.documentElement.classList.add("dark");
+
     onClick?.();
   };
 
@@ -229,11 +232,11 @@ export function CTASection({ onClick }: CTASectionProps) {
           initial={{ opacity: 0, y: 60, rotateX: 25, scale: 0.95 }}
           whileInView={{ opacity: 1, y: 0, rotateX: 0, scale: 1 }}
           exit={{ opacity: 0, y: 60, rotateX: 25, scale: 0.95 }}
-          viewport={{ once: false, amount: 0.2 }} 
+          viewport={{ once: false, amount: 0.2 }}
           transition={{
             type: "spring",
-            stiffness: 50, 
-            damping: 15, 
+            stiffness: 50,
+            damping: 15,
             mass: 0.8,
           }}
           className="max-w-md mx-auto origin-bottom"
