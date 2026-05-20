@@ -103,7 +103,6 @@ const emojiVariants: Variants = {
 };
 
 export function Footer({ isDarkTheme = false }: FooterProps) {
-  // Kondisi warna teks dasar berdasarkan tema
   const highlightColor = isDarkTheme ? "" : "text-primary";
   const hoverHighlightColor = isDarkTheme
     ? "hover:!text-purple-400"

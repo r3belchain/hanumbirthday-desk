@@ -43,8 +43,7 @@ export function FakeNotification({ show }: FakeNotificationProps) {
             mfatxt
           </p>
           <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-snug break-words">
-            Doa baiknya udah sampe di aku😌. Maaf yaa klo belum sempurna. Aku udah upayakan semaksimal mungkin
-            yang aku bisa.
+            Doa baiknya udah sampe di aku, makasii ☺️. Maaf yaa klo belum sempurnaa... i've been trying my best
           </p>
         </div>
       </div>

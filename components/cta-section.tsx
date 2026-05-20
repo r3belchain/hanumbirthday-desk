@@ -14,7 +14,6 @@ const SUCCESS_WORDS = [
   "terima",
   "doa",
   "baiknya.",
-  "Makasii.",
 ];
 
 const wordContainerVariants: Variants = {
