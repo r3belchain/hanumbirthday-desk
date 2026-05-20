@@ -8,7 +8,7 @@ interface TypewriterProps {
   delay?: number;
   speed?: number;
   startTrigger?: boolean;
-  onComplete?: () => void; 
+  onComplete?: () => void;
 }
 
 export function Typewriter({
@@ -21,7 +21,7 @@ export function Typewriter({
   const [displayedText, setDisplayedText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [started, setStarted] = useState(false);
-  const [isFinished, setIsFinished] = useState(false); 
+  const [isFinished, setIsFinished] = useState(false);
 
   useEffect(() => {
     if (startTrigger && !started) {
@@ -48,10 +48,8 @@ export function Typewriter({
 
       return () => clearTimeout(timer);
     } else {
-
       setIsFinished(true);
       if (onComplete) {
-
         setTimeout(() => {
           onComplete();
         }, 500);
@@ -84,11 +82,10 @@ function MessageCard({
   text: string;
   index: number;
   title?: string;
-  canStartTyping: boolean; 
-  onTypingComplete: () => void; 
+  canStartTyping: boolean;
+  onTypingComplete: () => void;
 }) {
   const cardRef = useRef(null);
-
 
   const isCardInView = useInView(cardRef, { once: true, margin: "-120px" });
 
@@ -97,7 +94,7 @@ function MessageCard({
       ref={cardRef}
       initial={{ opacity: 0, y: 50, scale: 0.95 }}
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, margin: "-120px" }} 
+      viewport={{ once: true, margin: "-120px" }}
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       className="w-full max-w-2xl mx-auto mb-16 last:mb-0 relative group"
     >
@@ -133,8 +130,7 @@ function MessageCard({
 
 export function MessageSection() {
   const titleRef = useRef(null);
-  const isTitleInView = useInView(titleRef, { once: true }); 
-
+  const isTitleInView = useInView(titleRef, { once: true });
 
   const [activeTypingIndex, setActiveTypingIndex] = useState(0);
 
@@ -161,10 +157,10 @@ export function MessageSection() {
       className="py-32 px-4 scroll-mt-20 relative bg-transparent w-full min-h-screen flex flex-col items-center justify-center"
     >
       <motion.div
-        ref={titleRef}
-        initial={{ opacity: 0, filter: "blur(10px)" }}
-        animate={isTitleInView ? { opacity: 1, filter: "blur(0px)" } : {}}
-        transition={{ duration: 1 }}
+        initial={{ opacity: 0, filter: "blur(10px)", y: -10 }}
+        whileInView={{ opacity: 1, filter: "blur(0px)", y: 0 }}
+        viewport={{ once: false, margin: "-50px" }}
+        transition={{ duration: 1, ease: "easeOut" }}
         className="text-center mb-20 select-none"
       >
         <span className="text-xs tracking-[0.4em] uppercase text-muted-foreground/60 block mb-3">
@@ -182,7 +178,6 @@ export function MessageSection() {
             text={para}
             index={index}
             title={subTitles[index]}
-
             canStartTyping={activeTypingIndex >= index}
             onTypingComplete={() => {
               setActiveTypingIndex((prev) => Math.max(prev, index + 1));

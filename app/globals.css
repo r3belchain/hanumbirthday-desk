@@ -103,7 +103,7 @@
 }
 ::-webkit-scrollbar-thumb {
   background: oklch(var(--primary-raw) / 0.3);
-  border-radius: 10px;
+  border-radius: 4px;
 }
 
 

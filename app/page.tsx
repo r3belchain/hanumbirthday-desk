@@ -1,5 +1,8 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence } from "framer-motion";
+
 import { ConfettiTrigger } from "@/components/confetti";
 import { ConstellationTimeline } from "@/components/constellation-timeline";
 import { CTASection } from "@/components/cta-section";
@@ -15,14 +18,15 @@ import { LoveBackground } from "@/components/love-bg";
 import { MessageSection } from "@/components/message-section";
 import { MusicToggle } from "@/components/music-toggle";
 import { PreLoader } from "@/components/pre-loader";
-import { useEffect, useRef, useState } from "react";
-import { LightModeBackground } from "@/components/light-background"; 
+import { LightModeBackground } from "@/components/light-background";
+import { FakeNotification } from "@/components/fake-notification";
 
 export default function BirthdayPage() {
   const [isReady, setIsReady] = useState(false);
   const [giftOpened, setGiftOpened] = useState(false);
   const [showLoveBg, setShowLoveBg] = useState(false);
   const [showNewFireworks, setShowNewFireworks] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
 
   const musicRef = useRef<{ playMusic: () => void } | null>(null);
   const popSoundRef = useRef<HTMLAudioElement | null>(null);
@@ -61,9 +65,18 @@ export default function BirthdayPage() {
     }
   };
 
+
   const handleCtaClick = () => {
     setShowLoveBg(true);
-    setShowNewFireworks(true);
+    setShowNewFireworks(true); 
+
+    setTimeout(() => {
+      setShowNotification(true);
+
+      setTimeout(() => {
+        setShowNotification(false);
+      }, 7000);
+    }, 10000); 
   };
 
   return (
@@ -89,6 +102,10 @@ export default function BirthdayPage() {
           className={`relative z-10 flex flex-col transition-colors duration-1000 ${showLoveBg ? "dark theme-dark" : "theme-light"}`}
         >
           <ConfettiTrigger />
+
+          <AnimatePresence>
+            {showNotification && <FakeNotification show={showNotification} />}
+          </AnimatePresence>
 
           <div className="relative">
             <HeroSection isDarkTheme={showLoveBg} />
