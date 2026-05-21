@@ -154,23 +154,20 @@ export function FriendsGallerySection() {
           100% { box-shadow: 0 0 15px rgba(168,85,247,0.1), inset 0 0 5px rgba(168,85,247,0.05); border-color: rgba(168,85,247,0.2); }
         }
         
-        /* REKAYASA HARDWARE-ACCELERATED TRANSITION UNTUK MENJAMIN EASE-IN-OUT YANG SEMPURNA */
         .fluid-hover-circle {
           position: absolute;
           top: 50%;
           left: 50%;
-          width: 260px; /* Ukuran statis melingkar penuh */
+          width: 260px; 
           height: 260px;
           border-radius: 9999px;
           z-index: -10;
           pointer-events: none;
           will-change: transform;
-          /* Menggunakan matriks transformasi yang identik agar interpolasi browser berjalan mulus */
           transform: translate(-50%, -50%) scale(0);
           transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
         }
         
-        /* Trigger ekspansi lingkaran dari tengah saat parent (button) di-hover */
         .group:hover .fluid-hover-circle {
           transform: translate(-50%, -50%) scale(1);
         }
@@ -262,7 +259,6 @@ export function FriendsGallerySection() {
                     : "border border-transparent",
                 ].join(" ")}
               >
-                {/* 1. INTERACTIVE HOVER FLUID EFFECT (Sekarang dikontrol via Native CSS Engine agar 100% Smooth) */}
                 <span
                   style={{
                     backgroundColor: isDarkTheme
@@ -272,12 +268,10 @@ export function FriendsGallerySection() {
                   className="fluid-hover-circle"
                 />
 
-                {/* 2. GLOSS SHIMMER PASS EFFECT */}
                 {isDarkTheme && (
                   <span className="absolute top-0 w-1/3 h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -left-full group-hover:animate-local-shine pointer-events-none -z-10" />
                 )}
 
-                {/* 3. TEXT WRAPPER LAYER */}
                 <span className="relative z-10 flex items-center justify-center transition-colors duration-[700ms] group-hover:text-white">
                   {eraData[era].label}
                 </span>
