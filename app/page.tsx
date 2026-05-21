@@ -75,8 +75,8 @@ export default function BirthdayPage() {
 
       setTimeout(() => {
         setShowNotification(false);
-      }, 7000);
-    }, 10000); 
+      }, 10000);
+    }, 7000); 
   };
 
   return (

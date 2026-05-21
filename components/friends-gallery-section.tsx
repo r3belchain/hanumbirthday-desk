@@ -138,13 +138,60 @@ export function FriendsGallerySection() {
       ref={sectionRef}
       className="relative block py-24 overflow-hidden bg-transparent w-full"
     >
+      <style>{`
+        @keyframes custom-rainbow {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        @keyframes custom-shine {
+          0% { left: -100%; transition-timing-function: ease-in; }
+          100% { left: 200%; transition-timing-function: ease-out; }
+        }
+        @keyframes wrapper-glow {
+          0% { box-shadow: 0 0 15px rgba(168,85,247,0.1), inset 0 0 5px rgba(168,85,247,0.05); border-color: rgba(168,85,247,0.2); }
+          50% { box-shadow: 0 0 25px rgba(168,85,247,0.5), inset 0 0 15px rgba(168,85,247,0.2); border-color: rgba(168,85,247,0.6); }
+          100% { box-shadow: 0 0 15px rgba(168,85,247,0.1), inset 0 0 5px rgba(168,85,247,0.05); border-color: rgba(168,85,247,0.2); }
+        }
+        
+        /* REKAYASA HARDWARE-ACCELERATED TRANSITION UNTUK MENJAMIN EASE-IN-OUT YANG SEMPURNA */
+        .fluid-hover-circle {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 260px; /* Ukuran statis melingkar penuh */
+          height: 260px;
+          border-radius: 9999px;
+          z-index: -10;
+          pointer-events: none;
+          will-change: transform;
+          /* Menggunakan matriks transformasi yang identik agar interpolasi browser berjalan mulus */
+          transform: translate(-50%, -50%) scale(0);
+          transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        /* Trigger ekspansi lingkaran dari tengah saat parent (button) di-hover */
+        .group:hover .fluid-hover-circle {
+          transform: translate(-50%, -50%) scale(1);
+        }
+
+        .animate-local-rainbow {
+          background-size: 200% 200%;
+          animation: custom-rainbow 4s linear infinite;
+        }
+        .animate-local-shine {
+          animation: custom-shine 1.2s infinite;
+        }
+        .animate-local-wrapper-glow {
+          animation: wrapper-glow 3s ease-in-out infinite;
+        }
+      `}</style>
 
       <div className="relative z-10 text-center mb-16 px-4 will-change-transform">
-
         <motion.h2
           initial={{ opacity: 0, x: 120 }}
           whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: false, margin: "-100px" }} 
+          viewport={{ once: false, margin: "-100px" }}
           transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
           className="font-serif text-5xl md:text-7xl font-bold mb-4 transition-colors duration-700"
           style={{ color: isDarkTheme ? "#fff" : currentData.accent }}
@@ -152,11 +199,10 @@ export function FriendsGallerySection() {
           Friendship Gallery
         </motion.h2>
 
-        {/* Deskripsi Pertama: Fade in + naik sedikit */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, margin: "-100px" }} // DIPERBAIKI: once jadi false
+          viewport={{ once: false, margin: "-100px" }}
           transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
           className={`max-w-2xl italic mx-auto mb-4 text-sm md:text-base transition-colors duration-700 ${
             isDarkTheme ? "text-white/70" : "text-slate-700/60"
@@ -166,11 +212,10 @@ export function FriendsGallerySection() {
           kehidupan
         </motion.p>
 
-        {/* Subtitle Era: Muncul paling terakhir */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, margin: "-100px" }} // DIPERBAIKI: once jadi false
+          viewport={{ once: false, margin: "-100px" }}
           transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
           className="text-lg md:text-xl font-light italic transition-colors duration-700"
           style={{
@@ -182,34 +227,63 @@ export function FriendsGallerySection() {
         </motion.p>
       </div>
 
-      {/* Era Tab Switcher */}
       <div className="relative z-20 flex justify-center mb-16 px-4">
         <div
-          className={`flex p-1 rounded-full transition-all duration-700 border shadow-lg ${
+          className={`flex p-1.5 rounded-full transition-all duration-700 border backdrop-blur-md gap-1 ${
             isDarkTheme
-              ? "bg-white/10 backdrop-blur-xl border-white/20"
-              : "bg-white/50 backdrop-blur-md border-slate-200"
+              ? "bg-zinc-950/80 animate-local-wrapper-glow border-purple-500/30"
+              : "bg-white/60 border-slate-200/80 shadow-slate-200/50 shadow-lg"
           }`}
         >
-          {ERAS.map((era) => (
-            <button
-              key={era}
-              onClick={() => handleEraChange(era)}
-              className="px-6 md:px-10 py-2.5 rounded-full text-xs md:text-sm font-bold transition-all duration-500 relative"
-              style={{
-                backgroundColor:
-                  activeEra === era ? eraData[era].accent : "transparent",
-                color:
-                  activeEra === era
-                    ? "#fff"
-                    : isDarkTheme
-                      ? "rgba(255,255,255,0.7)"
-                      : "#64748b",
-              }}
-            >
-              {eraData[era].label}
-            </button>
-          ))}
+          {ERAS.map((era) => {
+            const isActive = activeEra === era;
+
+            const buttonStyle = isDarkTheme
+              ? {
+                  backgroundColor: isActive ? "#6b21a8" : "transparent",
+                  color: isActive ? "#ffffff" : "rgba(255, 255, 255, 0.55)",
+                }
+              : {
+                  backgroundColor: isActive
+                    ? eraData[era].accent
+                    : "transparent",
+                  color: isActive ? "#fff" : "#64748b",
+                };
+
+            return (
+              <button
+                key={era}
+                onClick={() => handleEraChange(era)}
+                style={buttonStyle}
+                className={[
+                  "group relative overflow-hidden rounded-full font-bold text-xs md:text-sm px-6 md:px-10 py-2.5 transition-all duration-300 isolate select-none cursor-pointer outline-none",
+                  isDarkTheme && isActive
+                    ? "border-0 [border:calc(0.125rem)_solid_transparent] [background-clip:padding-box,border-box] [background-origin:border-box] bg-[linear-gradient(#121213,#121213),linear-gradient(90deg,#7c3aed,#a855f7,#6366f1,#c084fc,#7c3aed)] animate-local-rainbow"
+                    : "border border-transparent",
+                ].join(" ")}
+              >
+                {/* 1. INTERACTIVE HOVER FLUID EFFECT (Sekarang dikontrol via Native CSS Engine agar 100% Smooth) */}
+                <span
+                  style={{
+                    backgroundColor: isDarkTheme
+                      ? "#a855f7"
+                      : eraData[era].accent,
+                  }}
+                  className="fluid-hover-circle"
+                />
+
+                {/* 2. GLOSS SHIMMER PASS EFFECT */}
+                {isDarkTheme && (
+                  <span className="absolute top-0 w-1/3 h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -left-full group-hover:animate-local-shine pointer-events-none -z-10" />
+                )}
+
+                {/* 3. TEXT WRAPPER LAYER */}
+                <span className="relative z-10 flex items-center justify-center transition-colors duration-[700ms] group-hover:text-white">
+                  {eraData[era].label}
+                </span>
+              </button>
+            );
+          })}
         </div>
       </div>
 
@@ -223,13 +297,18 @@ export function FriendsGallerySection() {
             "touch-pan-x",
             "overscroll-x-contain",
             "antialiased",
+            "min-h-[380px]",
             "[&::-webkit-scrollbar]:h-1.5",
             "[&::-webkit-scrollbar-track]:bg-transparent",
             "[&::-webkit-scrollbar-thumb]:rounded-full",
-            "min-h-[380px]",
+            isDarkTheme
+              ? "[&::-webkit-scrollbar-thumb]:bg-purple-600/80 [&::-webkit-scrollbar-thumb]:hover:bg-purple-500"
+              : "[&::-webkit-scrollbar-thumb]:bg-slate-300 [&::-webkit-scrollbar-thumb]:hover:bg-slate-400",
           ].join(" ")}
           style={{
-            scrollbarColor: `${currentData.accent} transparent`,
+            scrollbarColor: isDarkTheme
+              ? "#a855f7 transparent"
+              : `${currentData.accent} transparent`,
             scrollSnapType: "x mandatory",
           }}
         >
@@ -277,7 +356,6 @@ export function FriendsGallerySection() {
         </div>
       </div>
 
-      {/* Progress dots */}
       <div className="flex justify-center gap-3 mt-10 relative z-10">
         {currentData.photos.map((_, i) => (
           <motion.div
@@ -286,7 +364,9 @@ export function FriendsGallerySection() {
               width: currentIdx === i ? 40 : 10,
               backgroundColor:
                 currentIdx === i
-                  ? currentData.accent
+                  ? isDarkTheme
+                    ? "#a855f7"
+                    : currentData.accent
                   : isDarkTheme
                     ? "rgba(255,255,255,0.2)"
                     : currentData.accent + "33",

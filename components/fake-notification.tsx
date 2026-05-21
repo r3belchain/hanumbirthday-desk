@@ -4,12 +4,10 @@
 import { motion } from "framer-motion";
 
 interface FakeNotificationProps {
-  show: boolean; 
+  show: boolean;
 }
 
 export function FakeNotification({ show }: FakeNotificationProps) {
-
-
   return (
     <motion.div
       initial={{ opacity: 0, y: -100, scale: 0.9 }}
@@ -43,7 +41,8 @@ export function FakeNotification({ show }: FakeNotificationProps) {
             mfatxt
           </p>
           <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-snug break-words">
-            Doa baiknya udah sampe di aku, makasii ☺️. Maaf yaa klo belum sempurnaa... i've been trying my best
+            Doa baiknya udah sampe di aku, makasii ☺️. Maaf yaa klo belum
+            sempurnaa... 
           </p>
         </div>
       </div>

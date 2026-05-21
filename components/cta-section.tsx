@@ -9,11 +9,7 @@ interface CTASectionProps {
 }
 
 const SUCCESS_WORDS = [
-  "Hap!\uD83D\uDE46\u200D\u2642\uFE0F",
-  "Aku",
-  "terima",
-  "doa",
-  "baiknya.",
+  "Terkirim!",
 ];
 
 const wordContainerVariants: Variants = {
