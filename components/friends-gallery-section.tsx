@@ -165,7 +165,8 @@ export function FriendsGallerySection() {
           pointer-events: none;
           will-change: transform;
           transform: translate(-50%, -50%) scale(0);
-          transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+          /* Explicit transition with high priority to prevent parent animation interference */
+          transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
         }
         
         .group:hover .fluid-hover-circle {
@@ -253,10 +254,10 @@ export function FriendsGallerySection() {
                 onClick={() => handleEraChange(era)}
                 style={buttonStyle}
                 className={[
-                  "group relative overflow-hidden rounded-full font-bold text-xs md:text-sm px-6 md:px-10 py-2.5 transition-all duration-300 isolate select-none cursor-pointer outline-none",
+                  "group relative overflow-hidden rounded-full font-bold text-xs md:text-sm px-6 md:px-10 py-2.5 isolate select-none cursor-pointer outline-none",
                   isDarkTheme && isActive
-                    ? "border-0 [border:calc(0.125rem)_solid_transparent] [background-clip:padding-box,border-box] [background-origin:border-box] bg-[linear-gradient(#121213,#121213),linear-gradient(90deg,#7c3aed,#a855f7,#6366f1,#c084fc,#7c3aed)] animate-local-rainbow"
-                    : "border border-transparent",
+                    ? "transition-none [border:calc(0.125rem)_solid_transparent] [background-clip:padding-box,border-box] [background-origin:border-box] bg-[linear-gradient(#121213,#121213),linear-gradient(90deg,#7c3aed,#a855f7,#6366f1,#c084fc,#7c3aed)] animate-local-rainbow"
+                    : "border border-transparent transition-all duration-300",
                 ].join(" ")}
               >
                 <span
@@ -272,7 +273,7 @@ export function FriendsGallerySection() {
                   <span className="absolute top-0 w-1/3 h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -left-full group-hover:animate-local-shine pointer-events-none -z-10" />
                 )}
 
-                <span className="relative z-10 flex items-center justify-center transition-colors duration-[700ms] group-hover:text-white">
+                <span className="relative z-10 flex items-center justify-center transition-colors duration-[1500ms] group-hover:text-white">
                   {eraData[era].label}
                 </span>
               </button>

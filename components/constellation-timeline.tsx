@@ -606,7 +606,7 @@ function ConstellationCanvas({
                 )}
                 <span className="text-base">✕</span>
                 <span className="text-[11px] font-mono tracking-[0.25em] uppercase font-semibold">
-                  Keluar dari Alam Waktu
+                  Keluar dari Konstelasi Zaman
                 </span>
                 <motion.span
                   className="text-sm opacity-60"
@@ -811,7 +811,7 @@ export function ConstellationTimeline({
                     : "text-emerald-700 font-bold group-hover:text-emerald-500"
                 }`}
               >
-                Refleski Perjalanan
+                Susuri pesan dari waktu
               </span>
 
               <h3
@@ -820,7 +820,7 @@ export function ConstellationTimeline({
                 }`}
                 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
               >
-                Susuri Pesan dari Waktu
+                Konstelasi Zaman
                 <motion.span
                   className="inline-block"
                   animate={{ scale: [1, 1.2, 1], rotate: [0, 10, -10, 0] }}
