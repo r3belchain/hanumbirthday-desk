@@ -604,7 +604,17 @@ function ConstellationCanvas({
                     />
                   </motion.div>
                 )}
-                <span className="text-base">✕</span>
+                <motion.span
+                  className="text-sm opacity-60"
+                  animate={{ x: [0, 3, 0] }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                >
+                  ✕
+                </motion.span>
                 <span className="text-[11px] font-mono tracking-[0.25em] uppercase font-semibold">
                   Keluar dari Konstelasi Zaman
                 </span>
