@@ -14,7 +14,7 @@ interface TimeNode {
   title: string;
   subtitle: string;
   icon: string;
-  message: string;
+  message: React.ReactNode;
 
   scrollTrigger: number;
 }
@@ -42,8 +42,30 @@ const constellationData: TimeNode[] = [
     title: "The Future",
     subtitle: "Langkah ke depan",
     icon: "📺",
-    message:
-      "Menghadapi dunia di depan yang penuh dengan variabel kemungkinan dan tanda tanya, seperti katamu, yang bisa dilakukan hanyalah mengupayakan semaksimal mungkin hal yang bisa dilakukan sekarang. Penyesalan karena tidak mencoba itu lebih sakit dan mahal daripada penyesalan atas 'percobaan yang belum berhasil'. Apa pun jalannya, dan siapa pun yang menemanimu nanti, semoga kamu diberikan kemudahan.",
+    message: (
+      <>
+        Menghadapi dunia di depan yang penuh dengan variabel kemungkinan dan
+        tanda tanya, seseorang pernah bilang ke aku, yang bisa dilakukan
+        hanyalah fokus dan mengupayakan semaksimal mungkin hal yang bisa
+        dilakukan sekarang.
+        <br />
+        <br />
+        Karya ini, adalah upaya maksimal itu. 5 tahun lagi, 10 tahun lagi, karya
+        ini akan tetap bisa dilihat, dikenang, dan sebagai bentuk dokumentasi
+        memori dan artefak perasaan.
+        <br />
+        <br />
+        Penyesalan karena{" "}
+        <strong>
+          <em>tidak mencoba</em>
+        </strong>{" "}
+        itu lebih sakit dan mahal harganya daripada penyesalan atas{" "}
+        <strong>
+          <em>percobaan yang belum berhasil</em>
+        </strong>
+        . Apa pun jalannya dan "dengan siapa", may you find ease.
+      </>
+    ),
     scrollTrigger: 1,
   },
 ];
