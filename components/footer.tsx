@@ -23,10 +23,8 @@ function EncryptedQuote() {
       glitchInterval = setInterval(() => {
         const scrambled = ORIGINAL_QUOTE.split("")
           .map((char, index) => {
-          
             if (char === " " || char === '"') return char;
 
-    
             if (index < iterations) {
               return ORIGINAL_QUOTE[index];
             }
@@ -43,13 +41,11 @@ function EncryptedQuote() {
           clearInterval(glitchInterval);
         }
 
-        iterations += 1 / 2; 
+        iterations += 1 / 2;
       }, 25);
     };
 
-
     const loopTimer = setInterval(startGlitchCycle, 6000);
-
 
     startGlitchCycle();
 
@@ -61,7 +57,6 @@ function EncryptedQuote() {
 
   return <p>{displayText}</p>;
 }
-
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -197,7 +192,7 @@ export function Footer({ isDarkTheme = false }: FooterProps) {
             <span className="text-muted-foreground/30 text-[8px]">•</span>
 
             <a
-              href="https://github.com/r3belchain/ulangtahun-hanum"
+              href="https://github.com/r3belchain/hanumbirthday-desk"
               target="_blank"
               rel="noopener noreferrer"
               className={`flex items-center gap-1.5 ${hoverHighlightColor} transition-colors duration-100 group cursor-pointer`}

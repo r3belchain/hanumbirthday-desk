@@ -59,9 +59,9 @@ const constellationData: TimeNode[] = [
         <strong>
           <em>tidak mencoba</em>
         </strong>{" "}
-        itu lebih sakit dan mahal harganya daripada penyesalan atas{" "}
+        itu lebih sakit dan mahal harganya daripada rasa lelah atas{" "}
         <strong>
-          <em>percobaan yang belum berhasil</em>
+          <em>percobaan yang belum berhasil</em>  
         </strong>
         . Apa pun jalannya dan "dengan siapa", may you find ease.
       </>
