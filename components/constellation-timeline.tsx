@@ -9,18 +9,15 @@ import {
 } from "framer-motion";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-
 interface TimeNode {
   id: string;
   title: string;
   subtitle: string;
   icon: string;
   message: string;
- 
+
   scrollTrigger: number;
 }
-
-
 
 const constellationData: TimeNode[] = [
   {
@@ -50,7 +47,6 @@ const constellationData: TimeNode[] = [
     scrollTrigger: 1,
   },
 ];
-
 
 const CANVAS_BASE_W = 1400;
 const CANVAS_BASE_H = 3200;
@@ -104,8 +100,6 @@ function useLayout() {
 
   return { scale, canvasW, canvasH, nodes, xFrames, yFrames };
 }
-
-
 
 const BIRD_PATH = "M0,6 C4,0 8,0 12,6 C16,0 20,0 24,6";
 
@@ -273,8 +267,6 @@ function DayAtmosphere() {
   );
 }
 
-
-
 function NightAtmosphere() {
   const stars = useMemo(() => {
     const positions: [number, number][] = [
@@ -379,7 +371,6 @@ function NightAtmosphere() {
   );
 }
 
-
 function NodeModal({
   node,
   isDarkTheme,
@@ -466,7 +457,6 @@ function NodeModal({
     </AnimatePresence>
   );
 }
-
 
 function ConstellationCanvas({
   isDarkTheme,
@@ -752,7 +742,6 @@ function ConstellationCanvas({
     </>
   );
 }
-
 
 export function ConstellationTimeline({
   isDarkTheme,

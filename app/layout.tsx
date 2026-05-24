@@ -4,6 +4,7 @@ import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { SmoothCursor } from "@/components/ui/smooth-cursor";
 import SmoothScroll from "@/components/smoothScroll";
+import {VirtualScrollbar} from "@/components/ui/VirtualScrollbar";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -46,6 +47,7 @@ export default function RootLayout({
         <div className="bg-grain fixed inset-0 z-[9999] pointer-events-none" />
 
         <SmoothCursor />
+        <VirtualScrollbar />
 
         <SmoothScroll>
           <div className="relative w-full flex flex-col">{children}</div>
