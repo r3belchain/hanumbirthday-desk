@@ -1,73 +1,78 @@
-import { GoogleGenAI } from "@google/genai";
-import { NextResponse } from "next/server";
-
+import { createGoogleGenerativeAI } from "@ai-sdk/google";
+import {
+  streamText,
+  tool,
+  convertToModelMessages, 
+  stepCountIs,
+  type UIMessage,
+} from "ai";
+import { z } from "zod";
 
 const API_KEYS = [
   process.env.GEMINI_API_KEY_1,
   process.env.GEMINI_API_KEY_2,
   process.env.GEMINI_API_KEY_3,
-].filter(Boolean) as string[]; 
+].filter(Boolean) as string[];
 
 export async function POST(req: Request) {
   try {
-    const { messages } = await req.json();
-    const lastMessage = messages[messages.length - 1]?.content;
+    const { messages }: { messages: UIMessage[] } = await req.json();
 
     if (API_KEYS.length === 0) {
-      console.error(
-        "Setup Error: Tidak ada GEMINI_API_KEY yang terkonfigurasi di env.",
-      );
-      return NextResponse.json(
-        { error: "Configuration Error" },
-        { status: 500 },
+      return new Response(
+        JSON.stringify({ error: "Setup Error: API Key tidak ditemukan." }),
+        { status: 500, headers: { "Content-Type": "application/json" } },
       );
     }
 
-    
     for (let i = 0; i < API_KEYS.length; i++) {
       const currentKey = API_KEYS[i];
-
       try {
-      
-        const ai = new GoogleGenAI({ apiKey: currentKey });
+        const googleProvider = createGoogleGenerativeAI({ apiKey: currentKey });
 
-        const response = await ai.models.generateContent({
-          model: "gemini-2.5-flash",
-          contents: lastMessage,
-          config: {
-            systemInstruction: process.env.GEMINI_SYSTEM_INSTRUCTION,
-            temperature: 0.7,
+        const modelMessages = await convertToModelMessages(messages);
+
+        const result = streamText({
+          model: googleProvider("gemini-2.5-flash"),
+          messages: modelMessages,
+          system: process.env.GEMINI_SYSTEM_INSTRUCTION,
+          temperature: 0.7,
+          stopWhen: stepCountIs(5),
+          tools: {
+            getWebsiteContext: tool({
+              description:
+                "Mendapatkan data kontekstual web seperti status tema aktif atau info pemilik.",
+              inputSchema: z.object({}),
+              execute: async (_input) => ({
+                owner: "Azhar & Hanum",
+                vibes: "Estetik dengan Custom Cursor dan Smooth Scroll",
+                fiturUtama: "Kirim Doa Baik di CTA Section",
+              }),
+            }),
           },
         });
 
-        
-        return NextResponse.json({ reply: response.text });
-      } catch (error: any) {
-        console.error(`API Key ke-${i + 1} gagal memproses request:`, error);
-
-       
+        return result.toUIMessageStreamResponse();
+      } catch (error: unknown) {
+        console.error(`API Key ke-${i + 1} gagal:`, error);
         const isQuotaError =
-          error.status === 429 ||
-          error.message?.toLowerCase().includes("quota") ||
-          error.message?.toLowerCase().includes("limit") ||
-          error.message?.toLowerCase().includes("exhausted");
-
-        
-        if (isQuotaError && i < API_KEYS.length - 1) {
-          console.warn(
-            `[FAILOVER] Key ke-${i + 1} habis kuota. Otomatis beralih ke Key ke-${i + 2}...`,
-          );
-          continue;
-        }
-
+          error instanceof Error &&
+          ((error as { status?: number }).status === 429 ||
+            error.message?.toLowerCase().includes("quota"));
+        if (isQuotaError && i < API_KEYS.length - 1) continue;
         throw error;
       }
     }
-  } catch (error) {
-    console.error("Gemini API Ultimate Failure (Semua Key Gagal):", error);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 },
+
+    return new Response(
+      JSON.stringify({ error: "Semua API Key telah habis kuotanya." }),
+      { status: 503, headers: { "Content-Type": "application/json" } },
     );
+  } catch (error) {
+    console.error("Unhandled error di /api/chat:", error);
+    return new Response(JSON.stringify({ error: "Internal Server Error" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 }

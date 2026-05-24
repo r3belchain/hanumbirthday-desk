@@ -1,9 +1,6 @@
 "use client";
-import { useEffect, useRef, useCallback } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
-// Warna diambil langsung dari global.css — tidak perlu getComputedStyle
-// Light: dari --primary-raw: 0.55 0.12 145 (sage green)
-// Dark:  dari .dark ::-webkit-scrollbar-thumb di global.css (purple)
 const COLORS = {
   light: {
     normal: "oklch(0.55 0.12 145 / 0.15)",
@@ -21,8 +18,7 @@ export function VirtualScrollbar() {
   const isDragging = useRef(false);
   const isHovered = useRef(false);
 
-  // ─── Warna Thumb ─────────────────────────────────────────────────────────
-  // Cek langsung classList — tidak bergantung pada CSS variable resolution
+
   const updateThumbColor = useCallback(() => {
     const thumb = thumbRef.current;
     if (!thumb) return;
@@ -34,7 +30,7 @@ export function VirtualScrollbar() {
     thumb.style.backgroundColor = isActive ? palette.active : palette.normal;
   }, []);
 
-  // ─── Posisi Thumb — Direct DOM, no useState ───────────────────────────────
+
   const updateThumbPosition = useCallback(() => {
     const thumb = thumbRef.current;
     const track = trackRef.current;
@@ -50,25 +46,25 @@ export function VirtualScrollbar() {
     thumb.style.transform = `translateY(${progress * maxTranslate}px)`;
   }, []);
 
-  // ─── Scroll Listener ──────────────────────────────────────────────────────
+
   useEffect(() => {
     window.addEventListener("scroll", updateThumbPosition, { passive: true });
     updateThumbPosition();
     return () => window.removeEventListener("scroll", updateThumbPosition);
   }, [updateThumbPosition]);
 
-  // ─── MutationObserver — deteksi classList.add("dark") dari tombol CTA ─────
+ 
   useEffect(() => {
     const observer = new MutationObserver(updateThumbColor);
     observer.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ["class"],
     });
-    updateThumbColor(); // set warna awal
+    updateThumbColor(); 
     return () => observer.disconnect();
   }, [updateThumbColor]);
 
-  // ─── Drag ─────────────────────────────────────────────────────────────────
+ 
   const handleMouseMove = useCallback((e: MouseEvent) => {
     if (!isDragging.current || !trackRef.current || !thumbRef.current) return;
     e.preventDefault();

@@ -2,19 +2,12 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-
-
-type Role = "user" | "model";
-
-interface Message {
-  role: Role;
-  content: string;
-}
+import { useChat } from "@ai-sdk/react";
+import { DefaultChatTransport, type UIMessage } from "ai";
 
 export interface HanumAiChatProps {
   isDarkTheme: boolean;
 }
-
 
 interface ThemeTokens {
   windowBg: string;
@@ -98,7 +91,6 @@ function getTheme(dark: boolean): ThemeTokens {
       avatarGlow: "0 0 10px rgba(168,85,247,0.55)",
     };
   }
-
   return {
     windowBg: "rgba(250, 253, 251, 0.94)",
     windowBorder: "1px solid rgba(80,170,110,0.22)",
@@ -145,16 +137,20 @@ function getTheme(dark: boolean): ThemeTokens {
   };
 }
 
-// Contants
-
-const INITIAL_MESSAGE: Message = {
-  role: "model",
-  content:
-    "Haii Hanumm...😊 Wah, nama kita sama yaa, hehe. Di sini aku sebagai AI Assistant yang dibuat khusus untuk kamu (aku AI dan bisa salah). Ada yang mau kamu ceritain atau tanyain ke aku?",
-};
+const INITIAL_MESSAGES: UIMessage[] = [
+  {
+    id: "initial-welcome",
+    role: "assistant",
+    parts: [
+      {
+        type: "text",
+        text: "Haii Hanumm...😊 Wah, nama kita sama yaa, hehe. Di sini aku sebagai AI Assistant yang dibuat khusus untuk kamu (aku AI dan bisa salah). Ada yang mau kamu ceritain atau tanyain ke aku?",
+      },
+    ],
+  },
+];
 
 const SPRING = { type: "spring", stiffness: 320, damping: 28 } as const;
-
 
 function Avatar({ isDarkTheme }: { isDarkTheme: boolean }) {
   const t = getTheme(isDarkTheme);
@@ -164,26 +160,14 @@ function Avatar({ isDarkTheme }: { isDarkTheme: boolean }) {
       style={{ background: t.avatarBg, boxShadow: t.avatarGlow }}
       aria-hidden="true"
     >
-      <svg
-        width="16"
-        height="16"
-        viewBox="0 0 24 24"
-        fill="white"
-        xmlns="http://www.w3.org/2000/svg"
-      >
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="white">
         <circle cx="12" cy="7" r="4" />
-        <path
-          d="M8 6.5 Q8 2 12 2 Q16 2 16 6.5"
-          fill="rgba(255,255,255,0.55)"
-          stroke="none"
-        />
-        <path d="M4 22 Q4 15 12 15 Q20 15 20 22" fill="white" stroke="none" />
+        <path d="M8 6.5 Q8 2 12 2 Q16 2 16 6.5" fill="rgba(255,255,255,0.55)" />
+        <path d="M4 22 Q4 15 12 15 Q20 15 20 22" />
       </svg>
     </div>
   );
 }
-
-// Typing Indicator 
 
 function TypingIndicator({
   t,
@@ -194,7 +178,6 @@ function TypingIndicator({
 }) {
   return (
     <motion.div
-      key="typing"
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 6 }}
@@ -225,18 +208,21 @@ function TypingIndicator({
   );
 }
 
-
-
 function ChatBubble({
   message,
   t,
   isDarkTheme,
 }: {
-  message: Message;
+  message: UIMessage;
   t: ThemeTokens;
   isDarkTheme: boolean;
 }) {
   const isUser = message.role === "user";
+
+  const textContent = message.parts
+    .filter((p) => p.type === "text")
+    .map((p) => (p.type === "text" ? p.text : ""))
+    .join("");
 
   return (
     <motion.div
@@ -246,13 +232,10 @@ function ChatBubble({
       className={`flex items-end gap-2 ${isUser ? "flex-row-reverse" : "flex-row"}`}
     >
       {!isUser && <Avatar isDarkTheme={isDarkTheme} />}
-
       <div
-        className={`
-          max-w-[78%] px-4 py-2.5 text-sm leading-relaxed
-          ${isUser ? "rounded-2xl rounded-br-sm" : "rounded-2xl rounded-bl-sm"}
-          ${!isUser ? "whitespace-pre-line" : ""}
-        `}
+        className={`max-w-[78%] px-4 py-2.5 text-sm leading-relaxed ${
+          isUser ? "rounded-2xl rounded-br-sm" : "rounded-2xl rounded-bl-sm"
+        }`}
         style={
           isUser
             ? {
@@ -268,18 +251,16 @@ function ChatBubble({
         }
       >
         {!isUser
-          ? message.content.split("\n").map((line, i) => (
+          ? textContent.split("\n").map((line, i) => (
               <p key={i} className={i > 0 && line !== "" ? "mt-2" : ""}>
                 {line === "" ? <>&nbsp;</> : line}
               </p>
             ))
-          : message.content}
+          : textContent}
       </div>
     </motion.div>
   );
 }
-
-
 
 function SendIcon({ color }: { color: string }) {
   return (
@@ -292,7 +273,6 @@ function SendIcon({ color }: { color: string }) {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      aria-hidden="true"
     >
       <line x1="22" y1="2" x2="11" y2="13" />
       <polygon points="22 2 15 22 11 13 2 9 22 2" />
@@ -300,92 +280,30 @@ function SendIcon({ color }: { color: string }) {
   );
 }
 
-// Pemicu Button
-
-function TriggerButton({
-  triggerRef,
-  onClick,
-  hasUnread,
-  t,
-}: {
-  triggerRef: React.RefObject<HTMLButtonElement | null>;
-  onClick: () => void;
-  hasUnread: boolean;
-  t: ThemeTokens;
-}) {
-  return (
-    <motion.button
-      ref={triggerRef}
-      onClick={onClick}
-      aria-label="Buka chat"
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.93 }}
-      transition={SPRING}
-      className="relative w-14 h-14 rounded-full flex items-center justify-center focus:outline-none"
-      style={{ background: t.triggerBg, boxShadow: t.triggerShadow }}
-    >
-      <svg
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="white"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        aria-hidden="true"
-      >
-        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-      </svg>
-
-      <AnimatePresence>
-        {hasUnread && (
-          <motion.span
-            key="badge"
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            exit={{ scale: 0 }}
-            transition={{ type: "spring", stiffness: 400, damping: 20 }}
-            className="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-bold text-white"
-            style={{ background: "#f43f5e" }}
-          >
-            <span
-              className="absolute inset-0 rounded-full animate-ping"
-              style={{ background: "rgba(244,63,94,0.6)" }}
-            />
-            1
-          </motion.span>
-        )}
-      </AnimatePresence>
-    </motion.button>
-  );
-}
-
-
-
 export function HanumAiChat({ isDarkTheme }: HanumAiChatProps) {
   const t = getTheme(isDarkTheme);
-
   const [isOpen, setIsOpen] = useState(false);
   const [hasUnread, setHasUnread] = useState(true);
-  const [messages, setMessages] = useState<Message[]>([INITIAL_MESSAGE]);
-  const [input, setInput] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [input, setInput] = useState(""); 
+
+  const { messages, sendMessage, status } = useChat({
+    transport: new DefaultChatTransport({ api: "/api/chat" }),
+    messages: INITIAL_MESSAGES, 
+  });
+
+  const isStreaming = status === "streaming" || status === "submitted";
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const chatboxRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
 
- 
   useEffect(() => {
-    if (!scrollRef.current) return;
-    scrollRef.current.scrollTo({
+    scrollRef.current?.scrollTo({
       top: scrollRef.current.scrollHeight,
       behavior: "smooth",
     });
-  }, [messages, isLoading]);
-
+  }, [messages, isStreaming]);
 
   useEffect(() => {
     if (isOpen) {
@@ -394,102 +312,34 @@ export function HanumAiChat({ isDarkTheme }: HanumAiChatProps) {
     }
   }, [isOpen]);
 
- 
   useEffect(() => {
     if (!isOpen) return;
-
     const handleOutsideClick = (e: MouseEvent | TouchEvent) => {
       const target = e.target as Node;
-
-     
-      if (chatboxRef.current?.contains(target)) return;
-
-  
-      if (triggerRef.current?.contains(target)) return;
-
+      if (
+        chatboxRef.current?.contains(target) ||
+        triggerRef.current?.contains(target)
+      )
+        return;
       setIsOpen(false);
     };
-
-   
     document.addEventListener("mousedown", handleOutsideClick, true);
     document.addEventListener("touchstart", handleOutsideClick, {
       capture: true,
       passive: true,
     });
-
     return () => {
       document.removeEventListener("mousedown", handleOutsideClick, true);
       document.removeEventListener("touchstart", handleOutsideClick, true);
     };
   }, [isOpen]);
 
- 
-  const handleScrollAreaTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const { scrollTop, scrollHeight, clientHeight } = el;
-    const atTop = scrollTop <= 0;
-    const atBottom = scrollTop + clientHeight >= scrollHeight;
-    const touch = e.touches[0];
-    if (!touch) return;
-   
-    if (atTop || atBottom) {
-      e.stopPropagation();
-    }
-  };
- 
-  const sendMessage = async () => {
+  const handleSend = () => {
     const trimmed = input.trim();
-    if (!trimmed || isLoading) return;
-
-    const userMessage: Message = { role: "user", content: trimmed };
-    const updatedHistory = [...messages, userMessage];
-
-    setMessages(updatedHistory);
+    if (!trimmed || isStreaming) return;
+    sendMessage({ text: trimmed });
     setInput("");
-  
     if (inputRef.current) inputRef.current.style.height = "auto";
-    setIsLoading(true);
-
-    try {
-      const res = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: updatedHistory }),
-      });
-
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-
-      const data = (await res.json()) as { reply?: string; error?: string };
-
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: "model",
-          content:
-            data.reply ??
-            "Hmm... kayaknya otakku lagi error nih xixi 😅 Coba lagi ya!",
-        },
-      ]);
-    } catch (_err) {
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: "model",
-          content:
-            "Aduh, koneksinya ngambek nih — servernya lagi minta kopi susu aren kayaknya 😂 Coba lagi sebentar ya, Hanum!",
-        },
-      ]);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      void sendMessage();
-    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -498,7 +348,14 @@ export function HanumAiChat({ isDarkTheme }: HanumAiChatProps) {
     e.target.style.height = `${Math.min(e.target.scrollHeight, 96)}px`;
   };
 
-  const canSend = input.trim().length > 0 && !isLoading;
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
+    }
+  };
+
+  const canSend = input.trim().length > 0 && !isStreaming;
 
   return (
     <div
@@ -506,7 +363,6 @@ export function HanumAiChat({ isDarkTheme }: HanumAiChatProps) {
       role="region"
       aria-label="Hanum AI Chat"
     >
-      {/* Chat Window */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -519,7 +375,6 @@ export function HanumAiChat({ isDarkTheme }: HanumAiChatProps) {
             className="flex flex-col overflow-hidden"
             style={{
               width: "clamp(300px, calc(100vw - 2rem), 360px)",
-              // dynamic viewport height
               height: "min(540px, calc(100dvh - 100px))",
               borderRadius: "20px",
               background: t.windowBg,
@@ -527,17 +382,12 @@ export function HanumAiChat({ isDarkTheme }: HanumAiChatProps) {
               WebkitBackdropFilter: "blur(24px)",
               border: t.windowBorder,
               boxShadow: t.windowShadow,
-              transition:
-                "background 0.5s ease, border 0.5s ease, box-shadow 0.5s ease",
             }}
           >
+            {/* Header */}
             <div
               className="flex items-center gap-3 px-4 py-3.5 flex-shrink-0"
-              style={{
-                background: t.headerBg,
-                borderBottom: t.headerBorder,
-                transition: "background 0.5s ease",
-              }}
+              style={{ background: t.headerBg, borderBottom: t.headerBorder }}
             >
               <div className="relative flex-shrink-0">
                 <Avatar isDarkTheme={isDarkTheme} />
@@ -549,26 +399,21 @@ export function HanumAiChat({ isDarkTheme }: HanumAiChatProps) {
                   }}
                 />
               </div>
-
               <div className="flex-1 min-w-0">
                 <p
-                  className="text-sm font-semibold truncate transition-colors duration-500"
+                  className="text-sm font-semibold truncate"
                   style={{ color: t.headerTitle }}
                 >
                   Hanum AI 👩‍🦰
                 </p>
-                <p
-                  className="text-[11px] transition-colors duration-500"
-                  style={{ color: t.headerSubtitle }}
-                >
+                <p className="text-[11px]" style={{ color: t.headerSubtitle }}>
                   online · siap ngobrol~
                 </p>
               </div>
-
               <button
                 onClick={() => setIsOpen(false)}
                 aria-label="Tutup chat"
-                className="w-11 h-11 rounded-full flex items-center justify-center focus:outline-none transition-all duration-150"
+                className="w-11 h-11 rounded-full flex items-center justify-center focus:outline-none"
                 style={{ color: t.headerCloseBtnColor }}
                 onMouseEnter={(e) =>
                   (e.currentTarget.style.background = t.headerCloseBtnHoverBg)
@@ -585,7 +430,6 @@ export function HanumAiChat({ isDarkTheme }: HanumAiChatProps) {
                   stroke="currentColor"
                   strokeWidth="2.2"
                   strokeLinecap="round"
-                  aria-hidden="true"
                 >
                   <line x1="18" y1="6" x2="6" y2="18" />
                   <line x1="6" y1="6" x2="18" y2="18" />
@@ -593,40 +437,37 @@ export function HanumAiChat({ isDarkTheme }: HanumAiChatProps) {
               </button>
             </div>
 
-        
+            {/* Messages */}
             <div
               ref={scrollRef}
               className="flex-1 overflow-y-auto px-4 py-4 flex flex-col gap-3"
               style={{
                 scrollbarWidth: "thin",
                 scrollbarColor: t.scrollbarColor,
-                // mengaktifkan pull-to-refresh 
                 overscrollBehavior: "contain",
               }}
-              onTouchMove={handleScrollAreaTouchMove}
             >
               <AnimatePresence initial={false}>
                 {messages.map((msg, i) => (
                   <ChatBubble
-                    key={i}
+                    key={msg.id || i}
                     message={msg}
                     t={t}
                     isDarkTheme={isDarkTheme}
                   />
                 ))}
-                {isLoading && (
+                {isStreaming && (
                   <TypingIndicator t={t} isDarkTheme={isDarkTheme} />
                 )}
               </AnimatePresence>
             </div>
 
-        
+            {/* Input */}
             <div
-              className="px-3 py-3 flex-shrink-0 flex items-end gap-2"
+              className="px-3 py-3 flex-shrink-0 flex items-end gap-2 w-full"
               style={{
                 borderTop: t.inputAreaBorder,
                 background: t.inputAreaBg,
-                transition: "background 0.5s ease",
               }}
             >
               <textarea
@@ -636,8 +477,8 @@ export function HanumAiChat({ isDarkTheme }: HanumAiChatProps) {
                 onKeyDown={handleKeyDown}
                 placeholder="Ketik sesuatu..."
                 rows={1}
-                disabled={isLoading}
-                className="flex-1 resize-none bg-transparent text-sm focus:outline-none leading-relaxed transition-colors duration-500"
+                disabled={isStreaming}
+                className="flex-1 resize-none bg-transparent text-sm focus:outline-none leading-relaxed"
                 style={{
                   color: t.inputText,
                   maxHeight: "96px",
@@ -645,10 +486,8 @@ export function HanumAiChat({ isDarkTheme }: HanumAiChatProps) {
                   caretColor: t.inputCaret,
                 }}
               />
-
-           
               <motion.button
-                onClick={() => void sendMessage()}
+                onClick={handleSend}
                 disabled={!canSend}
                 aria-label="Kirim pesan"
                 whileTap={canSend ? { scale: 0.88 } : {}}
@@ -659,7 +498,6 @@ export function HanumAiChat({ isDarkTheme }: HanumAiChatProps) {
                   border: canSend ? t.sendActiveBorder : t.sendDisabledBorder,
                   boxShadow: canSend ? t.sendActiveShadow : "none",
                   cursor: canSend ? "pointer" : "not-allowed",
-                  transition: "background 0.3s ease, box-shadow 0.3s ease",
                 }}
               >
                 <SendIcon
@@ -671,13 +509,49 @@ export function HanumAiChat({ isDarkTheme }: HanumAiChatProps) {
         )}
       </AnimatePresence>
 
-
-      <TriggerButton
-        triggerRef={triggerRef}
+      {/* Trigger */}
+      <motion.button
+        ref={triggerRef}
         onClick={() => setIsOpen((v) => !v)}
-        hasUnread={hasUnread}
-        t={t}
-      />
+        aria-label="Buka chat"
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.93 }}
+        transition={SPRING}
+        className="relative w-14 h-14 rounded-full flex items-center justify-center focus:outline-none"
+        style={{ background: t.triggerBg, boxShadow: t.triggerShadow }}
+      >
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="white"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
+        <AnimatePresence>
+          {hasUnread && (
+            <motion.span
+              key="badge"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0 }}
+              transition={{ type: "spring", stiffness: 400, damping: 20 }}
+              className="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-bold text-white"
+              style={{ background: "#f43f5e" }}
+            >
+              <span
+                className="absolute inset-0 rounded-full animate-ping"
+                style={{ background: "rgba(244,63,94,0.6)" }}
+              />
+              1
+            </motion.span>
+          )}
+        </AnimatePresence>
+      </motion.button>
     </div>
   );
 }

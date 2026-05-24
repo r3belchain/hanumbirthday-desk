@@ -9,7 +9,7 @@ interface CTASectionProps {
 }
 
 const SUCCESS_WORDS = [
-  "Terkirim!",
+  "Terkirim!"
 ];
 
 const wordContainerVariants: Variants = {
