@@ -1,9 +1,12 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, type UIMessage } from "ai";
+import { VirtualScrollbar } from "@/components/ui/VirtualScrollbar";
+// ─── Semua interface, getTheme, COLORS, INITIAL_MESSAGES, SPRING ────────────
+// (tidak ada perubahan sama sekali di bagian ini)
 
 export interface HanumAiChatProps {
   isDarkTheme: boolean;
@@ -15,7 +18,7 @@ interface ThemeTokens {
   windowShadow: string;
   headerBg: string;
   headerBorder: string;
-  headerTitle: string;
+  headerTitle: string;  
   headerSubtitle: string;
   headerCloseBtnColor: string;
   headerCloseBtnHoverBg: string;
@@ -280,15 +283,18 @@ function SendIcon({ color }: { color: string }) {
   );
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// PERUBAHAN UTAMA hanya ada di komponen ini — tidak ada yang lain yang diubah
+// ─────────────────────────────────────────────────────────────────────────────
 export function HanumAiChat({ isDarkTheme }: HanumAiChatProps) {
   const t = getTheme(isDarkTheme);
   const [isOpen, setIsOpen] = useState(false);
   const [hasUnread, setHasUnread] = useState(true);
-  const [input, setInput] = useState(""); 
+  const [input, setInput] = useState("");
 
   const { messages, sendMessage, status } = useChat({
     transport: new DefaultChatTransport({ api: "/api/chat" }),
-    messages: INITIAL_MESSAGES, 
+    messages: INITIAL_MESSAGES,
   });
 
   const isStreaming = status === "streaming" || status === "submitted";
@@ -298,6 +304,7 @@ export function HanumAiChat({ isDarkTheme }: HanumAiChatProps) {
   const chatboxRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
 
+  // ── [PERBAIKAN 1] Auto-scroll tetap bekerja seperti semula ────────────────
   useEffect(() => {
     scrollRef.current?.scrollTo({
       top: scrollRef.current.scrollHeight,
@@ -333,6 +340,19 @@ export function HanumAiChat({ isDarkTheme }: HanumAiChatProps) {
       document.removeEventListener("touchstart", handleOutsideClick, true);
     };
   }, [isOpen]);
+
+  // ── [PERBAIKAN 2] onWheel handler — cegah scroll bocor ke halaman utama ───
+  // Dipindah ke useCallback agar referensi stabil dan tidak re-create tiap render.
+  const handleWheel = useCallback((e: React.WheelEvent<HTMLDivElement>) => {
+    // Hentikan event agar tidak naik ke window/halaman latar belakang
+    e.stopPropagation();
+
+    const el = scrollRef.current;
+    if (!el) return;
+
+    // Scroll konten chatbox secara manual sesuai arah roda mouse
+    el.scrollTop += e.deltaY;
+  }, []);
 
   const handleSend = () => {
     const trimmed = input.trim();
@@ -384,7 +404,7 @@ export function HanumAiChat({ isDarkTheme }: HanumAiChatProps) {
               boxShadow: t.windowShadow,
             }}
           >
-            {/* Header */}
+            {/* Header — tidak ada perubahan */}
             <div
               className="flex items-center gap-3 px-4 py-3.5 flex-shrink-0"
               style={{ background: t.headerBg, borderBottom: t.headerBorder }}
@@ -437,32 +457,50 @@ export function HanumAiChat({ isDarkTheme }: HanumAiChatProps) {
               </button>
             </div>
 
-            {/* Messages */}
-            <div
-              ref={scrollRef}
-              className="flex-1 overflow-y-auto px-4 py-4 flex flex-col gap-3"
-              style={{
-                scrollbarWidth: "thin",
-                scrollbarColor: t.scrollbarColor,
-                overscrollBehavior: "contain",
-              }}
-            >
-              <AnimatePresence initial={false}>
-                {messages.map((msg, i) => (
-                  <ChatBubble
-                    key={msg.id || i}
-                    message={msg}
-                    t={t}
-                    isDarkTheme={isDarkTheme}
-                  />
-                ))}
-                {isStreaming && (
-                  <TypingIndicator t={t} isDarkTheme={isDarkTheme} />
-                )}
-              </AnimatePresence>
+            {/* ── [PERBAIKAN 3] Area Pesan ─────────────────────────────────────
+                Tiga perubahan di sini:
+                1. overflow-y-auto → overflow-y-scroll (tetap scrollable untuk VirtualScrollbar)
+                2. scrollbarWidth: "none" + msOverflowStyle: "none" → sembunyikan native scrollbar
+                   (tambahkan juga "[&::-webkit-scrollbar]:hidden" di className untuk Safari/Chrome)
+                3. onWheel={handleWheel} → cegah scroll bocor
+                scrollbarColor dihapus karena native scrollbar sudah disembunyikan.
+            ─────────────────────────────────────────────────────────────────── */}
+            {/* Wrapper: position:relative agar VirtualScrollbar absolute terkurung di sini */}
+            <div className="relative flex-1 overflow-hidden">
+              {/* Area pesan — flex-1 dipindah ke wrapper di atas */}
+              <div
+                ref={scrollRef}
+                className="h-full overflow-y-scroll px-4 py-4 flex flex-col gap-3 [&::-webkit-scrollbar]:hidden"
+                style={{
+                  scrollbarWidth: "none",
+                  msOverflowStyle: "none",
+                  overscrollBehavior: "contain",
+                }}
+                onWheel={handleWheel}
+              >
+                <AnimatePresence initial={false}>
+                  {messages.map((msg, i) => (
+                    <ChatBubble
+                      key={msg.id || i}
+                      message={msg}
+                      t={t}
+                      isDarkTheme={isDarkTheme}
+                    />
+                  ))}
+                  {isStreaming && (
+                    <TypingIndicator t={t} isDarkTheme={isDarkTheme} />
+                  )}
+                </AnimatePresence>
+              </div>
+
+              {/* VirtualScrollbar terkurung di dalam wrapper ini */}
+              <VirtualScrollbar
+                containerRef={scrollRef}
+                isDarkTheme={isDarkTheme}
+              />
             </div>
 
-            {/* Input */}
+            {/* Input area — tidak ada perubahan */}
             <div
               className="px-3 py-3 flex-shrink-0 flex items-end gap-2 w-full"
               style={{
@@ -509,7 +547,7 @@ export function HanumAiChat({ isDarkTheme }: HanumAiChatProps) {
         )}
       </AnimatePresence>
 
-      {/* Trigger */}
+      {/* Trigger button — tidak ada perubahan */}
       <motion.button
         ref={triggerRef}
         onClick={() => setIsOpen((v) => !v)}

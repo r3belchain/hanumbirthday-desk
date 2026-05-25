@@ -8,6 +8,8 @@ import {
   useTransform,
 } from "framer-motion";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+// Import VirtualScrollbar yang sudah di-extend dengan props opsional
+import { VirtualScrollbar } from "@/components/ui/VirtualScrollbar";
 
 interface TimeNode {
   id: string;
@@ -15,7 +17,6 @@ interface TimeNode {
   subtitle: string;
   icon: string;
   message: React.ReactNode;
-
   scrollTrigger: number;
 }
 
@@ -25,7 +26,7 @@ const constellationData: TimeNode[] = [
     title: "Past Memory",
     subtitle: "Yang telah berlalu",
     icon: "📽️",
-    message: `Aku masih anak kecil yang belum paham saat itu, aku ngga pernah membayangkan sampai segininya. Tapi bagiku, setiap fragmen memori yang tersisa adalah bagian dari cerita yang membentuk siapa aku hari ini. A lot. Mungkin bagi kamu aku halusinasi, tapi “kedalaman” itu nyata.`,
+    message: `Aku masih anak kecil yang belum paham saat itu, aku ngga pernah membayangkan sampai segininya. Tapi bagiku, setiap fragmen memori yang tersisa adalah bagian dari cerita yang membentuk siapa aku hari ini. A lot. Mungkin bagi kamu aku halusinasi, tapi "kedalaman" itu nyata.`,
     scrollTrigger: 0,
   },
   {
@@ -61,7 +62,7 @@ const constellationData: TimeNode[] = [
         </strong>{" "}
         itu lebih sakit dan mahal harganya daripada rasa lelah atas{" "}
         <strong>
-          <em>percobaan yang belum berhasil</em>  
+          <em>percobaan yang belum berhasil</em>
         </strong>
         . Apa pun jalannya dan "dengan siapa", may you find ease.
       </>
@@ -112,11 +113,11 @@ function useLayout() {
   );
 
   const xFrames = useMemo(
-    () => [0, 0.5, 1].map((t, i) => `calc(50vw - ${nodes[i].sx}px)`),
+    () => [0, 0.5, 1].map((_, i) => `calc(50vw - ${nodes[i].sx}px)`),
     [nodes],
   );
   const yFrames = useMemo(
-    () => [0, 0.5, 1].map((t, i) => `calc(50vh - ${nodes[i].sy}px)`),
+    () => [0, 0.5, 1].map((_, i) => `calc(50vh - ${nodes[i].sy}px)`),
     [nodes],
   );
 
@@ -442,7 +443,11 @@ function NodeModal({
               mass: 0.8,
             }}
             onPointerDown={(e) => e.stopPropagation()}
-            className={`relative max-w-md w-full rounded-3xl border p-8 shadow-2xl ${isDarkTheme ? "bg-[#0c0c18]/95 border-purple-500/25 text-white" : "bg-white/95 border-emerald-200 text-neutral-800"}`}
+            className={`relative max-w-md w-full rounded-3xl border p-8 shadow-2xl ${
+              isDarkTheme
+                ? "bg-[#0c0c18]/95 border-purple-500/25 text-white"
+                : "bg-white/95 border-emerald-200 text-neutral-800"
+            }`}
             style={{
               boxShadow: isDarkTheme
                 ? "0 32px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(168,85,247,0.1), inset 0 1px 0 rgba(255,255,255,0.05)"
@@ -452,7 +457,11 @@ function NodeModal({
             <button
               type="button"
               onClick={onClose}
-              className={`absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full text-sm transition-all ${isDarkTheme ? "bg-white/5 hover:bg-white/15 text-white/60 hover:text-white" : "bg-neutral-100 hover:bg-neutral-200 text-neutral-400 hover:text-neutral-700"}`}
+              className={`absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full text-sm transition-all ${
+                isDarkTheme
+                  ? "bg-white/5 hover:bg-white/15 text-white/60 hover:text-white"
+                  : "bg-neutral-100 hover:bg-neutral-200 text-neutral-400 hover:text-neutral-700"
+              }`}
             >
               ✕
             </button>
@@ -493,6 +502,17 @@ function ConstellationCanvas({
   const savedScrollTop = useRef(0);
 
   const { scale, canvasW, canvasH, nodes, xFrames, yFrames } = useLayout();
+
+  // ─── Sembunyikan global VirtualScrollbar, munculkan lokal ────────────────
+  // Menambahkan class ke <html> saat canvas terbuka.
+  // VirtualScrollbar global mendeteksi ini via MutationObserver dan
+  // menyembunyikan dirinya sendiri (opacity:0, pointerEvents:none).
+  useEffect(() => {
+    document.documentElement.classList.add("constellation-open");
+    return () => {
+      document.documentElement.classList.remove("constellation-open");
+    };
+  }, []);
 
   useEffect(() => {
     const orig = document.body.style.overflow;
@@ -564,11 +584,13 @@ function ConstellationCanvas({
     <>
       <div className="fixed inset-0 z-[200] pointer-events-none">
         <p
-          className={`pointer-events-none absolute top-5 left-0 right-0 mx-auto w-max text-[9px] font-mono tracking-[0.3em] uppercase px-4 py-1.5 rounded-full border transition-all duration-700 ${isDarkTheme ? "bg-white/5 backdrop-blur-md text-purple-400 border-purple-500/20 shadow-[0_0_15px_rgba(168,85,247,0.1)]" : "bg-white/70 backdrop-blur-md text-emerald-700 border-emerald-600/20 shadow-sm"}`}
+          className={`pointer-events-none absolute top-5 left-0 right-0 mx-auto w-max text-[9px] font-mono tracking-[0.3em] uppercase px-4 py-1.5 rounded-full border transition-all duration-700 ${
+            isDarkTheme
+              ? "bg-white/5 backdrop-blur-md text-purple-400 border-purple-500/20 shadow-[0_0_15px_rgba(168,85,247,0.1)]"
+              : "bg-white/70 backdrop-blur-md text-emerald-700 border-emerald-600/20 shadow-sm"
+          }`}
         >
-          {isDarkTheme
-            ? "Klik dan scroll untuk membuka pesan dari setiap waktu"
-            : "Klik dan scroll untuk membuka pesan dari setiap waktu"}
+          Klik dan scroll untuk membuka pesan dari setiap waktu
         </p>
 
         <AnimatePresence>
@@ -592,12 +614,16 @@ function ConstellationCanvas({
                 transition={{ delay: 0.25, duration: 0.6 }}
                 className={`text-[9px] font-mono tracking-[0.3em] uppercase ${isDarkTheme ? "text-purple-400/60" : "text-emerald-700/60"}`}
               >
-                {isDarkTheme ? "— Akhir Perjalanan —" : "— Akhir Perjalanan —"}
+                — Akhir Perjalanan —
               </motion.p>
               <button
                 type="button"
                 onClick={onClose}
-                className={`group relative flex items-center gap-3 px-8 py-4 rounded-2xl border backdrop-blur-xl cursor-pointer transition-all duration-300 select-none ${isDarkTheme ? "bg-purple-950/30 border-purple-400/40 text-white hover:bg-purple-900/50 hover:border-purple-300 shadow-[0_0_40px_rgba(168,85,247,0.2)] hover:shadow-[0_0_60px_rgba(168,85,247,0.35)]" : "bg-white/80 border-emerald-300/70 text-emerald-900 hover:bg-white hover:border-emerald-400 shadow-lg shadow-emerald-900/10 hover:shadow-xl hover:shadow-emerald-900/15"}`}
+                className={`group relative flex items-center gap-3 px-8 py-4 rounded-2xl border backdrop-blur-xl cursor-pointer transition-all duration-300 select-none ${
+                  isDarkTheme
+                    ? "bg-purple-950/30 border-purple-400/40 text-white hover:bg-purple-900/50 hover:border-purple-300 shadow-[0_0_40px_rgba(168,85,247,0.2)] hover:shadow-[0_0_60px_rgba(168,85,247,0.35)]"
+                    : "bg-white/80 border-emerald-300/70 text-emerald-900 hover:bg-white hover:border-emerald-400 shadow-lg shadow-emerald-900/10 hover:shadow-xl hover:shadow-emerald-900/15"
+                }`}
               >
                 {isDarkTheme && (
                   <motion.div
@@ -653,7 +679,11 @@ function ConstellationCanvas({
       <div
         ref={scrollRef}
         data-lenis-prevent="true"
-        className={`fixed inset-0 z-[100] overflow-y-auto overflow-x-hidden outline-none transition-colors duration-1000 ${isDarkTheme ? "bg-[#030305] dark-scroll" : "bg-gradient-to-b from-[#FAF8F5] via-[#F3EDE2] to-[#E2EAD0] light-scroll"}`}
+        className={`fixed inset-0 z-[100] overflow-y-auto overflow-x-hidden outline-none transition-colors duration-1000 ${
+          isDarkTheme
+            ? "bg-[#030305] dark-scroll"
+            : "bg-gradient-to-b from-[#FAF8F5] via-[#F3EDE2] to-[#E2EAD0] light-scroll"
+        }`}
         style={{ touchAction: "pan-y", WebkitOverflowScrolling: "touch" }}
       >
         {isDarkTheme ? <NightAtmosphere /> : <DayAtmosphere />}
@@ -715,7 +745,15 @@ function ConstellationCanvas({
                     <button
                       type="button"
                       onPointerDown={(e) => openNode(e, nodeData.id)}
-                      className={`relative touch-none rounded-full flex items-center justify-center backdrop-blur-xl border transition-all duration-500 cursor-pointer hover:scale-105 active:scale-95 z-50 ${isNear ? (isDarkTheme ? "bg-[#0d0d18] border-purple-400 shadow-[0_0_35px_rgba(168,85,247,0.45)]" : "bg-white border-emerald-400 shadow-lg shadow-emerald-500/25") : isDarkTheme ? "bg-[#07070c]/60 border-purple-500/30 shadow-[0_0_20px_rgba(168,85,247,0.1)]" : "bg-white/95 border-emerald-200/80 shadow-md"}`}
+                      className={`relative touch-none rounded-full flex items-center justify-center backdrop-blur-xl border transition-all duration-500 cursor-pointer hover:scale-105 active:scale-95 z-50 ${
+                        isNear
+                          ? isDarkTheme
+                            ? "bg-[#0d0d18] border-purple-400 shadow-[0_0_35px_rgba(168,85,247,0.45)]"
+                            : "bg-white border-emerald-400 shadow-lg shadow-emerald-500/25"
+                          : isDarkTheme
+                            ? "bg-[#07070c]/60 border-purple-500/30 shadow-[0_0_20px_rgba(168,85,247,0.1)]"
+                            : "bg-white/95 border-emerald-200/80 shadow-md"
+                      }`}
                       style={{
                         width: Math.max(56, 80 * scale),
                         height: Math.max(56, 80 * scale),
@@ -756,6 +794,10 @@ function ConstellationCanvas({
         </div>
       </div>
 
+      <div className="fixed right-0 top-0 bottom-0 z-[150] w-6">
+        <VirtualScrollbar containerRef={scrollRef} isDarkTheme={isDarkTheme} />
+      </div>
+
       <NodeModal
         node={activeNode}
         isDarkTheme={isDarkTheme}
@@ -782,15 +824,8 @@ export function ConstellationTimeline({
         className="max-w-md mx-auto relative group"
       >
         <motion.div
-          animate={{
-            opacity: [0.3, 0.6, 0.3],
-            scale: [0.98, 1.02, 0.98],
-          }}
-          transition={{
-            duration: 3,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
+          animate={{ opacity: [0.3, 0.6, 0.3], scale: [0.98, 1.02, 0.98] }}
+          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
           className={`absolute inset-0 rounded-2xl blur-xl pointer-events-none transition-colors duration-500 ${
             isDarkTheme ? "bg-purple-500/20" : "bg-emerald-400/15"
           }`}
@@ -819,7 +854,7 @@ export function ConstellationTimeline({
             <motion.div
               animate={{ opacity: [0.1, 0.9, 0.1] }}
               transition={{ duration: 1.5, repeat: Infinity, delay: 0.7 }}
-              className={`absolute top-4 right-1/3 w-1 h-1 rounded-full ${isDarkTheme ? "bg-white" : "bg-emerald-300"}`}
+              className={`absolute top-4 right-1/3 w-1 w-1 rounded-full ${isDarkTheme ? "bg-white" : "bg-emerald-300"}`}
             />
           </div>
 
@@ -834,11 +869,8 @@ export function ConstellationTimeline({
               >
                 Susuri pesan dari waktu
               </span>
-
               <h3
-                className={`font-serif text-xl mt-1 transition-colors duration-500 ${
-                  isDarkTheme ? "text-white" : "text-neutral-800"
-                }`}
+                className={`font-serif text-xl mt-1 transition-colors duration-500 ${isDarkTheme ? "text-white" : "text-neutral-800"}`}
                 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
               >
                 Konstelasi Zaman
@@ -855,7 +887,6 @@ export function ConstellationTimeline({
                 </motion.span>
               </h3>
             </div>
-
             <motion.span
               className={`text-xl ${isDarkTheme ? "text-purple-400" : "text-emerald-600"}`}
               whileHover={{ x: 6, scale: 1.1 }}
