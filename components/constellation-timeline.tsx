@@ -502,11 +502,6 @@ function ConstellationCanvas({
   const savedScrollTop = useRef(0);
 
   const { scale, canvasW, canvasH, nodes, xFrames, yFrames } = useLayout();
-
-  // ─── Sembunyikan global VirtualScrollbar, munculkan lokal ────────────────
-  // Menambahkan class ke <html> saat canvas terbuka.
-  // VirtualScrollbar global mendeteksi ini via MutationObserver dan
-  // menyembunyikan dirinya sendiri (opacity:0, pointerEvents:none).
   useEffect(() => {
     document.documentElement.classList.add("constellation-open");
     return () => {

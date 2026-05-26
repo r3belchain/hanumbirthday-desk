@@ -13,19 +13,9 @@ const COLORS = {
 } as const;
 
 interface VirtualScrollbarProps {
-  /**
-   * LOCAL MODE — isi dengan scrollRef div container (misal: ConstellationCanvas).
-   * Scrollbar akan mengontrol div ini, bukan window.
-   *
-   * GLOBAL MODE — biarkan kosong (undefined).
-   * Scrollbar mengontrol window, persis seperti semula.
-   */
+
   containerRef?: React.RefObject<HTMLDivElement | null>;
 
-  /**
-   * Hanya untuk LOCAL MODE.
-   * Override warna langsung dari state, tidak perlu baca classList.
-   */
   isDarkTheme?: boolean;
 }
 
@@ -38,18 +28,13 @@ export function VirtualScrollbar({
   const isDragging = useRef(false);
   const isHovered = useRef(false);
 
-  // Nilai ini stabil — hanya berubah jika prop containerRef berubah dari/ke undefined,
-  // yang tidak terjadi dalam penggunaan normal (prop tidak berubah setelah mount).
   const isLocalMode = containerRef !== undefined;
 
-  // ─── updateThumbColor ────────────────────────────────────────────────────
-  // Dipisah dari isDarkTheme agar tidak membuat referensi baru tiap re-render.
-  // Membaca isDarkTheme lewat closure, bukan dependency.
   const updateThumbColor = useCallback(() => {
     const thumb = thumbRef.current;
     if (!thumb) return;
 
-    // Local mode: gunakan prop isDarkTheme. Global mode: baca classList.
+
     const dark =
       isDarkTheme !== undefined
         ? isDarkTheme
@@ -58,10 +43,8 @@ export function VirtualScrollbar({
     const palette = dark ? COLORS.dark : COLORS.light;
     const isActive = isDragging.current || isHovered.current;
     thumb.style.backgroundColor = isActive ? palette.active : palette.normal;
-    // isDarkTheme disertakan agar warna update saat prop berubah (misal animasi tema)
-  }, [isDarkTheme]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isDarkTheme]); 
 
-  // ─── updateThumbPosition ─────────────────────────────────────────────────
   const updateThumbPosition = useCallback(() => {
     const thumb = thumbRef.current;
     const track = trackRef.current;
@@ -83,9 +66,7 @@ export function VirtualScrollbar({
     thumb.style.transform = `translateY(${progress * maxTranslate}px)`;
   }, [isLocalMode, containerRef]);
 
-  // ─── updateVisibility (HANYA global mode) ────────────────────────────────
-  // Didefinisikan di luar useEffect agar tidak ada fungsi setelah `return`.
-  // Sembunyikan global scrollbar saat ConstellationCanvas terbuka.
+
   const updateVisibility = useCallback(() => {
     const track = trackRef.current;
     if (!track) return;
@@ -95,7 +76,7 @@ export function VirtualScrollbar({
     track.style.pointerEvents = hidden ? "none" : "auto";
   }, []);
 
-  // ─── Scroll listener ──────────────────────────────────────────────────────
+
   useEffect(() => {
     if (isLocalMode) {
       const el = containerRef?.current;
@@ -110,17 +91,13 @@ export function VirtualScrollbar({
     return () => window.removeEventListener("scroll", updateThumbPosition);
   }, [isLocalMode, containerRef, updateThumbPosition]);
 
-  // ─── MutationObserver & visibility ───────────────────────────────────────
+
   useEffect(() => {
-    // Local mode: tidak butuh observer — warna datang dari prop isDarkTheme.
-    // Cukup sinkronisasi warna saat prop berubah.
     if (isLocalMode) {
       updateThumbColor();
-      return; // tidak ada cleanup yang dibutuhkan
+      return; 
     }
 
-    // Global mode: pantau perubahan class di <html>
-    // untuk dark mode dan constellation-open.
     const onClassChange = () => {
       updateThumbColor();
       updateVisibility();
@@ -132,15 +109,14 @@ export function VirtualScrollbar({
       attributeFilter: ["class"],
     });
 
-    // Set state awal
+
     updateThumbColor();
     updateVisibility();
 
     return () => observer.disconnect();
   }, [isLocalMode, updateThumbColor, updateVisibility]);
-  // ─────────────────────────────────────────────────────────────────────────
 
-  // ─── Drag ─────────────────────────────────────────────────────────────────
+
   const handleMouseMove = useCallback(
     (e: MouseEvent) => {
       if (!isDragging.current || !trackRef.current || !thumbRef.current) return;
@@ -186,15 +162,14 @@ export function VirtualScrollbar({
     [handleMouseMove, handleMouseUp, updateThumbColor],
   );
 
-  // ─── Render ───────────────────────────────────────────────────────────────
   return (
     <div
       ref={trackRef}
       className={
         isLocalMode
-          ? // Local: absolute dalam parent yang position:relative
+          ? 
             "absolute right-0 top-0 bottom-0 w-4 z-10 flex items-start justify-center py-1 cursor-none"
-          : // Global: tetap fixed ke viewport seperti semula
+          : 
             "fixed right-0 top-0 bottom-0 w-6 z-[9999] flex items-start justify-center py-1 cursor-none"
       }
       style={{ transition: "opacity 0.3s ease" }}

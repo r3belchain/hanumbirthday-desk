@@ -18,7 +18,6 @@ export function FireworksBackgroundNew() {
     particlesRef.current = [];
 
     const setupCanvas = () => {
-
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       const w = window.innerWidth;
       const h = window.innerHeight;
@@ -61,7 +60,7 @@ export function FireworksBackgroundNew() {
         this.friction = 0.96;
         this.gravity = 0.1;
         this.history = [];
-        this.historyLength = 5; 
+        this.historyLength = 5;
       }
 
       update() {
@@ -83,7 +82,7 @@ export function FireworksBackgroundNew() {
         c.save();
         c.globalAlpha = this.alpha;
         c.strokeStyle = this.color;
-        c.lineWidth = 2.5; 
+        c.lineWidth = 2.5;
         c.lineCap = "round";
         c.lineJoin = "round";
 
@@ -99,7 +98,6 @@ export function FireworksBackgroundNew() {
     }
 
     const createFirework = () => {
-
       if (particlesRef.current.length > 150) return;
 
       const { width, height } = dimensionsRef.current;
@@ -118,7 +116,6 @@ export function FireworksBackgroundNew() {
       ];
       const color = colors[Math.floor(Math.random() * colors.length)];
 
-
       const particleCount = window.innerWidth < 768 ? 25 : 40;
 
       for (let i = 0; i < particleCount; i++) {
@@ -126,12 +123,10 @@ export function FireworksBackgroundNew() {
       }
     };
 
-
     let lastTime = 0;
-    const fpsLimit = 1000 / 60; 
+    const fpsLimit = 1000 / 60;
 
     const animate = (currentTime: number) => {
-
       if (currentTime - lastTime < fpsLimit) {
         animationFrameRef.current = requestAnimationFrame(animate);
         return;
@@ -140,7 +135,6 @@ export function FireworksBackgroundNew() {
 
       const { width, height } = dimensionsRef.current;
       ctx.clearRect(0, 0, width, height);
-
 
       if (Math.random() < 0.05) {
         createFirework();
@@ -159,7 +153,6 @@ export function FireworksBackgroundNew() {
     setupCanvas();
 
     animationFrameRef.current = requestAnimationFrame(animate);
-
 
     let resizeTimeout: NodeJS.Timeout;
     const handleResize = () => {
@@ -185,8 +178,8 @@ export function FireworksBackgroundNew() {
       className="fixed inset-0 pointer-events-none -z-[1]"
       style={{
         background: "transparent",
-        willChange: "transform", 
-        transform: "translateZ(0)", 
+        willChange: "transform",
+        transform: "translateZ(0)",
       }}
     />
   );
