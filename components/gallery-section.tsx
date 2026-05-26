@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  motion,
-  useScroll,
-  useSpring,
-  useTransform,
-  MotionValue,
-} from "framer-motion";
+import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
@@ -247,13 +241,11 @@ export function GallerySection({ isDarkTheme = false }: GallerySectionProps) {
   const [nodeYs, setNodeYs] = useState<number[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
 
- 
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start 0.5", "end 0.5"],
   });
 
- 
   const smoothProgress = useSpring(scrollYProgress, {
     stiffness: 45,
     damping: 18,
@@ -289,7 +281,6 @@ export function GallerySection({ isDarkTheme = false }: GallerySectionProps) {
     };
   }, []);
 
-
   useEffect(() => {
     return smoothProgress.on("change", (v) => {
       const idx = Math.min(
@@ -300,7 +291,6 @@ export function GallerySection({ isDarkTheme = false }: GallerySectionProps) {
     });
   }, [smoothProgress]);
 
- 
   const dotY = useTransform(smoothProgress, (v) => {
     if (nodeYs.length < 2) return 0;
     const totalSeg = nodeYs.length - 1;

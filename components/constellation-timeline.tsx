@@ -582,7 +582,7 @@ function ConstellationCanvas({
 
   return (
     <>
-      <div className="fixed inset-0 z-[200] pointer-events-none">
+      <div className="fixed inset-0 z-[9999] pointer-events-none">
         <p
           className={`pointer-events-none absolute top-5 left-0 right-0 mx-auto w-max text-[9px] font-mono tracking-[0.3em] uppercase px-4 py-1.5 rounded-full border transition-all duration-700 ${
             isDarkTheme
@@ -815,7 +815,7 @@ export function ConstellationTimeline({
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <section className="py-12 px-4 text-center overflow-hidden w-full relative z-10">
+    <section className="py-12 px-4 text-center overflow-hidden w-full relative z-9999">
       <motion.div
         initial={{ opacity: 0, x: 120 }}
         whileInView={{ opacity: 1, x: 0 }}
