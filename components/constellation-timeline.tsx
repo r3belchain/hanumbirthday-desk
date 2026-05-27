@@ -431,6 +431,7 @@ function NodeModal({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            onPointerDown={onClose}
           />
           <motion.div
             initial={{ opacity: 0, scale: 0.88, y: 32, filter: "blur(8px)" }}
