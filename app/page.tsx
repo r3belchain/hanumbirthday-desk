@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import { AnimatePresence } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
 import { ConfettiTrigger } from "@/components/confetti";
 import { ConstellationTimeline } from "@/components/constellation-timeline";
 import { CTASection } from "@/components/cta-section";
+import { FakeNotification } from "@/components/fake-notification";
 import { FireworksBackground } from "@/components/fireworksbg";
 import { FireworksBackgroundNew } from "@/components/fireworksbg-dark";
 import { Footer } from "@/components/footer";
@@ -14,12 +15,11 @@ import { GallerySection } from "@/components/gallery-section";
 import GiftIntro from "@/components/giftIntro";
 import { HanumAiChat } from "@/components/hanumAiChat";
 import { HeroSection } from "@/components/hero-section";
+import { LightModeBackground } from "@/components/light-background";
 import { LoveBackground } from "@/components/love-bg";
 import { MessageSection } from "@/components/message-section";
 import { MusicToggle } from "@/components/music-toggle";
 import { PreLoader } from "@/components/pre-loader";
-import { LightModeBackground } from "@/components/light-background";
-import { FakeNotification } from "@/components/fake-notification";
 
 export default function BirthdayPage() {
   const [isReady, setIsReady] = useState(false);
@@ -61,14 +61,13 @@ export default function BirthdayPage() {
             })
             .catch((err) => console.log("Gagal putar mercon:", err));
         }
-      }, 350);
+      }, 250);
     }
   };
 
-
   const handleCtaClick = () => {
     setShowLoveBg(true);
-    setShowNewFireworks(true); 
+    setShowNewFireworks(true);
 
     setTimeout(() => {
       setShowNotification(true);
@@ -76,7 +75,7 @@ export default function BirthdayPage() {
       setTimeout(() => {
         setShowNotification(false);
       }, 10000);
-    }, 7000); 
+    }, 7000);
   };
 
   return (
