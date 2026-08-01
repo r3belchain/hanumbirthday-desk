@@ -342,8 +342,7 @@ export function GallerySection({ isDarkTheme = false }: GallerySectionProps) {
           transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
           className="text-muted-foreground text-base md:text-lg max-w-md mx-auto opacity-50 font-light"
         >
-          Foto kamu dulu kehapus dari Google Foto tahun lalu. Jadi aku comot
-          dari sorotanmu aja yaa (😁)
+          Your Photos
         </motion.p>
       </div>
 

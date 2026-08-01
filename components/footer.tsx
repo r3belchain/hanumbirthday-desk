@@ -186,13 +186,13 @@ export function Footer({ isDarkTheme = false }: FooterProps) {
         >
           <div className="flex items-center justify-center gap-2 mb-3 flex-wrap">
             <p className="text-[10px] tracking-widest text-muted-foreground">
-              &copy; 0xR3bel — 30 Mei 2026
+              &copy; R3bel — 03 Agustus 2026
             </p>
 
             <span className="text-muted-foreground/30 text-[8px]">•</span>
 
             <a
-              href="https://github.com/r3belchain/hanumbirthday-desk"
+              href="https://github.com/r3belchain"
               target="_blank"
               rel="noopener noreferrer"
               className={`flex items-center gap-1.5 ${hoverHighlightColor} transition-colors duration-100 group cursor-pointer`}

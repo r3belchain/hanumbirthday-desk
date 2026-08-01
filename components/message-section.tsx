@@ -14,7 +14,7 @@ interface TypewriterProps {
 export function Typewriter({
   text,
   delay = 0,
-  speed = 10,
+  speed = 20,
   startTrigger = false,
   onComplete,
 }: TypewriterProps) {
