@@ -1,5 +1,6 @@
 "use client";
 
+import { VirtualScrollbar } from "@/components/ui/VirtualScrollbar";
 import {
   AnimatePresence,
   motion,
@@ -8,8 +9,6 @@ import {
   useTransform,
 } from "framer-motion";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-// Import VirtualScrollbar yang sudah di-extend dengan props opsional
-import { VirtualScrollbar } from "@/components/ui/VirtualScrollbar";
 
 interface TimeNode {
   id: string;
