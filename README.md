@@ -9,8 +9,6 @@
 
 Halaman ini dirancang untuk merekam jejak waktu, tapak rasa, dan menjadi ruang kenangan bagi saya. Tentang bagaimana "energi" ini benar benar dalam. Ini adalah sebuah upaya abadi untuk tetap berjuang, melangkah maju, dan mencintai dengan seluruh ketulusan yang ada. 5 tahun lagi, 10 tahun lagi, atau bahkan 20 tahun lagi, barangkali karya ini akan jadi sesuatu yang indah untuk ditelusuri dan kembali mengenangnya. Sebagai bentuk dokumentasi momen, memori, dan rasa terdalam saya saat membuat karya ini.
 
-Link Domain: https://hanumbirthday-desk.vercel.app/
-
 ---
 
 ## Key Features & Implementation
