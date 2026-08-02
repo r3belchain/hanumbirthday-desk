@@ -18,17 +18,14 @@ function useTypingText(
     let isMounted = true;
     let currentIndex = 0;
 
-
     setDisplayText("");
 
     const startTimeout = setTimeout(() => {
       const interval = setInterval(() => {
         if (!isMounted) return;
 
-   
         setDisplayText(targetText.slice(0, currentIndex + 1));
         currentIndex++;
-
 
         if (currentIndex >= targetText.length) {
           clearInterval(interval);
@@ -47,7 +44,7 @@ function useTypingText(
 
 export function HeroSection({ isDarkTheme = false }: HeroSectionProps) {
   const typingText = useTypingText(
-    "Senang bisa kembali menyapa di hari spesialmu ini",
+    "NGGA!! Ngga bisa 😭😭 Kenapa aku kepikiran kamu terus di fase 'zero-distraction' ku inii.. ga adil bangettt.. \n kamu itu apa sih, bisa bisanya muncul di pikiranku tiap malem 😭",
     1.5,
     80,
   );
@@ -188,7 +185,7 @@ export function HeroSection({ isDarkTheme = false }: HeroSectionProps) {
         </motion.h1>
 
         <motion.p
-          className="text-xs md:text-sm text-muted-foreground mt-8 font-mono tracking-wide min-h-[2rem] max-w-[240px] sm:max-w-xs md:max-w-none md:whitespace-nowrap text-center opacity-80"
+          className="text-xs md:text-sm text-muted-foreground mt-8 font-mono tracking-wide min-h-[2rem] max-w-[240px] sm:max-w-xs md:max-w-none whitespace-pre-line text-center opacity-80"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5, duration: 1 }}

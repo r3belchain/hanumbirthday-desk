@@ -10,8 +10,6 @@ import {
   useState,
 } from "react";
 
-
-
 export interface MusicToggleHandle {
   playMusic: () => void;
 }
@@ -20,17 +18,13 @@ interface MusicToggleProps {
   isDarkTheme?: boolean;
 }
 
-
-
 export const MusicToggle = forwardRef<MusicToggleHandle, MusicToggleProps>(
   ({ isDarkTheme = false }, ref) => {
     const [isPlaying, setIsPlaying] = useState(false);
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  
     const removeListenersRef = useRef<(() => void) | null>(null);
 
-  
     useImperativeHandle(ref, () => ({
       playMusic: () => {
         if (!audioRef.current) return;
@@ -38,14 +32,13 @@ export const MusicToggle = forwardRef<MusicToggleHandle, MusicToggleProps>(
           .play()
           .then(() => {
             setIsPlaying(true);
-            
+
             removeListenersRef.current?.();
           })
           .catch((err) => console.log("Playback error dari kado:", err));
       },
     }));
 
-  
     useEffect(() => {
       if (isPlaying) return;
 
@@ -76,10 +69,8 @@ export const MusicToggle = forwardRef<MusicToggleHandle, MusicToggleProps>(
       window.addEventListener("scroll", handleFirstInteraction);
 
       return () => remove();
-  
     }, []);
 
-  
     const toggleMusic = () => {
       if (!audioRef.current) return;
 
@@ -94,7 +85,6 @@ export const MusicToggle = forwardRef<MusicToggleHandle, MusicToggleProps>(
       }
     };
 
-
     const buttonStyleClass = isDarkTheme
       ? "bg-gradient-to-br from-purple-900/90 via-violet-600/85 to-purple-500/80 border-purple-500/40 shadow-[0_0_0_1px_rgba(168,85,247,0.30),0_4px_24px_rgba(109,40,217,0.60),0_0_30px_rgba(168,85,247,0.40)]"
       : "bg-white/20 border-white/30 shadow-lg glass";
@@ -107,7 +97,7 @@ export const MusicToggle = forwardRef<MusicToggleHandle, MusicToggleProps>(
 
     return (
       <>
-        <audio ref={audioRef} src="/musicmp3.mp3" loop preload="auto" />
+        <audio ref={audioRef} src="/music2.mp3" loop preload="auto" />
 
         <motion.button
           initial={{ opacity: 0, x: 20 }}
