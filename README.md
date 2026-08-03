@@ -33,5 +33,5 @@
 
 <p align="center">
   <strong>Made with ❤️ and absolute sincerity by <a href="https://github.com/r3belchain">Azhar Aufa</a></strong><br>
-  <em>© 2026 — 0xR3bel • Crafted for Client</em>
+  <em>© 2026 — 0xR3bel • Crafted for My Client</em>
 </p>
