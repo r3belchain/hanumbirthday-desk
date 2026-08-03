@@ -186,7 +186,7 @@ export function Footer({ isDarkTheme = false }: FooterProps) {
         >
           <div className="flex items-center justify-center gap-2 mb-3 flex-wrap">
             <p className="text-[10px] tracking-widest text-muted-foreground">
-              &copy; R3bel — 03 Agustus 2026
+              &copy; R3bel — 30 Mei 2026
             </p>
 
             <span className="text-muted-foreground/30 text-[8px]">•</span>

@@ -44,7 +44,7 @@ function useTypingText(
 
 export function HeroSection({ isDarkTheme = false }: HeroSectionProps) {
   const typingText = useTypingText(
-    "NGGA!! Ngga bisa 😭😭 Kenapa aku kepikiran kamu terus di fase 'zero-distraction' ku inii.. ga adil bangettt.. \n kamu itu apa sih, bisa bisanya muncul di pikiranku tiap malem 😭",
+    "Senang bisa kembali menyapa di hari spesialmu ini",
     1.5,
     80,
   );
