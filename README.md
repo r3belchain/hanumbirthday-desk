@@ -1,4 +1,4 @@
-# 🪐 Project: A Digital Monument of Devotion dedicated to Hanum Fadilah
+# 🪐 Project: A Digital Monument of Devotion dedicated to Someone
 
 [![Framework](https://img.shields.io/badge/Framework-Next.js%2014-black?style=for-the-badge&logo=nextdotjs)](https://nextjs.org/)
 [![Styling](https://img.shields.io/badge/Styling-Tailwind%20CSS-06B6D4?style=for-the-badge&logo=tailwindcss)](https://tailwindcss.com/)
@@ -37,5 +37,5 @@ Halaman ini dirancang untuk merekam jejak waktu, tapak rasa, dan menjadi ruang k
 
 <p align="center">
   <strong>Made with ❤️ and absolute sincerity by <a href="https://github.com/r3belchain">Azhar Aufa</a></strong><br>
-  <em>© 2026 — 0xR3bel • Crafted for Hanum</em>
+  <em>© 2026 — 0xR3bel • Crafted for Client</em>
 </p>
